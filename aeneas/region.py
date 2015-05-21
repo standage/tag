@@ -6,9 +6,7 @@
 # This file is part of aeneas (http://github.com/standage/aeneas) and is
 # licensed under the ISC license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
-"""
-Representation of a region of a biological sequence.
-"""
+"""Representation of a region of a biological sequence."""
 
 
 class Region(object):
