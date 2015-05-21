@@ -40,12 +40,33 @@ class Region(object):
 
     def __cmp__(self, other):
         """Comparison function for sorting."""
-        if self._start == other.start and self._end == other.end:
+        if self.__eq__(other):
             return 0
-        elif self._start < other.start or (self._start == other.start and
-                                           self._end < other.end):
+        elif self.__lt__(other):
             return -1
         return 1
+
+    def __eq__(self, other):
+        """Rich comparison operater for Python 3 support."""
+        return self._start == other.start and self._end == other.end
+
+    def __lt__(self, other):
+        """Rich comparison operater for Python 3 support."""
+        return self._start < other.start or (self._start == other.start and
+                                             self._end < other.end)
+
+    def __le__(self, other):
+        """Rich comparison operater for Python 3 support."""
+        return self.__eq__(other) or self.__lt__(other)
+
+    def __gt__(self, other):
+        """Rich comparison operater for Python 3 support."""
+        return self._start > other.start or (self._start == other.start and
+                                             self._end > other.end)
+
+    def __ge__(self, other):
+        """Rich comparison operater for Python 3 support."""
+        return self.__eq__(other) or self.__gt__(other)
 
     @property
     def start(self):
@@ -163,8 +184,15 @@ def test_cmp_sort():
     r4 = Region(42, 42)
 
     assert r3.__cmp__(r3) == 0
+    assert r3.__eq__(r3)
+
     assert r3.__cmp__(r2) < 0
+    assert r3.__lt__(r2)
+    assert r3.__le__(r2)
+
     assert r3.__cmp__(r4) > 0
+    assert r3.__gt__(r4)
+    assert r3.__ge__(r4)
 
     regions = [r1, r2, r3, r4]
     sorted_regions = [r1, r4, r3, r2]
