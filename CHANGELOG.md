@@ -9,3 +9,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Configuration for continuous integration with Travis
 - `Comment` class, with complete test coverage
 - `Directive` class, with complete test coverage
+- `Feature` class, with complete test coverage

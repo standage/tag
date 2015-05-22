@@ -36,16 +36,14 @@ class Region(object):
         """Length of a region."""
         return self._end - self._start + 1
 
-    def __cmp__(self, other):
-        """Comparison function for sorting."""
-        if self.__eq__(other):
-            return 0
-        elif self.__lt__(other):
-            return -1
-        return 1
-
     def __eq__(self, other):
-        """Rich comparison operator for Python 3 support."""
+        """
+        Rich comparison operator for Python 3 support.
+
+        Any object that defines a custom `__eq__()` opterator without also
+        defining a custom `__hash__()` operator is unhashable. At least for
+        now, I don't see this being a problem.
+        """
         return self._start == other.start and self._end == other.end
 
     def __lt__(self, other):
@@ -181,20 +179,13 @@ def test_cmp_sort():
     r3 = Region(528, 901)
     r4 = Region(42, 42)
 
-    assert r3.__cmp__(r3) == 0
     assert r3.__eq__(r3)
-
-    assert r3.__cmp__(r2) < 0
     assert r3.__lt__(r2)
     assert r3.__le__(r2)
-
-    assert r3.__cmp__(r4) > 0
     assert r3.__gt__(r4)
     assert r3.__ge__(r4)
 
-    regions = [r1, r2, r3, r4]
-    sorted_regions = [r1, r4, r3, r2]
-    assert sorted(regions) == sorted_regions
+    assert sorted([r1, r2, r3, r4]) == [r1, r4, r3, r2]
 
 
 def test_getters():
