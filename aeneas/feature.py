@@ -71,7 +71,7 @@ class Feature(object):
             return True
         elif self.seqid > other.seqid:
             return False
-        return self._region.__lt__(other)
+        return self._region.__lt__(other._region)
 
     def __le__(self, other):
         """Rich comparison operator for Python 3 support."""
@@ -80,7 +80,7 @@ class Feature(object):
         elif self.seqid > other.seqid:
             return False
         else:
-            return self._region.__le__(other)
+            return self._region.__le__(other._region)
 
     def __gt__(self, other):
         """Rich comparison operator for Python 3 support."""
@@ -89,16 +89,16 @@ class Feature(object):
         elif self.seqid < other.seqid:
             return False
         else:
-            return self._region.__gt__(other)
+            return self._region.__gt__(other._region)
 
     def __ge__(self, other):
         """Rich comparison operator for Python 3 support."""
         if self.seqid > other.seqid:
-            True
+            return True
         elif self.seqid < other.seqid:
-            False
+            return False
         else:
-            return self._region.__ge__(other)
+            return self._region.__ge__(other._region)
 
     def __iter__(self):
         """
@@ -343,6 +343,7 @@ def test_basic():
     gff3 = ['chr', 'vim', 'gene', '1000', '2000', '.', '+', '.', '.']
     f1 = Feature('\t'.join(gff3))
     assert '%s' % f1 == '\t'.join(gff3)
+    assert len(f1) == 1001
 
     gff3[8] = 'ID=gene1;Name=EDEN'
     f2 = Feature('\t'.join(gff3))
@@ -550,6 +551,7 @@ def test_attributes():
     assert gene.get_attribute('ID', as_list=True) == 'gene00001'
     assert gene.get_attribute('Name') == 'EDEN'
     assert gene.get_attribute('Name', as_list=True) == ['EDEN']
+    assert gene.get_attribute_keys() == ['ID', 'Name']
 
     gene.add_attribute('Name', 'Gandalf')
     assert gene.get_attribute('Name') == 'Gandalf'
@@ -576,12 +578,21 @@ def test_attributes():
         elif feature.get_attribute('ID') in ['cds00003', 'cds00004']:
             assert feature.get_attribute('Parent') == 'mRNA3'
 
-    # d1 = '%r' % gene
-    # d2 = open('testdata/eden-mod.gff3', 'r').read().rstrip()
-    # import sys
-    # sys.stderr.write('\n\nDEBUG numchildren=%d\n\n' % len(gene.children))
-    # sys.stderr.write('\n%s\n\n-----\n\n%s\n' % (d1, d2))
     assert '%r' % gene == open('testdata/eden-mod.gff3', 'r').read().rstrip()
+
+    gene.add_attribute('Note', 'I need to test access of other attributes')
+    assert gene.attributes == ('ID=g1;Name=Aragorn,Gandalf;Note='
+                               'I need to test access of other attributes')
+
+    gff3 = ['chr', 'vim', 'mRNA', '1001', '1420', '.', '+', '.', '.']
+    m1 = Feature('\t'.join(gff3))
+    assert m1.phase is None
+
+    gff3 = ['chr', 'vim', 'CDS', '1001', '1420', '.', '+', '.', '.']
+    c1 = Feature('\t'.join(gff3))
+    m1.add_child(c1)
+    m1.add_attribute('ID', 'mRNA1')
+    assert c1.get_attribute('Parent') == 'mRNA1'
 
 
 def test_multi():
@@ -626,7 +637,9 @@ def test_compare():
     assert g1.__lt__(g2) is True
     assert g1.__le__(g3) is True
     assert g3.__gt__(g1) is True
+    assert g1.__gt__(g3) is False
     assert g3.__ge__(g2) is True
+    assert g3.__le__(g2) is False
     assert sorted([g3, g2, g1]) == [g1, g2, g3]
 
     gff3 = ['chr10', 'vim', 'gene', '100', '400', '.', '-', '.', '.']
@@ -635,6 +648,13 @@ def test_compare():
     g5 = Feature('\t'.join(gff3))
 
     assert g2.__le__(g4) is True
+    assert g4.__le__(g2) is False
     assert g4.__lt__(g5) is True
+    assert g5.__lt__(g4) is False
     assert g5.__gt__(g1) is True
+    assert g1.__gt__(g5) is False
+    assert g5.__ge__(g1) is True
+    assert g1.__ge__(g5) is False
+    assert g5.__ge__(g5) is True
+    assert g5.__le__(g5) is True
     assert sorted([g3, g5, g1, g4, g2]) == [g1, g2, g3, g4, g5]

@@ -97,6 +97,7 @@ def test_basic():
     assert d.type == 'gff-version' and d.version == '3'
     d = Directive('##gff-version	3')  # tab
     assert d.type == 'gff-version' and d.version == '3'
+    assert '%r' % d == '##gff-version	3'
 
     try:
         d = Directive('')  # No data
