@@ -8,5 +8,5 @@
 # -----------------------------------------------------------------------------
 """Package-wide configuration"""
 
-import comment
-import region
+from . import comment
+from . import region

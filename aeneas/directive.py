@@ -9,7 +9,7 @@
 """Represents a directive from a GFF3 file."""
 
 import re
-from region import Region
+from .region import Region
 
 
 dirtypes = ['gff-version', 'sequence-region', 'feature-ontology', 'species',
