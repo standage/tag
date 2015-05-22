@@ -275,7 +275,7 @@ class Feature(object):
         return attrvalues
 
     def get_attribute_keys(self):
-        return list(self._attrs)
+        return sorted(list(self._attrs))
 
     def parse_attributes(self, attrstring):
         if attrstring == '.':
