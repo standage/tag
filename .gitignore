@@ -4,3 +4,4 @@
 /*.egg
 .coverage
 build/
+docs/_build/
