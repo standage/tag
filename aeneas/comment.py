@@ -45,8 +45,8 @@ def test_init():
         c2 = Comment('This is not a valid comment')
     except AssertionError:
         pass
-    c1._rawdata == ('# A strange game. The only winning move is not to play. '
-                    'How about a nice game of chess?')
+    assert c1._rawdata == ('# A strange game. The only winning move is not to '
+                           'play. How about a nice game of chess?')
 
 
 def test_repr():
