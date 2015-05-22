@@ -15,7 +15,7 @@ class Comment():
 
     Two exceptions: first, the separator directive, a line containing '###' and
     no more; second, any entry beginning with just two '#' characters is
-    treated as a directive, and will cause issues if it does not correspond to
+    treated as a directive, and may cause issues if it does not correspond to
     one of the supported directives in the GFF3 specification.
     """
 

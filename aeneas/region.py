@@ -45,25 +45,25 @@ class Region(object):
         return 1
 
     def __eq__(self, other):
-        """Rich comparison operater for Python 3 support."""
+        """Rich comparison operator for Python 3 support."""
         return self._start == other.start and self._end == other.end
 
     def __lt__(self, other):
-        """Rich comparison operater for Python 3 support."""
+        """Rich comparison operator for Python 3 support."""
         return self._start < other.start or (self._start == other.start and
                                              self._end < other.end)
 
     def __le__(self, other):
-        """Rich comparison operater for Python 3 support."""
+        """Rich comparison operator for Python 3 support."""
         return self.__eq__(other) or self.__lt__(other)
 
     def __gt__(self, other):
-        """Rich comparison operater for Python 3 support."""
+        """Rich comparison operator for Python 3 support."""
         return self._start > other.start or (self._start == other.start and
                                              self._end > other.end)
 
     def __ge__(self, other):
-        """Rich comparison operater for Python 3 support."""
+        """Rich comparison operator for Python 3 support."""
         return self.__eq__(other) or self.__gt__(other)
 
     @property

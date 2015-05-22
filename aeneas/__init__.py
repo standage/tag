@@ -7,3 +7,6 @@
 # licensed under the ISC license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
 """Package-wide configuration"""
+
+import comment
+import region
