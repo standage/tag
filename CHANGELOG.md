@@ -10,3 +10,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `Comment` class, with complete test coverage
 - `Directive` class, with complete test coverage
 - `Feature` class, with complete test coverage
+- Basic documenation scaffolding with sphinx / ReadTheDocs
