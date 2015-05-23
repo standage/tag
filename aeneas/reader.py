@@ -38,7 +38,7 @@ class GFF3Reader():
                 for obj in self._resolve_features():
                     yield obj
             elif line.startswith('#'):
-                if line.startswith('##') and line[2].isalpha():
+                if line.startswith('##') and line[2] != '#':
                     record = Directive(line)
                 else:
                     record = Comment(line)
