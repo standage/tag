@@ -6,12 +6,12 @@
 # This file is part of aeneas (http://github.com/standage/aeneas) and is
 # licensed under the ISC license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
-"""Represents a feature entry from a GFF3 file."""
 
 from .region import Region
 
 
 class Feature(object):
+    """Represents a feature entry from a GFF3 file."""
 
     def __init__(self, data):
         fields = data.split('\t')

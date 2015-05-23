@@ -6,17 +6,16 @@
 # This file is part of aeneas (http://github.com/standage/aeneas) and is
 # licensed under the ISC license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
-"""Represents a comment in an annotation (GFF3) file."""
 
 
 class Comment():
     """
-    Any GFF3 entry starting with >= 1 '#' characters is treated as a comment.
+    Represents a comment in an annotation (GFF3) file.
 
-    Two exceptions: first, the separator directive, a line containing '###' and
-    no more; second, any entry beginning with just two '#' characters is
-    treated as a directive, and may cause issues if it does not correspond to
-    one of the supported directives in the GFF3 specification.
+    Any GFF3 entry starting with >= 1 '#' characters is treated as a comment,
+    with two exceptions: first, the separator directive, a line containing
+    '###' and nothing more; second, any entry beginning with just two '#'
+    characters is treated as a directive.
     """
 
     def __init__(self, data):
