@@ -6,7 +6,6 @@
 # This file is part of aeneas (http://github.com/standage/aeneas) and is
 # licensed under the ISC license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
-"""Represents a directive from a GFF3 file."""
 
 import re
 from .region import Region
@@ -18,11 +17,12 @@ dirtypes = ['gff-version', 'sequence-region', 'feature-ontology', 'species',
 
 class Directive():
     """
-    This class is primarily for error checking and data access.
+    Represents a directive from a GFF3 file.
 
-    Once created, `Directive` objects should be treated as read-only: modify at
-    your peril! Also, separator directives (`###`) and the `##FASTA` directive
-    are handled directly by parsers and not by this class.
+    This class is primarily for error checking and data access. Once created,
+    `Directive` objects should be treated as read-only: modify at your peril!
+    Also, separator directives (`###`) and the `##FASTA` directive are handled
+    directly by parsers and not by this class.
     """
 
     def __init__(self, data):
