@@ -8,8 +8,6 @@
 # -----------------------------------------------------------------------------
 
 import re
-from .comment import Comment
-from .feature import Feature
 from .region import Region
 
 
@@ -255,6 +253,9 @@ def test_genome_build_directive():
 
 def test_sorting():
     """[aeneas::Directive] Test sorting and comparison"""
+    from .comment import Comment
+    from .feature import Feature
+
     gv = Directive('##gff-version   3')
     sr1 = Directive('##sequence-region chr1 500 2000')
     sr2 = Directive('##sequence-region chr1 3000 4000')
