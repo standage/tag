@@ -8,6 +8,8 @@
 # -----------------------------------------------------------------------------
 
 import re
+from .comment import Comment
+from .feature import Feature
 from .region import Region
 
 
@@ -83,6 +85,58 @@ class Directive():
 
     def __repr__(self):
         return self._rawdata
+
+    def __lt__(self, other):
+        if self.type == 'gff-version':
+            return True
+
+        if self.type == 'sequence-region':
+            if isinstance(other, Directive):
+                if other.type == 'gff-version':
+                    return False
+                elif other.type == 'sequence-region':
+                    if self.seqid == other.seqid:
+                        return self.region.__lt__(other.region)
+                    else:
+                        return self.seqid < other.seqid
+                else:
+                    return True
+            else:
+                return True
+
+        if isinstance(other, Directive):
+            return self._rawdata < other._rawdata
+        else:
+            return True
+
+    def __le__(self, other):
+        if self.type == 'gff-version':
+            return True
+
+        if self.type == 'sequence-region':
+            if isinstance(other, Directive):
+                if other.type == 'gff-version':
+                    return False
+                elif other.type == 'sequence-region':
+                    if self.seqid == other.seqid:
+                        return self.region.__le__(other.region)
+                    else:
+                        return self.seqid <= other.seqid
+                else:
+                    return True
+            else:
+                return True
+
+        if isinstance(other, Directive):
+            return self._rawdata <= other._rawdata
+        else:
+            return True
+
+    def __gt__(self, other):
+        return not self.__lt__(other)
+
+    def __ge__(self, other):
+        return not self.__le__(other)
 
 
 # -----------------------------------------------------------------------------
@@ -197,3 +251,37 @@ def test_genome_build_directive():
         b2.build_name == 'ws110'
     assert b3.type == 'genome-build' and b3.source == 'FlyBase' and \
         b3.build_name == 'r4.1'
+
+
+def test_sorting():
+    """[aeneas::Directive] Test sorting and comparison"""
+    gv = Directive('##gff-version   3')
+    sr1 = Directive('##sequence-region chr1 500 2000')
+    sr2 = Directive('##sequence-region chr1 3000 4000')
+    sr3 = Directive('##sequence-region chr2 500 2000')
+    sr4 = Directive('##sequence-region chr10 500 2000')
+    d1 = Directive('##bonus-directive   abc 1 2 3')
+    s1 = Directive('##species http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/'
+                   'wwwtax.cgi?id=7460')
+    gff3 = ['chr', 'vim', 'mRNA', '1001', '1420', '.', '+', '.', 'ID=t1']
+    f1 = Feature('\t'.join(gff3))
+    c1 = Comment('# The quick brown fox jumps over the lazy dog.')
+
+    for record in [sr1, d1, s1, f1, c1]:
+        assert gv < record
+        assert gv <= record
+        assert not gv > record
+        assert not gv >= record
+
+    assert sr1 > gv
+    assert not sr1 < gv
+    for record in [d1, s1, f1, c1]:
+        assert sr1 < record
+        assert sr1 <= record
+        assert not sr1 > record
+        assert not sr1 >= record
+    assert sorted([sr4, sr1, sr3, sr2]) == [sr1, sr2, sr4, sr3], '%r %r' % \
+        (sorted([sr4, sr1, sr3, sr2]), [sr1, sr2, sr4, sr3])
+
+    for record in [s1, f1, c1]:
+        assert d1 < record
