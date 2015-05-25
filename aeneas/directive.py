@@ -283,6 +283,18 @@ def test_sorting():
         assert not sr1 >= record
     assert sorted([sr4, sr1, sr3, sr2]) == [sr1, sr2, sr4, sr3], '%r %r' % \
         (sorted([sr4, sr1, sr3, sr2]), [sr1, sr2, sr4, sr3])
+    assert sr1 > gv
+    assert sr1 >= gv
+    assert sr1 <= sr2
+    assert sr1 <= sr3
+    assert not sr1 >= sr2
+    assert not sr1 >= sr3
+    assert d1 < s1
+    assert d1 <= s1
+    assert d1 < f1
+    assert d1 <= f1
+    assert s1 < c1
+    assert s1 <= c1
 
     for record in [s1, f1, c1]:
         assert d1 < record
