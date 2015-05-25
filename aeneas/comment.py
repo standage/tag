@@ -31,6 +31,24 @@ class Comment():
             i += 1
         return self._rawdata[i:]
 
+    def __lt__(self, other):
+        from .directive import Directive
+        from .feature import Feature
+        if isinstance(other, Directive):
+            return False
+        if isinstance(other, Feature):
+            return True
+        return self._rawdata < other._rawdata
+
+    def __gt__(self, other):
+        from .directive import Directive
+        from .feature import Feature
+        if isinstance(other, Directive):
+            return True
+        if isinstance(other, Feature):
+            return False
+        return self._rawdata > other._rawdata
+
 
 # -----------------------------------------------------------------------------
 # Unit tests
@@ -64,3 +82,22 @@ def test_str():
 
     assert "%s" % c1 == 'This gene model is a fragment'
     assert "%s" % c2 == 'Ignore below this point.'
+
+
+def test_sort():
+    """[aeneas::Comment] Test sorting and comparison."""
+    from .directive import Directive
+    from .feature import Feature
+
+    c1 = Comment('# This gene model is a fragment')
+    c2 = Comment('############## Ignore below this point.')
+    d = Directive('##sequence-region chr 1 1000')
+    gff3 = ['chr', 'vim', 'mRNA', '1001', '1420', '.', '+', '.', 'ID=t1']
+    f = Feature('\t'.join(gff3))
+
+    assert c1 > d
+    assert not c1 < d
+    assert c1 < f
+    assert not c1 > f
+    assert c1 < c2
+    assert c2 > c1

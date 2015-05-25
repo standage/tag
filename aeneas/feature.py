@@ -7,6 +7,8 @@
 # licensed under the ISC license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
 
+from .comment import Comment
+from .directive import Directive
 from .region import Region
 
 
@@ -67,6 +69,9 @@ class Feature(object):
 
     def __lt__(self, other):
         """Rich comparison operator for Python 3 support."""
+        if isinstance(other, Directive) or isinstance(other, Comment):
+            return False
+
         if self.seqid < other.seqid:
             return True
         elif self.seqid > other.seqid:
@@ -75,6 +80,9 @@ class Feature(object):
 
     def __le__(self, other):
         """Rich comparison operator for Python 3 support."""
+        if isinstance(other, Directive) or isinstance(other, Comment):
+            return False
+
         if self.seqid < other.seqid:
             return True
         elif self.seqid > other.seqid:
@@ -84,6 +92,9 @@ class Feature(object):
 
     def __gt__(self, other):
         """Rich comparison operator for Python 3 support."""
+        if isinstance(other, Directive) or isinstance(other, Comment):
+            return True
+
         if self.seqid > other.seqid:
             return True
         elif self.seqid < other.seqid:
@@ -93,6 +104,9 @@ class Feature(object):
 
     def __ge__(self, other):
         """Rich comparison operator for Python 3 support."""
+        if isinstance(other, Directive) or isinstance(other, Comment):
+            return True
+
         if self.seqid > other.seqid:
             return True
         elif self.seqid < other.seqid:
@@ -658,3 +672,14 @@ def test_compare():
     assert g5.__ge__(g5) is True
     assert g5.__le__(g5) is True
     assert sorted([g3, g5, g1, g4, g2]) == [g1, g2, g3, g4, g5]
+
+    d = Directive('##gff-version')
+    c = Comment('# Cool story, bro!')
+    assert g1 > c
+    assert g1 >= c
+    assert g2 > d
+    assert g2 >= d
+    assert not g3 < c
+    assert not g3 <= c
+    assert not g4 < d
+    assert not g4 <= d
