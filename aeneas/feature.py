@@ -62,6 +62,8 @@ class Feature(object):
             if string != '':
                 string += '\n'
             string += feature.__str__()
+        if self.children is not None:
+            string += '\n###'
         return string
 
     def __len__(self):

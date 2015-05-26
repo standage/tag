@@ -21,3 +21,4 @@ ctg123	.	exon	5000	5500	.	+	.	ID=exon00004;Parent=mRNA3
 ctg123	.	CDS	7000	7600	.	+	1	ID=cds00003;Parent=mRNA3;Name=edenprotein.3
 ctg123	.	CDS	7000	7600	.	+	1	ID=cds00004;Parent=mRNA3;Name=edenprotein.4
 ctg123	.	exon	7000	9000	.	+	.	ID=exon00005;Parent=mRNA3
+###

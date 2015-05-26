@@ -34,9 +34,10 @@ class GFF3Reader():
             line = line.rstrip()
             if line == '':
                 continue
-            elif line == '###' and self.assumesorted:
-                for obj in self._resolve_features():
-                    yield obj
+            elif line == '###':
+                if self.assumesorted:
+                    for obj in self._resolve_features():
+                        yield obj
             elif line.startswith('#'):
                 if line.startswith('##') and line[2] != '#':
                     record = Directive(line)
@@ -55,7 +56,7 @@ class GFF3Reader():
                     self.featsbyparent[parentid].append(feature)
 
                 featureid = feature.get_attribute('ID')
-                if featureid is None:
+                if featureid is not None:
                     if featureid in self.featsbyid:
                         # Validate multi-features
                         other = self.featsbyid[featureid]
@@ -80,11 +81,12 @@ class GFF3Reader():
             for child in self.featsbyparent[parentid]:
                 parent.add_child(child)
                 if child.is_multi:
-                    for sibling in child.siblings:
-                        parent.add_child(sibling)
+                    for sibling in child.multi_rep.siblings:
+                        if sibling != child:
+                            parent.add_child(sibling)
 
-        for feature in sorted(self.toplevelfeatures):
-            yield feature
+        for record in sorted(self.records):
+            yield record
         self._reset()
 
     def _reset(self):
@@ -93,3 +95,13 @@ class GFF3Reader():
         self.featsbyid = dict()
         self.featsbyparent = dict()
         self.countsbytype = dict()
+
+
+def test_grape():
+    """[aeneas::GFF3Reader] Sanity check. More coming soon."""
+    infile = open('testdata/grape-cpgat.gff3')
+    reader = GFF3Reader(instream=infile)
+    output = ''
+    for record in reader:
+        output += '%r\n' % record
+    assert output == open('testdata/grape-cpgat-sorted.gff3').read(), output
