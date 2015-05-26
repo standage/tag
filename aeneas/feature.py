@@ -71,48 +71,57 @@ class Feature(object):
         """Rich comparison operator for Python 3 support."""
         if isinstance(other, Directive) or isinstance(other, Comment):
             return False
+        assert isinstance(other, Feature)
 
         if self.seqid < other.seqid:
             return True
         elif self.seqid > other.seqid:
             return False
+        elif self._region.__eq__(other._region):
+            return self.type < other.type
         return self._region.__lt__(other._region)
 
     def __le__(self, other):
         """Rich comparison operator for Python 3 support."""
         if isinstance(other, Directive) or isinstance(other, Comment):
             return False
+        assert isinstance(other, Feature)
 
         if self.seqid < other.seqid:
             return True
         elif self.seqid > other.seqid:
             return False
-        else:
-            return self._region.__le__(other._region)
+        elif self._region.__eq__(other._region):
+            return self.type <= other.type
+        return self._region.__le__(other._region)
 
     def __gt__(self, other):
         """Rich comparison operator for Python 3 support."""
         if isinstance(other, Directive) or isinstance(other, Comment):
             return True
+        assert isinstance(other, Feature)
 
         if self.seqid > other.seqid:
             return True
         elif self.seqid < other.seqid:
             return False
-        else:
-            return self._region.__gt__(other._region)
+        elif self._region.__eq__(other._region):
+            return self.type > other.type
+        return self._region.__gt__(other._region)
 
     def __ge__(self, other):
         """Rich comparison operator for Python 3 support."""
         if isinstance(other, Directive) or isinstance(other, Comment):
             return True
+        assert isinstance(other, Feature)
 
         if self.seqid > other.seqid:
             return True
         elif self.seqid < other.seqid:
             return False
-        else:
-            return self._region.__ge__(other._region)
+        elif self._region.__eq__(other._region):
+            return self.type >= other.type
+        return self._region.__ge__(other._region)
 
     def __iter__(self):
         """
@@ -592,7 +601,8 @@ def test_attributes():
         elif feature.get_attribute('ID') in ['cds00003', 'cds00004']:
             assert feature.get_attribute('Parent') == 'mRNA3'
 
-    assert '%r' % gene == open('testdata/eden-mod.gff3', 'r').read().rstrip()
+    assert '%r' % gene == open('testdata/eden-mod.gff3', 'r').read().rstrip(),\
+        '%r' % gene
 
     gene.add_attribute('Note', 'I need to test access of other attributes')
     assert gene.attributes == ('ID=g1;Name=Aragorn,Gandalf;Note='
