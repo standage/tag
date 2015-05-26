@@ -18,7 +18,6 @@ class Feature(object):
     def __init__(self, data):
         fields = data.split('\t')
         assert len(fields) == 9
-        self.parents = None
         self.children = None
         self.multi_rep = None
         self.siblings = None
@@ -169,9 +168,6 @@ class Feature(object):
             self.children = list()
         self.children.append(child)
         self.children.sort()
-        if child.parents is None:
-            child.parents = list()
-        child.parents.append(self)
 
     @property
     def is_multi(self):
