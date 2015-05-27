@@ -5,3 +5,4 @@
 .coverage
 build/
 docs/_build/
+env/
