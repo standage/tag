@@ -717,3 +717,16 @@ def test_compare():
     assert not g3 <= c
     assert not g4 < d
     assert not g4 <= d
+
+
+def test_cyclic():
+    """[aeneas::Feature] Test handling of cyclic features."""
+    gene = eden()
+    for feature in gene:
+        if feature.get_attribute('ID') == 'exon00002':
+            feature.add_child(gene, regioncheck=False)
+
+    try:
+        gff3string = '%r' % gene
+    except Exception:
+        pass
