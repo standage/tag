@@ -11,6 +11,28 @@ import sys
 from .comment import Comment
 from .directive import Directive
 from .feature import Feature
+from .sequence import Sequence
+
+
+def parse_fasta(data):
+    """
+    Load sequences in Fasta format.
+
+    This generator function yields a Sequence object for each sequence record
+    in a GFF3 file. Implementation stolen shamelessly from
+    http://stackoverflow.com/a/7655072/459780.
+    """
+    name, seq = None, []
+    for line in data:
+        line = line.rstrip()
+        if line.startswith('>'):
+            if name:
+                yield Sequence(name, ''.join(seq))
+            name, seq = line, []
+        else:
+            seq.append(line)
+    if name:
+        yield (name, ''.join(seq))
 
 
 class GFF3Reader():
@@ -39,7 +61,12 @@ class GFF3Reader():
                     for obj in self._resolve_features():
                         yield obj
             elif line.startswith('#'):
-                if line.startswith('##') and line[2] != '#':
+                if line == '##FASTA':
+                    for defline, seq in parse_fasta(self.instream):
+                        sequence = Sequence(defline, seq)
+                        self.records.append(sequence)
+                    return
+                elif line.startswith('##') and line[2] != '#':
                     record = Directive(line)
                 else:
                     record = Comment(line)
