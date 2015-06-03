@@ -63,12 +63,15 @@ class Sequence():
                 return
 
         i = 0
+        seq = ''
         while i < len(self.seq):
             if outstream is None:
-                return self.seq[i:i+linewidth]
+                seq += self.seq[i:i+linewidth] + '\n'
             else:
                 print >> outstream, self.seq[i:i+linewidth]
             i += linewidth
+        if outstream is None:
+            return seq
 
 
 # -----------------------------------------------------------------------------
@@ -89,6 +92,9 @@ def test_repr():
     assert sio.getvalue() == 'AAAAA\nCCCCC\nGGGGG\nNNNNN\nTTTTT\n'
     sio.close()
 
+    s3 = Sequence('>scf3', ('A'*70) + ('C'*70))
+    assert '%s' % s3 == '>scf3\n%s\n%s\n' % ('A'*70, 'C'*70)
+
 
 def test_seqid():
     """[aeneas::Sequence] Test sequence ID parsing and retrieval."""
@@ -102,3 +108,32 @@ def test_seqid():
         s3 = Sequence('> no_space_allowed', 'ACGT')
     except AssertionError:
         pass
+
+
+def test_len():
+    """[aeneas::Sequence] Test length."""
+    assert len(Sequence('>chr1', 'ACGT')) == 4
+    assert len(Sequence('>contig2', 'AAAAACCCCCGGGGGNNNNNTTTTT')) == 25
+    assert len(Sequence('>lcl|TheAccession', 'AACCGGNNTT')) == 10
+
+
+def test_compare():
+    """[aeneas::Sequence] Test sorting and comparison"""
+    from .feature import Feature
+    s1 = Sequence('>chr1', 'ACGT')
+    s2 = Sequence('>contig2', 'AAAAACCCCCGGGGGNNNNNTTTTT')
+    s3 = Sequence('>gnl|aeneas|ABC123 [Bogus vulgaris]', 'ACGT')
+
+    gff3 = ['chr', 'vim', 'gene', '1000', '2000', '.', '+', '.', 'ID=g1']
+    f1 = Feature('\t'.join(gff3))
+
+    assert s1 < s2
+    assert s2 > s1
+    assert s1 <= s3
+    assert s3 >= s2
+    assert s1 > f1
+    assert s2 >= f1
+    assert not s3 < f1
+    assert not s3 <= f1
+    assert sorted([s1, s2, s3, f1]) == [f1, s1, s2, s3], \
+        sorted([s1, s2, s3, f1])

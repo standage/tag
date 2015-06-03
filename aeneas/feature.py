@@ -10,6 +10,7 @@
 from .comment import Comment
 from .directive import Directive
 from .region import Region
+from .sequence import Sequence
 
 
 class Feature(object):
@@ -73,6 +74,8 @@ class Feature(object):
         """Rich comparison operator for Python 3 support."""
         if isinstance(other, Directive) or isinstance(other, Comment):
             return False
+        elif isinstance(other, Sequence):
+            return True
         assert isinstance(other, Feature)
 
         if self.seqid < other.seqid:
@@ -87,6 +90,8 @@ class Feature(object):
         """Rich comparison operator for Python 3 support."""
         if isinstance(other, Directive) or isinstance(other, Comment):
             return False
+        elif isinstance(other, Sequence):
+            return True
         assert isinstance(other, Feature)
 
         if self.seqid < other.seqid:
@@ -101,6 +106,8 @@ class Feature(object):
         """Rich comparison operator for Python 3 support."""
         if isinstance(other, Directive) or isinstance(other, Comment):
             return True
+        elif isinstance(other, Sequence):
+            return False
         assert isinstance(other, Feature)
 
         if self.seqid > other.seqid:
@@ -115,6 +122,8 @@ class Feature(object):
         """Rich comparison operator for Python 3 support."""
         if isinstance(other, Directive) or isinstance(other, Comment):
             return True
+        elif isinstance(other, Sequence):
+            return False
         assert isinstance(other, Feature)
 
         if self.seqid > other.seqid:
