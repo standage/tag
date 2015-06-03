@@ -90,6 +90,10 @@ def test_repr():
     s1 = Sequence('>seq1', 'ACGT')
     assert '%s' % s1 == '>seq1\nACGT'
     assert '%r' % s1 == '>seq1\nACGT'
+    sio = StringIO()
+    s1.format_seq(linewidth=0, outstream=sio)
+    assert sio.getvalue() == 'ACGT\n'
+    sio.close()
 
     s2 = Sequence('>contig2', 'AAAAACCCCCGGGGGNNNNNTTTTT')
     sio = StringIO()
