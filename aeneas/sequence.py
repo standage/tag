@@ -7,6 +7,8 @@
 # licensed under the ISC license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
 
+from __future__ import print_function
+
 
 class Sequence():
     """Represents a biological sequence."""
@@ -59,7 +61,7 @@ class Sequence():
             if outstream is None:
                 return self.seq
             else:
-                print >> outstream, self.seq
+                print(self.seq, file=outstream)
                 return
 
         i = 0
@@ -68,7 +70,7 @@ class Sequence():
             if outstream is None:
                 seq += self.seq[i:i+linewidth] + '\n'
             else:
-                print >> outstream, self.seq[i:i+linewidth]
+                print(self.seq[i:i+linewidth], file=outstream)
             i += linewidth
         if outstream is None:
             return seq
@@ -80,14 +82,17 @@ class Sequence():
 
 def test_repr():
     """[aeneas::Sequence] Test string representation of sequences."""
-    import StringIO
+    try:
+        from StringIO import StringIO
+    except ImportError:
+        from io import StringIO
 
     s1 = Sequence('>seq1', 'ACGT')
     assert '%s' % s1 == '>seq1\nACGT'
     assert '%r' % s1 == '>seq1\nACGT'
 
     s2 = Sequence('>contig2', 'AAAAACCCCCGGGGGNNNNNTTTTT')
-    sio = StringIO.StringIO()
+    sio = StringIO()
     s2.format_seq(linewidth=5, outstream=sio)
     assert sio.getvalue() == 'AAAAA\nCCCCC\nGGGGG\nNNNNN\nTTTTT\n'
     sio.close()
