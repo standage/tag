@@ -32,16 +32,17 @@ def parse_fasta(data):
         else:
             seq.append(line)
     if name:
-        yield (name, ''.join(seq))
+        yield Sequence(name, ''.join(seq))
 
 
 class GFF3Reader():
     """Loads sequence features and other GFF3 entries into memory."""
 
-    def __init__(self, instream=sys.stdin, infilename=None,
+    def __init__(self, instream=None, infilename=None,
                  assumesorted=False):
-        assert not instream or not infilename, ('provide either an instream '
-                                                'or an infile name, not both')
+        assert (not instream) != (not infilename), ('provide either an '
+                                                    'instream or an infile '
+                                                    'name, not both')
         self.instream = instream
         if infilename:
             self.infilename = infilename
@@ -62,10 +63,9 @@ class GFF3Reader():
                         yield obj
             elif line.startswith('#'):
                 if line == '##FASTA':
-                    for defline, seq in parse_fasta(self.instream):
-                        sequence = Sequence(defline, seq)
+                    for sequence in parse_fasta(self.instream):
                         self.records.append(sequence)
-                    return
+                    break
                 elif line.startswith('##') and line[2] != '#':
                     record = Directive(line)
                 else:
@@ -125,10 +125,91 @@ class GFF3Reader():
 
 
 def test_grape():
-    """[aeneas::GFF3Reader] Sanity check. More coming soon."""
-    infile = open('testdata/grape-cpgat.gff3')
-    reader = GFF3Reader(instream=infile)
-    output = ''
+    """[aeneas::GFF3Reader] Sanity check."""
+    with open('testdata/grape-cpgat.gff3', 'r') as infile:
+        reader = GFF3Reader(instream=infile)
+        output = ''
+        for record in reader:
+            output += '%r\n' % record
+        assert output == open('testdata/grape-cpgat-sorted.gff3').read()
+
+
+def test_pdom():
+    """[aeneas::GFF3Reader] Pdom GFF3 with sequence."""
+    reader = GFF3Reader(infilename='testdata/pdom-withseq.gff3',
+                        assumesorted=True)
+    records = list()
     for record in reader:
-        output += '%r\n' % record
-    assert output == open('testdata/grape-cpgat-sorted.gff3').read(), output
+        records.append(record)
+    assert len(records) == 6
+
+    record = records.pop()
+    assert isinstance(record, Sequence) and \
+        record.seqid == 'PdomSCFr1.2-0483'
+
+    record = records.pop()
+    assert isinstance(record, Feature) and \
+        record.get_attribute('Name') == 'PdomGENEr1.2-04310'
+
+    record = records.pop()
+    assert isinstance(record, Feature) and \
+        record.get_attribute('Name') == 'PdomGENEr1.2-04123'
+
+    record = records.pop()
+    assert isinstance(record, Comment) and \
+        str(record) == 'Small scaffold from AllPathsLG assembly.'
+
+    record = records.pop()
+    assert isinstance(record, Directive) and \
+        record.dirtype == 'sequence-region' and \
+        record.seqid == 'PdomSCFr1.2-0483'
+
+    record = records.pop()
+    assert isinstance(record, Directive) and \
+        record.dirtype == 'gff-version' and \
+        record.version == '3'
+
+
+def test_pbar():
+    """[aeneas::GFF3Reader] Pbar GFF3 with sequence."""
+    infile = open('testdata/pbar-withseq.gff3', 'r')
+    reader = GFF3Reader(instream=infile, assumesorted=True)
+    records = list()
+    for record in reader:
+        records.append(record)
+    assert len(records) == 8
+
+    record = records.pop()
+    assert isinstance(record, Sequence) and \
+        record.accession == 'NW_011929623.1'
+
+    record = records.pop()
+    assert isinstance(record, Sequence) and \
+        record.seqid == 'gi|759031810|ref|NW_011929624.1|'
+
+    record = records.pop()
+    assert isinstance(record, Feature) and \
+        record.get_attribute('Name') == 'LOC105423170'
+
+    record = records.pop()
+    assert isinstance(record, Feature) and \
+        record.get_attribute('ID') == 'pseudogene1'
+
+    record = records.pop()
+    assert isinstance(record, Feature) and \
+        record.get_attribute('Dbxref') == 'GeneID:105422795'
+
+    record = records.pop()
+    assert isinstance(record, Directive) and \
+        record.dirtype == 'sequence-region' and \
+        record.seqid == 'NW_011929624.1'
+
+    record = records.pop()
+    assert isinstance(record, Directive) and \
+        record.dirtype == 'sequence-region' and \
+        record.seqid == 'NW_011929623.1'
+
+    record = records.pop()
+    assert isinstance(record, Directive) and \
+        record.dirtype == 'gff-version' and \
+        record.version == '3'

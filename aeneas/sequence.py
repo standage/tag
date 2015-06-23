@@ -8,6 +8,7 @@
 # -----------------------------------------------------------------------------
 
 from __future__ import print_function
+import re
 
 
 class Sequence():
@@ -54,6 +55,32 @@ class Sequence():
     @property
     def seqid(self):
         return self.defline[1:].split(' ')[0]
+
+    @property
+    def accession(self):
+        """
+        Parse accession number from commonly supported formats.
+
+        If the defline does not match one of the following formats, the entire
+        description (sans leading caret) will be returned.
+
+        * >gi|572257426|ref|XP_006607122.1|
+        * >gnl|Tcas|XP_008191512.1
+        * >lcl|PdomMRNAr1.2-10981.1
+        """
+        if self.defline.startswith('>gi|'):
+            match = re.match('>gi\|\d+\|[^\|]+\|([^\|\n ]+)', self.defline)
+            if match:
+                return match.group(1)
+        elif self.defline.startswith('>gnl|'):
+            match = re.match('>gnl\|[^\|]+\|([^\|\n ]+)', self.defline)
+            if match:
+                return match.group(1)
+        elif self.defline.startswith('>lcl|'):
+            match = re.match('>lcl\|([^\|\n ]+)', self.defline)
+            if match:
+                return match.group(1)
+        return None
 
     def format_seq(self, outstream=None, linewidth=70):
         """Print a sequence in a readable format."""
@@ -146,3 +173,15 @@ def test_compare():
     assert not s3 <= f1
     assert sorted([s1, s2, s3, f1]) == [f1, s1, s2, s3], \
         sorted([s1, s2, s3, f1])
+
+
+def test_accession():
+    """[aeneas::Sequence] Test accession parsing."""
+    s1 = Sequence('>gi|572257426|ref|XP_006607122.1|', 'ACGT')
+    s2 = Sequence('>gnl|Tcas|XP_008191512.1', 'ACGT')
+    s3 = Sequence('>lcl|PdomMRNAr1.2-10981.1 some description here', 'ACGT')
+
+    assert s1.accession == 'XP_006607122.1'
+    assert s2.accession == 'XP_008191512.1'
+    assert s3.accession == 'PdomMRNAr1.2-10981.1' and \
+        s3.seqid == 'lcl|PdomMRNAr1.2-10981.1'
