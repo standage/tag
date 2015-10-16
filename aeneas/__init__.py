@@ -11,3 +11,4 @@
 from . import comment
 from . import feature
 from . import region
+from . import reader
