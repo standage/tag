@@ -213,3 +213,40 @@ def test_pbar():
     assert isinstance(record, Directive) and \
         record.dirtype == 'gff-version' and \
         record.version == '3'
+
+
+def test_child_strand():
+    """[aeneas::GFF3Reader] Lhum bad child strand."""
+    reader = GFF3Reader(infilename='testdata/lhum-cds-strand.gff3')
+    try:
+        for record in reader:  # pragma: no cover
+            pass
+    except AssertionError as e:
+        if 'child of feature LH19950-RA has a different strand' != e.args[0]:
+            raise e  # pragma: no cover
+
+
+def test_parent_span():
+    """[aeneas::GFF3Reader] Lhum child exceeds parent span."""
+    reader = GFF3Reader(infilename='testdata/lhum-mrna-span.gff3')
+    try:
+        for record in reader:  # pragma: no cover
+            pass
+    except AssertionError as e:
+        testmessage = ('child of feature LH19950 is not contained within its '
+                       'span (13-2275)')
+        if testmessage != e.args[0]:
+            raise e  # pragma: no cover
+
+
+def test_id_mismatch():
+    """[aeneas::GFF3Reader] Lhum ID mismatch."""
+    reader = GFF3Reader(infilename='testdata/lhum-feat-dup.gff3')
+    try:
+        for record in reader:  # pragma: no cover
+            pass
+    except AssertionError as e:
+        testmessage = ('feature seq disagreement for ID="LH19950": scaffold2 '
+                       'vs scaffold1')
+        if testmessage != e.args[0]:
+            raise e  # pragma: no cover

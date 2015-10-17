@@ -173,12 +173,26 @@ class Feature(object):
 
     def add_child(self, child, regioncheck=True):
         if regioncheck is True:
-            assert self.seqid == child.seqid and self._region.contains(child)
-            assert self._strand == child._strand
+            assert self.seqid == child.seqid, ('seqid mismatch for feature %s '
+                                               '(%s vs %s)' % (self.fid,
+                                                               self.seqid,
+                                                               child.seqid))
+            assert self._region.contains(child), ('child of feature %s is not '
+                                                  'contained within its span '
+                                                  '(%d-%d)' % (self.fid,
+                                                               child.start,
+                                                               child.end))
+            assert self._strand == child._strand, ('child of feature %s has a '
+                                                   'different strand' %
+                                                   self.fid)
         if self.children is None:
             self.children = list()
         self.children.append(child)
         self.children.sort()
+
+    @property
+    def fid(self):
+        return self.get_attribute('ID')
 
     @property
     def is_multi(self):
@@ -340,6 +354,8 @@ class Feature(object):
         attributes = dict()
         keyvaluepairs = attrstring.split(';')
         for kvp in keyvaluepairs:
+            if kvp == '':
+                continue
             key, value = kvp.split('=')
             if key == 'ID':
                 assert ',' not in value
