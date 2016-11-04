@@ -231,8 +231,7 @@ def test_parent_span():
     with pytest.raises(AssertionError) as ae:
         for record in reader:
             pass
-    testmessage = ('child of feature LH19950 is not contained within its span '
-                   '(13-2275)')
+    testmessage = 'child of feature LH19950 is not contained within its span '
     assert testmessage in str(ae.value)
 
 

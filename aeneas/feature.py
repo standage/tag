@@ -7,6 +7,7 @@
 # licensed under the BSD 3-clause license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
 
+import pytest
 from .comment import Comment
 from .directive import Directive
 from .range import Range
@@ -26,7 +27,7 @@ class Feature(object):
         self._seqid = fields[0]
         self._source = fields[1]
         self._type = fields[2]
-        self._region = Range(int(fields[3]), int(fields[4]))
+        self._region = Range(int(fields[3]) - 1, int(fields[4]))
         if fields[5] == '.':
             self.score = None
         else:
@@ -38,22 +39,23 @@ class Feature(object):
             self.phase = int(fields[7])
         self._attrs = self.parse_attributes(fields[8])
 
-        assert self._strand in ['+', '-', '.'], 'invalid strand "%s"' % \
-            self._strand
+        assert self._strand in ['+', '-', '.'], \
+            'invalid strand "{}"'.format(self._strand)
         if self.phase is not None:
-            assert self.phase in [0, 1, 2], 'invalid phase "%s"' % self.phase
+            assert self.phase in [0, 1, 2], \
+                'invalid phase "{}"'.format(self.phase)
 
     def __str__(self):
         """String representation of the feature, sans children."""
         score = '.'
         if self.score is not None:
-            score = "%.3f" % self.score
+            score = "{:.3f}".format(self.score)
         phase = '.'
         if self.phase is not None:
-            phase = '%d' % self.phase
+            phase = str(self.phase)
         return '\t'.join([
-            self.seqid, self.source, self.type, '%d' % self.start,
-            '%d' % self.end, score, self.strand, phase, self.attributes
+            self.seqid, self.source, self.type, str(self.start + 1),
+            str(self.end), score, self.strand, phase, self.attributes
         ])
 
     def __repr__(self):
@@ -62,7 +64,7 @@ class Feature(object):
         for feature in self:
             if string != '':
                 string += '\n'
-            string += feature.__str__()
+            string += str(feature)
         if self.children is not None:
             string += '\n###'
         return string
@@ -71,7 +73,6 @@ class Feature(object):
         return len(self._region)
 
     def __lt__(self, other):
-        """Rich comparison operator for Python 3 support."""
         if isinstance(other, Directive) or isinstance(other, Comment):
             return False
         elif isinstance(other, Sequence):
@@ -87,7 +88,6 @@ class Feature(object):
         return self._region.__lt__(other._region)
 
     def __le__(self, other):
-        """Rich comparison operator for Python 3 support."""
         if isinstance(other, Directive) or isinstance(other, Comment):
             return False
         elif isinstance(other, Sequence):
@@ -103,7 +103,6 @@ class Feature(object):
         return self._region.__le__(other._region)
 
     def __gt__(self, other):
-        """Rich comparison operator for Python 3 support."""
         if isinstance(other, Directive) or isinstance(other, Comment):
             return True
         elif isinstance(other, Sequence):
@@ -119,7 +118,6 @@ class Feature(object):
         return self._region.__gt__(other._region)
 
     def __ge__(self, other):
-        """Rich comparison operator for Python 3 support."""
         if isinstance(other, Directive) or isinstance(other, Comment):
             return True
         elif isinstance(other, Sequence):
@@ -136,7 +134,7 @@ class Feature(object):
 
     def __iter__(self):
         """Generator iterates through a feature and all its subfeatures."""
-        sorted_features = []
+        sorted_features = list()
         self._visit(L=sorted_features, marked={}, tempmarked={})
         for feat in sorted_features:
             yield feat
@@ -173,18 +171,19 @@ class Feature(object):
 
     def add_child(self, child, regioncheck=True):
         if regioncheck is True:
-            assert self.seqid == child.seqid, ('seqid mismatch for feature %s '
-                                               '(%s vs %s)' % (self.fid,
-                                                               self.seqid,
-                                                               child.seqid))
-            assert self._region.contains(child), ('child of feature %s is not '
-                                                  'contained within its span '
-                                                  '(%d-%d)' % (self.fid,
-                                                               child.start,
-                                                               child.end))
-            assert self._strand == child._strand, ('child of feature %s has a '
-                                                   'different strand' %
-                                                   self.fid)
+            assert self.seqid == child.seqid, \
+                (
+                    'seqid mismatch for feature {} ({} vs {})'.format(
+                        self.fid, self.seqid, child.seqid
+                    )
+                )
+            assert self._region.contains(child), \
+                (
+                    'child of feature {} is not contained within its span '
+                    '({}-{})'.format(self.fid, child.start, child.end)
+                )
+            assert self._strand == child._strand, \
+                ('child of feature {} has a different strand'.format(self.fid))
         if self.children is None:
             self.children = list()
         self.children.append(child)
@@ -248,14 +247,13 @@ class Feature(object):
         return self._region.end
 
     def set_coord(self, start, end):
-        assert start > 0 and end > 0 and start <= end
         self._region = Range(start, end)
 
     def transform(self, offset, newseqid=None):
         for feature in self:
             feature._region.transform(offset)
             if newseqid is not None:
-                feature._seqid = newseqid
+                feature.seqid = newseqid
 
     @property
     def strand(self):
@@ -279,7 +277,7 @@ class Feature(object):
             if attrkey in ['ID', 'Parent', 'Name']:
                 continue
             value = self.get_attribute(attrkey, as_string=True)
-            attrs.append('%s=%s' % (attrkey, value))
+            attrs.append('{}={}'.format(attrkey, value))
         return ';'.join(attrs)
 
     def add_attribute(self, attrkey, attrvalue, append=False, oldvalue=None):
@@ -502,33 +500,48 @@ def test_region():
     """Test coordinate handling."""
     gff3 = ['chr', 'vim', 'gene', '1000', '2000', '.', '+', '.', 'ID=g1']
     f1 = Feature('\t'.join(gff3))
-    assert f1._region == Range(1000, 2000)
-    assert f1.start == 1000 and f1.end == 2000
+    assert f1._region == Range(999, 2000)
+    assert f1.start == 999 and f1.end == 2000
 
     gff3 = ['contig5', 'vim', 'mRNA', '500', '2500', '.', '+', '.',
             'ID=t1;Parent=g1']
     f2 = Feature('\t'.join(gff3))
-    try:
+    with pytest.raises(AssertionError) as ae:
         f1.add_child(f2)
-    except AssertionError:
-        pass
+    assert 'seqid mismatch for feature g1' in str(ae)
+
     f1.add_child(f2, regioncheck=False)
     assert len(f1.children) == 1
-    assert f2._region == Range(500, 2500)
+    assert f2._region == Range(499, 2500)
 
-    f2.set_coord(1000, 2000)
-    assert f2.start == 1000 and f2.end == 2000
+    f2.seqid = 'chr'
+    f2.set_coord(999, 2000)
+    assert f2.seqid == f1.seqid
+    assert f2.start == 999 and f2.end == 2000
 
     f1.transform(100000)
     for feature in f1:
-        assert feature._region == Range(101000, 102000), \
-            '%s %r' % (feature.type, feature._region)
+        assert feature._region == Range(100999, 102000)
 
     f1.transform(100000, newseqid='scf89')
     for feature in f1:
         assert feature.seqid == 'scf89'
-        assert feature._region == Range(201000, 202000), \
-            '%s %r' % (feature.type, feature._region)
+        assert feature._region == Range(200999, 202000)
+
+
+def test_sorting():
+    """Test sorting"""
+    gff3 = ['chr', 'vim', 'mRNA', '1000', '2000', '.', '+', '.', 'ID=mRNA1']
+    f1 = Feature('\t'.join(gff3))
+    gff3 = ['chr', 'vim', 'tRNA', '1000', '2000', '.', '+', '.', 'ID=tRNA1']
+    f2 = Feature('\t'.join(gff3))
+
+    assert f1 < Sequence('>contig1', 'GATTACA')
+    assert f1 <= Sequence('>contig1', 'GATTACA')
+    assert not f1 > Sequence('>contig1', 'GATTACA')
+    assert not f1 >= Sequence('>contig1', 'GATTACA')
+    assert f2 > f1
+    assert f2 >= f1
 
 
 def test_score():
@@ -541,13 +554,13 @@ def test_score():
     f2 = Feature('\t'.join(gff3))
     assert abs(f2.score - 0.97) <= 0.00001
     gff3[5] = '0.970'
-    assert '%s' % f2 == '\t'.join(gff3)
+    assert str(f2) == '\t'.join(gff3)
 
     gff3[5] = '-1.8332'
     f3 = Feature('\t'.join(gff3))
     assert abs(f3.score + 1.8332) <= 0.00001
     gff3[5] = '-1.833'
-    assert '%s' % f3 == '\t'.join(gff3)
+    assert str(f3) == '\t'.join(gff3)
 
 
 def test_strand():
@@ -555,12 +568,12 @@ def test_strand():
     gff3 = ['chr', 'vim', 'EST_match', '57229', '57404', '.', '.', '.', '.']
     f1 = Feature('\t'.join(gff3))
     assert f1.strand == '.'
-    assert '%s' % f1 == '\t'.join(gff3)
+    assert str(f1) == '\t'.join(gff3)
 
     gff3[6] = '-'
     f2 = Feature('\t'.join(gff3))
     assert f2.strand == '-'
-    assert '%s' % f2 == '\t'.join(gff3)
+    assert str(f2) == '\t'.join(gff3)
 
     gff3[2:5] = 'match_part', '57229', '57298'
     f3 = Feature('\t'.join(gff3))
@@ -636,7 +649,7 @@ def test_attributes():
         assert child.get_attribute('Parent') == 'g1'
 
     for feature in gene:
-        if feature.type == 'exon' and feature._region == Range(5000, 5500):
+        if feature.type == 'exon' and feature._region == Range(4999, 5500):
             assert feature.get_attribute('Parent') == [
                 'mRNA00001',
                 'mRNA00002',
@@ -650,8 +663,7 @@ def test_attributes():
         # elif feature.get_attribute('ID') in ['cds00003', 'cds00004']:
         #     assert feature.get_attribute('Parent') == 'mRNA3'
 
-    assert '%r' % gene == open('testdata/eden-mod.gff3', 'r').read().rstrip(),\
-        '%r' % gene
+    assert repr(gene) == open('testdata/eden-mod.gff3', 'r').read().rstrip()
 
     gene.add_attribute('Note', 'I need to test access of other attributes')
     assert gene.attributes == ('ID=g1;Name=Aragorn,Gandalf;Note='
@@ -681,13 +693,13 @@ def test_multi():
         if feature.type == 'CDS':
             assert feature.is_multi
             if feature.get_attribute('ID') == 'cds00001':
-                assert feature.multi_rep._region == Range(1201, 1500)
+                assert feature.multi_rep._region == Range(1200, 1500)
             elif feature.get_attribute('ID') == 'cds00002':
-                assert feature.multi_rep._region == Range(1201, 1500)
+                assert feature.multi_rep._region == Range(1200, 1500)
             elif feature.get_attribute('ID') == 'cds00003':
-                assert feature.multi_rep._region == Range(3301, 3902)
+                assert feature.multi_rep._region == Range(3300, 3902)
             elif feature.get_attribute('ID') == 'cds00004':
-                assert feature.multi_rep._region == Range(3391, 3902)
+                assert feature.multi_rep._region == Range(3390, 3902)
         else:
             assert not feature.is_multi and feature.multi_rep is None
 
@@ -695,7 +707,7 @@ def test_multi():
         if feature.get_attribute('ID') == 'cds00004':
             if feature.multi_rep == feature:
                 feature.type = 'coding sequence'
-            assert feature.type == 'coding sequence', feature._region
+            assert feature.type == 'coding sequence'
 
 
 def test_compare():
@@ -752,6 +764,6 @@ def test_cyclic():
             feature.add_child(gene, regioncheck=False)
 
     try:
-        gff3string = '%r' % gene
+        gff3string = repr(gene)
     except Exception:
         pass
