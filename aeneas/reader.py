@@ -92,9 +92,6 @@ class GFF3Reader():
                         assert feature.type == other.type, \
                             'feature type disagreement for ID="%s": %s vs %s' \
                             % (featureid, feature.type, other.type)
-                        assert feature.seqid == other.seqid, \
-                            'feature seq disagreement for ID="%s": %s vs %s' \
-                            % (featureid, feature.seqid, other.seqid)
                         other.add_sibling(feature)
                     else:
                         self.featsbyid[featureid] = feature
@@ -109,10 +106,6 @@ class GFF3Reader():
             parent = self.featsbyid[parentid]
             for child in self.featsbyparent[parentid]:
                 parent.add_child(child, rangecheck=self.strict)
-                if child.is_multi:
-                    for sibling in child.multi_rep.siblings:
-                        if sibling != child:
-                            parent.add_child(sibling, rangecheck=self.strict)
 
         for record in sorted(self.records):
             yield record
@@ -252,6 +245,5 @@ def test_id_mismatch():
     with pytest.raises(AssertionError) as ae:
         for record in reader:
             pass  # pragma: no cover
-    testmessage = ('feature seq disagreement for ID="LH19950": scaffold2 vs '
-                   'scaffold1')
+    testmessage = 'seqid mismatch for feature LH19950'
     assert testmessage in str(ae.value)
