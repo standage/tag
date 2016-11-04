@@ -176,9 +176,9 @@ class Feature(object):
                     self.fid, self.seqid, child.seqid
                 )
             )
-        assert self._strand == child._strand, \
-            ('child of feature {} has a different strand'.format(self.fid))
         if rangecheck is True:
+            assert self._strand == child._strand, \
+                ('child of feature {} has a different strand'.format(self.fid))
             assert self._region.contains(child._region), \
                 (
                     'child of feature {} is not contained within its span '
@@ -573,20 +573,18 @@ def test_strand():
     assert f4.strand == '+'
 
     f2.add_child(f3)
-    try:
-        f2.add_child(f4)
-    except AssertionError:
-        pass
+    with pytest.raises(AssertionError) as ae:
+        f2.add_child(f4, rangecheck=True)
+    assert 'has a different strand' in str(ae)
     assert len(f2.children) == 1
     f4._strand = '-'
     f2.add_child(f4)
     assert len(f2.children) == 2
 
     gff3 = ['chr', 'vim', 'EST_match', '57229', '57404', '.', '~', '.', '.']
-    try:
+    with pytest.raises(AssertionError) as ae:
         f5 = Feature('\t'.join(gff3))
-    except AssertionError:
-        pass
+    assert 'invalid strand' in str(ae)
 
 
 def test_phase():
