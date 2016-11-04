@@ -40,7 +40,7 @@ class GFF3Reader():
     """Loads sequence features and other GFF3 entries into memory."""
 
     def __init__(self, instream=None, infilename=None,
-                 assumesorted=False):
+                 assumesorted=False, strict=True):
         assert (not instream) != (not infilename), ('provide either an '
                                                     'instream or an infile '
                                                     'name, not both')
@@ -49,6 +49,7 @@ class GFF3Reader():
             self.infilename = infilename
             self.instream = open(infilename, 'r')
         self.assumesorted = assumesorted
+        self.strict = strict
 
     def __iter__(self):
         """Generator function returns GFF3 entries."""
@@ -107,11 +108,11 @@ class GFF3Reader():
         for parentid in self.featsbyparent:
             parent = self.featsbyid[parentid]
             for child in self.featsbyparent[parentid]:
-                parent.add_child(child)
+                parent.add_child(child, rangecheck=self.strict)
                 if child.is_multi:
                     for sibling in child.multi_rep.siblings:
                         if sibling != child:
-                            parent.add_child(sibling)
+                            parent.add_child(sibling, rangecheck=self.strict)
 
         for record in sorted(self.records):
             yield record
@@ -241,7 +242,7 @@ def test_parent_span():
     with pytest.raises(AssertionError) as ae:
         for record in reader:
             pass  # pragma: no cover
-    testmessage = 'child of feature LH19950 is not contained within its span '
+    testmessage = 'child of feature LH19950 is not contained within its span'
     assert testmessage in str(ae.value)
 
 
