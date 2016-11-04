@@ -245,6 +245,5 @@ def test_id_mismatch():
     with pytest.raises(AssertionError) as ae:
         for record in reader:
             pass  # pragma: no cover
-    testmessage = ('feature seq disagreement for ID="LH19950": scaffold2 vs '
-                   'scaffold1')
+    testmessage = 'seqid mismatch for feature LH19950'
     assert testmessage in str(ae.value)
