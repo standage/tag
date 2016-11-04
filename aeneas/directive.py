@@ -6,7 +6,7 @@
 # This file is part of aeneas (http://github.com/standage/aeneas) and is
 # licensed under the BSD 3-clause license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
-
+import pytest
 import re
 from .range import Range
 
@@ -40,8 +40,8 @@ class Directive():
         if formatmatch:
             self.dirtype = 'sequence-region'
             self.seqid = formatmatch.group(1)
-            self.region = Range(int(formatmatch.group(2)),
-                                 int(formatmatch.group(3)))
+            self.region = Range(int(formatmatch.group(2)) - 1,
+                                int(formatmatch.group(3)))
             return
 
         formatmatch = re.match('##((feature|attribute|source)-ontology)'
@@ -131,10 +131,10 @@ class Directive():
             return True
 
     def __gt__(self, other):
-        return not self.__lt__(other)
+        return not self.__le__(other)
 
     def __ge__(self, other):
-        return not self.__le__(other)
+        return not self.__lt__(other)
 
 
 # -----------------------------------------------------------------------------
@@ -151,22 +151,18 @@ def test_basic():
     assert d.type == 'gff-version' and d.version == '3'
     assert '%r' % d == '##gff-version	3'
 
-    try:
+    with pytest.raises(AssertionError):
         d = Directive('')  # No data
-    except AssertionError:
-        pass
-    try:
-        d = Directive('##gff-version   2.2')  # Only version 3 supported
-    except AssertionError:
-        pass
-    try:
+
+    with pytest.raises(AssertionError) as ae:
+        d = Directive('##gff-version   2.2')
+    assert 'Only GFF version 3 is supported' in str(ae)
+
+    with pytest.raises(AssertionError):
         d = Directive('not a directive')
-    except AssertionError:
-        pass
-    try:
+
+    with pytest.raises(AssertionError):
         d = Directive('# Still not a directive')
-    except AssertionError:
-        pass
 
 
 def test_custom_directive():
@@ -191,19 +187,17 @@ def test_sequence_region():
     r4 = Directive('##sequence-region 1 1 1000')
 
     assert r1.type == 'sequence-region' and r1.seqid == 'ctg123' and \
-        r1.region == Range(1, 1497228)
+        r1.region == Range(0, 1497228)
     assert r2.type == 'sequence-region' and r2.seqid == 'ctg123' and \
-        r2.region == Range(1, 1497228)
+        r2.region == Range(0, 1497228)
     assert r3.type == 'sequence-region' and r3.seqid == 'ctg123' and \
-        r3.region == Range(1, 1497228)
+        r3.region == Range(0, 1497228)
     assert r4.type == 'sequence-region' and r4.seqid == '1' and \
-        r4.region == Range(1, 1000)
+        r4.region == Range(0, 1000)
 
-    try:
-        # Invalid region
+    with pytest.raises(AssertionError) as ae:
         r5 = Directive('##sequence-region   BoGuScHr 123456 4321')
-    except AssertionError:
-        pass
+    assert '[123455, 4321] invalid, start must be <= end' in str(ae)
 
 
 def test_ontology_directives():

@@ -1,4 +1,4 @@
-    #!/usr/bin/env python
+#!/usr/bin/env python
 #
 # -----------------------------------------------------------------------------
 # Copyright (C) 2015 Daniel Standage <daniel.standage@gmail.com>
@@ -6,7 +6,7 @@
 # This file is part of aeneas (http://github.com/standage/aeneas) and is
 # licensed under the BSD 3-clause license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
-
+import pytest
 
 class Comment():
     """
@@ -58,12 +58,10 @@ def test_init():
     """Test constructor."""
     c1 = Comment('# A strange game. The only winning move is not to play. '
                  'How about a nice game of chess?')
-    try:
-        c2 = Comment('This is not a valid comment')
-    except AssertionError:
-        pass
     assert c1._rawdata == ('# A strange game. The only winning move is not to '
                            'play. How about a nice game of chess?')
+    with pytest.raises(AssertionError):
+        c2 = Comment('This is not a valid comment')
 
 
 def test_repr():
@@ -71,8 +69,8 @@ def test_repr():
     c1 = Comment('# This gene model is a fragment')
     c2 = Comment('############## Ignore below this point.')
 
-    assert "%r" % c1 == '# This gene model is a fragment'
-    assert "%r" % c2 == '############## Ignore below this point.'
+    assert repr(c1) == '# This gene model is a fragment'
+    assert repr(c2) == '############## Ignore below this point.'
 
 
 def test_str():
@@ -80,15 +78,14 @@ def test_str():
     c1 = Comment('# This gene model is a fragment')
     c2 = Comment('############## Ignore below this point.')
 
-    assert "%s" % c1 == 'This gene model is a fragment'
-    assert "%s" % c2 == 'Ignore below this point.'
+    assert str(c1) == 'This gene model is a fragment'
+    assert str(c2) == 'Ignore below this point.'
 
 
 def test_sort():
     """Test sorting and comparison."""
     from .directive import Directive
     from .feature import Feature
-
     c1 = Comment('# This gene model is a fragment')
     c2 = Comment('############## Ignore below this point.')
     d = Directive('##sequence-region chr 1 1000')

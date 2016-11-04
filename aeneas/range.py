@@ -19,8 +19,6 @@ class Range(object):
     """
 
     def __init__(self, start, end):
-        # Sanity checks
-
         assert start >= 0, ('start coordinate {} invalid, must be an '
                             'integer > 0'.format(start))
         assert end >= 0, ('end coordinate {} invalid,  must be an '
@@ -31,7 +29,6 @@ class Range(object):
         self._end = end
 
     def __str__(self):
-        """String representation of a range"""
         if self._start == self._end:
             return str(self._start)
         return '{}-{}'.format(self._start, self._end)
@@ -40,36 +37,33 @@ class Range(object):
         return str(self)
 
     def __len__(self):
-        """Length of a range."""
         return self._end - self._start
 
+    # Begin rich comparison operators for Python 3 support
     def __eq__(self, other):
         """
         Rich comparison operator for Python 3 support.
 
-        Any object that defines a custom `__eq__()` opterator without also
+        Any object that defines a custom `__eq__()` operator without also
         defining a custom `__hash__()` operator is unhashable. At least for
         now, I don't see this being a problem.
         """
         return self._start == other.start and self._end == other.end
 
     def __lt__(self, other):
-        """Rich comparison operator for Python 3 support."""
         return self._start < other.start or (self._start == other.start and
                                              self._end < other.end)
 
     def __le__(self, other):
-        """Rich comparison operator for Python 3 support."""
         return self.__eq__(other) or self.__lt__(other)
 
     def __gt__(self, other):
-        """Rich comparison operator for Python 3 support."""
         return self._start > other.start or (self._start == other.start and
                                              self._end > other.end)
 
     def __ge__(self, other):
-        """Rich comparison operator for Python 3 support."""
         return self.__eq__(other) or self.__gt__(other)
+    # End rich comparison operators for Python 3 support
 
     @property
     def start(self):
@@ -77,10 +71,12 @@ class Range(object):
 
     @start.setter
     def start(self, newstart):
-        assert newstart > 0, ('new start coordinate %d invalid, must be an '
-                              'integer > 0' % newstart)
-        assert newstart <= self._end, ('new start coordinate %d invalid, must '
-                                       'be <= end %d' % (newstart, self._end))
+        assert newstart > 0, \
+            ('new start coordinate {} invalid, must be an '
+             'integer > 0'.format(newstart))
+        assert newstart <= self._end, \
+            ('new start coordinate {} invalid, must '
+             'be <= end {}'.format(newstart, self._end))
         self._start = newstart
 
     @property
@@ -89,30 +85,20 @@ class Range(object):
 
     @end.setter
     def end(self, newend):
-        assert newend > 0, ('new end coordinate %d invalid, must be an '
-                            'integer > 0' % newend)
-        assert self._start <= newend, ('new end coordinate %d is invalid, '
-                                       'must be >= start %d' %
-                                       (newend, self._start))
+        assert newend > 0, \
+            ('new end coordinate {} invalid, must be an '
+             'integer > 0'.format(newend))
+        assert self._start <= newend, \
+            ('new end coordinate {} is invalid, '
+             'must be >= start {}'.format(newend, self._start))
         self._end = newend
 
     def merge(self, other):
-        """
-        Merge two ranges.
-
-        Take the union of two ranges and create a new range.
-        """
         newstart = min(self._start, other.start)
         newend = max(self._end, other.end)
         return Range(newstart, newend)
 
     def intersect(self, other):
-        """
-        Intersect two ranges.
-
-        Calculate the overlap, if any, between two ranges and create a new
-        range.
-        """
         if not self.overlap(other):
             return None
 
@@ -121,26 +107,22 @@ class Range(object):
         return Range(newstart, newend)
 
     def overlap(self, other):
-        """Determine whether two ranges overlap."""
         if self._start < other.end and self._end > other.start:
             return True
         return False
 
     def contains(self, other):
-        """Determine whether the range contains another range."""
         if self._start <= other.start and self._end >= other.end:
             return True
         return False
 
     def within(self, other):
-        """Determine whether the range falls completely within another."""
         return other.contains(self)
 
     def transform(self, offset):
-        """Transform the range's coordinates using the given offset."""
         assert self._start + offset > 0, \
-            ('offset %d invalid; resulting range [%d, %d] is undefined' %
-             (offset, self._start + offset, self._end + offset))
+            ('offset {} invalid; resulting range [{}, {}] is '
+             'undefined'.format(offset, self._start+offset, self._end+offset))
         self._start += offset
         self._end += offset
 
@@ -160,14 +142,10 @@ def test_repr():
     assert str(r2) == '1234-5678'
     assert str(r3) == '528-901'
     assert str(r4) == '42'
-    assert '%r' % r1 == '0-10'
-    assert '%r' % r2 == '1234-5678'
-    assert '%r' % r3 == '528-901'
-    assert '%r' % r4 == '42'
-    assert '{}'.format(r1) == '0-10'
-    assert '{}'.format(r2) == '1234-5678'
-    assert '{}'.format(r3) == '528-901'
-    assert '{}'.format(r4) == '42'
+    assert repr(r1) == '0-10'
+    assert repr(r2) == '1234-5678'
+    assert repr(r3) == '528-901'
+    assert repr(r4) == '42'
 
 
 def test_len():
