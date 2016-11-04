@@ -6,6 +6,7 @@
 # This file is part of aeneas (http://github.com/standage/aeneas) and is
 # licensed under the BSD 3-clause license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
+import pytest
 
 
 class Range(object):
@@ -40,7 +41,7 @@ class Range(object):
 
     def __len__(self):
         """Length of a range."""
-        return self._end - self._start + 1
+        return self._end - self._start
 
     def __eq__(self, other):
         """
@@ -121,7 +122,7 @@ class Range(object):
 
     def overlap(self, other):
         """Determine whether two ranges overlap."""
-        if self._start <= other.end and self._end >= other.start:
+        if self._start < other.end and self._end > other.start:
             return True
         return False
 
@@ -150,37 +151,37 @@ class Range(object):
 
 def test_repr():
     """Test string representation of ranges."""
-    r1 = Range(1, 10)
+    r1 = Range(0, 10)
     r2 = Range(1234, 5678)
     r3 = Range(528, 901)
     r4 = Range(42, 42)
 
-    assert '%s' % r1 == '1-10'
-    assert '%r' % r1 == '1-10'
-    assert '%s' % r2 == '1234-5678'
+    assert str(r1) == '0-10'
+    assert str(r2) == '1234-5678'
+    assert str(r3) == '528-901'
+    assert str(r4) == '42'
+    assert '%r' % r1 == '0-10'
     assert '%r' % r2 == '1234-5678'
-    assert '%s' % r3 == '528-901'
     assert '%r' % r3 == '528-901'
-    assert '%s' % r4 == '42'
     assert '%r' % r4 == '42'
+    assert '{}'.format(r1) == '0-10'
+    assert '{}'.format(r2) == '1234-5678'
+    assert '{}'.format(r3) == '528-901'
+    assert '{}'.format(r4) == '42'
 
 
 def test_len():
     """Test length."""
-    r1 = Range(1, 10)
-    r2 = Range(1234, 5678)
-    r3 = Range(528, 901)
-    r4 = Range(42, 42)
-
-    assert len(r1) == 10
-    assert len(r2) == 4445
-    assert len(r3) == 374
-    assert len(r4) == 1
+    assert len(Range(0, 10)) == 10
+    assert len(Range(1234, 5678)) == 4444
+    assert len(Range(528, 901)) == 373
+    assert len(Range(42, 43)) == 1
+    assert len(Range(42, 42)) == 0
 
 
 def test_cmp_sort():
     """Test comparison and sorting."""
-    r1 = Range(1, 10)
+    r1 = Range(0, 10)
     r2 = Range(1234, 5678)
     r3 = Range(528, 901)
     r4 = Range(42, 42)
@@ -196,55 +197,54 @@ def test_cmp_sort():
 
 def test_getters():
     """Test getters and setters."""
-    r1 = Range(1, 1)
+    r1 = Range(0, 1)
 
     r1.end = 42
-    assert r1.start == 1
+    assert r1.start == 0
     assert r1.end == 42
 
     r1.start = 42
     assert r1.start == 42
     assert r1.end == 42
 
-    try:
+    with pytest.raises(AssertionError) as ae:
         r1.start = 43
-    except AssertionError as ae:
-        pass
+    assert 'new start coordinate 43 invalid' in str(ae)
     assert r1 == Range(42, 42)
 
 
 def test_merge():
     """Test range merge."""
-    assert Range(1, 10).merge(Range(11, 20)) == Range(1, 20)
+    assert Range(0, 10).merge(Range(11, 20)) == Range(0, 20)
     assert Range(100, 1000).merge(Range(2000, 2500)) == Range(100, 2500)
-    assert Range(1, 10).merge(Range(9, 15)) == Range(1, 15)
+    assert Range(0, 10).merge(Range(9, 15)) == Range(0, 15)
 
 
 def test_intersect():
     """Test range intersect."""
-    assert Range(1, 10).intersect(Range(11, 20)) is None
+    assert Range(0, 10).intersect(Range(11, 20)) is None
+    assert Range(0, 10).intersect(Range(10, 20)) is None
+    assert Range(0, 10).intersect(Range(9, 20)) == Range(9, 10)
     assert Range(100, 1000).intersect(Range(2000, 2500)) is None
-    assert Range(1, 10).intersect(Range(9, 15)) == Range(9, 10)
-    assert Range(1, 10).intersect(Range(10, 15)) == Range(10, 10)
     assert Range(279886, 283581).intersect(Range(280065, 297216)) == \
         Range(280065, 283581)
 
 
 def test_overlap():
     """Test range overlap."""
-    assert Range(1, 10).overlap(Range(11, 20)) is False
+    assert Range(0, 10).overlap(Range(11, 20)) is False
+    assert Range(0, 10).overlap(Range(10, 15)) is False
+    assert Range(0, 10).overlap(Range(9, 15)) is True
     assert Range(100, 1000).overlap(Range(2000, 2500)) is False
-    assert Range(1, 10).overlap(Range(9, 15)) is True
-    assert Range(1, 10).overlap(Range(10, 15)) is True
     assert Range(279886, 283581).overlap(Range(280065, 297216)) is True
 
 
 def test_contains_within():
     """Containment tests."""
-    assert Range(1, 10).contains(Range(1, 10)) is True
-    assert Range(1, 10).within(Range(1, 10)) is True
-    assert Range(1, 10).contains(Range(2, 5)) is True
-    assert Range(2, 5).contains(Range(1, 10)) is False
+    assert Range(0, 10).contains(Range(0, 10)) is True
+    assert Range(0, 10).within(Range(0, 10)) is True
+    assert Range(0, 10).contains(Range(2, 5)) is True
+    assert Range(2, 5).contains(Range(0, 10)) is False
     assert Range(279886, 283581).contains(Range(280065, 297216)) is False
     assert Range(279886, 283581).contains(Range(279986, 283481)) is True
     assert Range(279986, 283481).contains(Range(279886, 283581)) is False
@@ -253,16 +253,15 @@ def test_contains_within():
 
 def test_transform():
     """Transformation tests."""
-    r1 = Range(1, 10)
+    r1 = Range(0, 10)
     r2 = Range(2000, 3000)
     r3 = Range(100, 200)
 
     r1.transform(100)
-    assert r1 == Range(101, 110)
     r2.transform(-1000)
-    assert r2 == Range(1000, 2000)
-    try:
+    with pytest.raises(AssertionError) as ae:
         r3.transform(-300)
-    except AssertionError as ae:
-        pass
-    assert r3 == Range(100, 200)
+    assert 'offset -300 invalid' in str(ae)
+
+    assert r1 == Range(100, 110)
+    assert r2 == Range(1000, 2000)
