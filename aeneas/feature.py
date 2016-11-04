@@ -169,21 +169,21 @@ class Feature(object):
             del tempmarked[self]
             L.insert(0, self)
 
-    def add_child(self, child, regioncheck=True):
-        if regioncheck is True:
-            assert self.seqid == child.seqid, \
-                (
-                    'seqid mismatch for feature {} ({} vs {})'.format(
-                        self.fid, self.seqid, child.seqid
-                    )
+    def add_child(self, child, rangecheck=False):
+        assert self.seqid == child.seqid, \
+            (
+                'seqid mismatch for feature {} ({} vs {})'.format(
+                    self.fid, self.seqid, child.seqid
                 )
-            assert self._region.contains(child), \
+            )
+        assert self._strand == child._strand, \
+            ('child of feature {} has a different strand'.format(self.fid))
+        if rangecheck is True:
+            assert self._region.contains(child._region), \
                 (
                     'child of feature {} is not contained within its span '
                     '({}-{})'.format(self.fid, child.start, child.end)
                 )
-            assert self._strand == child._strand, \
-                ('child of feature {} has a different strand'.format(self.fid))
         if self.children is None:
             self.children = list()
         self.children.append(child)
@@ -507,16 +507,19 @@ def test_region():
             'ID=t1;Parent=g1']
     f2 = Feature('\t'.join(gff3))
     with pytest.raises(AssertionError) as ae:
-        f1.add_child(f2)
+        f1.add_child(f2, rangecheck=True)
     assert 'seqid mismatch for feature g1' in str(ae)
 
-    f1.add_child(f2, regioncheck=False)
+    f2.seqid = 'chr'
+    with pytest.raises(AssertionError) as ae:
+        f1.add_child(f2, rangecheck=True)
+    assert 'is not contained within its span' in str(ae)
+
+    f1.add_child(f2)
     assert len(f1.children) == 1
     assert f2._region == Range(499, 2500)
 
-    f2.seqid = 'chr'
     f2.set_coord(999, 2000)
-    assert f2.seqid == f1.seqid
     assert f2.start == 999 and f2.end == 2000
 
     f1.transform(100000)
@@ -758,7 +761,7 @@ def test_cyclic():
     gene = eden()
     for feature in gene:
         if feature.get_attribute('ID') == 'exon00002':
-            feature.add_child(gene, regioncheck=False)
+            feature.add_child(gene, rangecheck=False)
 
     try:
         gff3string = repr(gene)
