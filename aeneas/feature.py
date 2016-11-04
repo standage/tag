@@ -9,7 +9,7 @@
 
 from .comment import Comment
 from .directive import Directive
-from .region import Region
+from .range import Range
 from .sequence import Sequence
 
 
@@ -26,7 +26,7 @@ class Feature(object):
         self._seqid = fields[0]
         self._source = fields[1]
         self._type = fields[2]
-        self._region = Region(int(fields[3]), int(fields[4]))
+        self._region = Range(int(fields[3]), int(fields[4]))
         if fields[5] == '.':
             self.score = None
         else:
@@ -249,7 +249,7 @@ class Feature(object):
 
     def set_coord(self, start, end):
         assert start > 0 and end > 0 and start <= end
-        self._region = Region(start, end)
+        self._region = Range(start, end)
 
     def transform(self, offset, newseqid=None):
         for feature in self:
@@ -502,7 +502,7 @@ def test_region():
     """[aeneas::Feature] Test coordinate handling."""
     gff3 = ['chr', 'vim', 'gene', '1000', '2000', '.', '+', '.', 'ID=g1']
     f1 = Feature('\t'.join(gff3))
-    assert f1._region == Region(1000, 2000)
+    assert f1._region == Range(1000, 2000)
     assert f1.start == 1000 and f1.end == 2000
 
     gff3 = ['contig5', 'vim', 'mRNA', '500', '2500', '.', '+', '.',
@@ -514,20 +514,20 @@ def test_region():
         pass
     f1.add_child(f2, regioncheck=False)
     assert len(f1.children) == 1
-    assert f2._region == Region(500, 2500)
+    assert f2._region == Range(500, 2500)
 
     f2.set_coord(1000, 2000)
     assert f2.start == 1000 and f2.end == 2000
 
     f1.transform(100000)
     for feature in f1:
-        assert feature._region == Region(101000, 102000), \
+        assert feature._region == Range(101000, 102000), \
             '%s %r' % (feature.type, feature._region)
 
     f1.transform(100000, newseqid='scf89')
     for feature in f1:
         assert feature.seqid == 'scf89'
-        assert feature._region == Region(201000, 202000), \
+        assert feature._region == Range(201000, 202000), \
             '%s %r' % (feature.type, feature._region)
 
 
@@ -636,7 +636,7 @@ def test_attributes():
         assert child.get_attribute('Parent') == 'g1'
 
     for feature in gene:
-        if feature.type == 'exon' and feature._region == Region(5000, 5500):
+        if feature.type == 'exon' and feature._region == Range(5000, 5500):
             assert feature.get_attribute('Parent') == [
                 'mRNA00001',
                 'mRNA00002',
@@ -681,13 +681,13 @@ def test_multi():
         if feature.type == 'CDS':
             assert feature.is_multi
             if feature.get_attribute('ID') == 'cds00001':
-                assert feature.multi_rep._region == Region(1201, 1500)
+                assert feature.multi_rep._region == Range(1201, 1500)
             elif feature.get_attribute('ID') == 'cds00002':
-                assert feature.multi_rep._region == Region(1201, 1500)
+                assert feature.multi_rep._region == Range(1201, 1500)
             elif feature.get_attribute('ID') == 'cds00003':
-                assert feature.multi_rep._region == Region(3301, 3902)
+                assert feature.multi_rep._region == Range(3301, 3902)
             elif feature.get_attribute('ID') == 'cds00004':
-                assert feature.multi_rep._region == Region(3391, 3902)
+                assert feature.multi_rep._region == Range(3391, 3902)
         else:
             assert not feature.is_multi and feature.multi_rep is None
 

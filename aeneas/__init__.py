@@ -10,5 +10,5 @@
 
 from . import comment
 from . import feature
-from . import region
+from . import range
 from . import reader
