@@ -84,7 +84,7 @@ class Feature(object):
         elif self.seqid > other.seqid:
             return False
         elif self._region.__eq__(other._region):
-            return self.type < other.type
+            return self.type > other.type
         return self._region.__lt__(other._region)
 
     def __le__(self, other):
@@ -99,7 +99,7 @@ class Feature(object):
         elif self.seqid > other.seqid:
             return False
         elif self._region.__eq__(other._region):
-            return self.type <= other.type
+            return self.type >= other.type
         return self._region.__le__(other._region)
 
     def __gt__(self, other):
@@ -114,7 +114,7 @@ class Feature(object):
         elif self.seqid < other.seqid:
             return False
         elif self._region.__eq__(other._region):
-            return self.type > other.type
+            return self.type < other.type
         return self._region.__gt__(other._region)
 
     def __ge__(self, other):
@@ -129,7 +129,7 @@ class Feature(object):
         elif self.seqid < other.seqid:
             return False
         elif self._region.__eq__(other._region):
-            return self.type >= other.type
+            return self.type <= other.type
         return self._region.__ge__(other._region)
 
     def __iter__(self):
@@ -529,21 +529,6 @@ def test_region():
         assert feature._region == Range(200999, 202000)
 
 
-def test_sorting():
-    """Test sorting"""
-    gff3 = ['chr', 'vim', 'mRNA', '1000', '2000', '.', '+', '.', 'ID=mRNA1']
-    f1 = Feature('\t'.join(gff3))
-    gff3 = ['chr', 'vim', 'tRNA', '1000', '2000', '.', '+', '.', 'ID=tRNA1']
-    f2 = Feature('\t'.join(gff3))
-
-    assert f1 < Sequence('>contig1', 'GATTACA')
-    assert f1 <= Sequence('>contig1', 'GATTACA')
-    assert not f1 > Sequence('>contig1', 'GATTACA')
-    assert not f1 >= Sequence('>contig1', 'GATTACA')
-    assert f2 > f1
-    assert f2 >= f1
-
-
 def test_score():
     """Test score handling."""
     gff3 = ['chr', 'vim', 'EST_match', '57229', '57404', '.', '+', '.', '.']
@@ -719,12 +704,12 @@ def test_compare():
     gff3 = ['chr1', 'vim', 'gene', '3000', '4500', '.', '+', '.', '.']
     g3 = Feature('\t'.join(gff3))
 
-    assert g1.__lt__(g2) is True
-    assert g1.__le__(g3) is True
-    assert g3.__gt__(g1) is True
-    assert g1.__gt__(g3) is False
-    assert g3.__ge__(g2) is True
-    assert g3.__le__(g2) is False
+    assert g1 < g2
+    assert g1 <= g3
+    assert g3 >= g1
+    assert not g1 > g3
+    assert g3 >= g2
+    assert not g3 <= g2
     assert sorted([g3, g2, g1]) == [g1, g2, g3]
 
     gff3 = ['chr10', 'vim', 'gene', '100', '400', '.', '-', '.', '.']
@@ -732,16 +717,16 @@ def test_compare():
     gff3 = ['chr2', 'vim', 'gene', '2000', '2500', '.', '-', '.', '.']
     g5 = Feature('\t'.join(gff3))
 
-    assert g2.__le__(g4) is True
-    assert g4.__le__(g2) is False
-    assert g4.__lt__(g5) is True
-    assert g5.__lt__(g4) is False
-    assert g5.__gt__(g1) is True
-    assert g1.__gt__(g5) is False
-    assert g5.__ge__(g1) is True
-    assert g1.__ge__(g5) is False
-    assert g5.__ge__(g5) is True
-    assert g5.__le__(g5) is True
+    assert g2 <= g4
+    assert not g4 <= g2
+    assert g4 < g5
+    assert not g5 < g4
+    assert g5 > g1
+    assert not g1 > g5
+    assert g5 >= g1
+    assert not g1 >= g5
+    assert g5 >= g5
+    assert g5 <= g5
     assert sorted([g3, g5, g1, g4, g2]) == [g1, g2, g3, g4, g5]
 
     d = Directive('##gff-version')
@@ -754,6 +739,18 @@ def test_compare():
     assert not g3 <= c
     assert not g4 < d
     assert not g4 <= d
+
+    gff3 = ['chr', 'vim', 'mRNA', '1000', '2000', '.', '+', '.', 'ID=mRNA1']
+    f1 = Feature('\t'.join(gff3))
+    gff3 = ['chr', 'vim', 'tRNA', '1000', '2000', '.', '+', '.', 'ID=tRNA1']
+    f2 = Feature('\t'.join(gff3))
+
+    assert f1 < Sequence('>contig1', 'GATTACA')
+    assert f1 <= Sequence('>contig1', 'GATTACA')
+    assert not f1 > Sequence('>contig1', 'GATTACA')
+    assert not f1 >= Sequence('>contig1', 'GATTACA')
+    assert f1 > f2
+    assert f1 >= f2
 
 
 def test_cyclic():
