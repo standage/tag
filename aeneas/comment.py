@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+    #!/usr/bin/env python
 #
 # -----------------------------------------------------------------------------
 # Copyright (C) 2015 Daniel Standage <daniel.standage@gmail.com>
@@ -55,7 +55,7 @@ class Comment():
 # -----------------------------------------------------------------------------
 
 def test_init():
-    """[aeneas::Comment] Test constructor."""
+    """Test constructor."""
     c1 = Comment('# A strange game. The only winning move is not to play. '
                  'How about a nice game of chess?')
     try:
@@ -67,7 +67,7 @@ def test_init():
 
 
 def test_repr():
-    """[aeneas::Comment] Test default representation."""
+    """Test default representation."""
     c1 = Comment('# This gene model is a fragment')
     c2 = Comment('############## Ignore below this point.')
 
@@ -76,7 +76,7 @@ def test_repr():
 
 
 def test_str():
-    """[aeneas::Comment] Test string representation."""
+    """Test string representation."""
     c1 = Comment('# This gene model is a fragment')
     c2 = Comment('############## Ignore below this point.')
 
@@ -85,7 +85,7 @@ def test_str():
 
 
 def test_sort():
-    """[aeneas::Comment] Test sorting and comparison."""
+    """Test sorting and comparison."""
     from .directive import Directive
     from .feature import Feature
 

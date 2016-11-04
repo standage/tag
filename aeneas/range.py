@@ -149,7 +149,7 @@ class Range(object):
 # -----------------------------------------------------------------------------
 
 def test_repr():
-    """[aeneas::Range] Test string representation of ranges."""
+    """Test string representation of ranges."""
     r1 = Range(1, 10)
     r2 = Range(1234, 5678)
     r3 = Range(528, 901)
@@ -166,7 +166,7 @@ def test_repr():
 
 
 def test_len():
-    """[aeneas::Range] Test length."""
+    """Test length."""
     r1 = Range(1, 10)
     r2 = Range(1234, 5678)
     r3 = Range(528, 901)
@@ -179,7 +179,7 @@ def test_len():
 
 
 def test_cmp_sort():
-    """[aeneas::Range] Test comparison and sorting."""
+    """Test comparison and sorting."""
     r1 = Range(1, 10)
     r2 = Range(1234, 5678)
     r3 = Range(528, 901)
@@ -195,7 +195,7 @@ def test_cmp_sort():
 
 
 def test_getters():
-    """[aeneas::Range] Test getters and setters."""
+    """Test getters and setters."""
     r1 = Range(1, 1)
 
     r1.end = 42
@@ -214,14 +214,14 @@ def test_getters():
 
 
 def test_merge():
-    """[aeneas::Range] Test range merge."""
+    """Test range merge."""
     assert Range(1, 10).merge(Range(11, 20)) == Range(1, 20)
     assert Range(100, 1000).merge(Range(2000, 2500)) == Range(100, 2500)
     assert Range(1, 10).merge(Range(9, 15)) == Range(1, 15)
 
 
 def test_intersect():
-    """[aeneas::Range] Test range intersect."""
+    """Test range intersect."""
     assert Range(1, 10).intersect(Range(11, 20)) is None
     assert Range(100, 1000).intersect(Range(2000, 2500)) is None
     assert Range(1, 10).intersect(Range(9, 15)) == Range(9, 10)
@@ -231,7 +231,7 @@ def test_intersect():
 
 
 def test_overlap():
-    """[aeneas::Range] Test range overlap."""
+    """Test range overlap."""
     assert Range(1, 10).overlap(Range(11, 20)) is False
     assert Range(100, 1000).overlap(Range(2000, 2500)) is False
     assert Range(1, 10).overlap(Range(9, 15)) is True
@@ -240,7 +240,7 @@ def test_overlap():
 
 
 def test_contains_within():
-    """[aeneas::Range] Containment tests."""
+    """Containment tests."""
     assert Range(1, 10).contains(Range(1, 10)) is True
     assert Range(1, 10).within(Range(1, 10)) is True
     assert Range(1, 10).contains(Range(2, 5)) is True
@@ -252,7 +252,7 @@ def test_contains_within():
 
 
 def test_transform():
-    """[aeneas::Range] Transformation tests."""
+    """Transformation tests."""
     r1 = Range(1, 10)
     r2 = Range(2000, 3000)
     r3 = Range(100, 200)

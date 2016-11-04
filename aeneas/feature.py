@@ -411,7 +411,7 @@ def eden():
 
 
 def test_basic():
-    """[aeneas::Feature] Test basic constructor."""
+    """Test basic constructor."""
     gff3 = ['chr', 'vim', 'gene', '1000', '2000', '.', '+', '.', '.']
     f1 = Feature('\t'.join(gff3))
     assert '%s' % f1 == '\t'.join(gff3)
@@ -429,7 +429,7 @@ def test_basic():
 
 
 def test_seqid():
-    """[aeneas::Feature] Test seqid handling."""
+    """Test seqid handling."""
     gff3 = ['chr', 'vim', 'gene', '1000', '2000', '.', '+', '.', 'ID=g1']
     f1 = Feature('\t'.join(gff3))
     assert f1.seqid == 'chr'
@@ -455,7 +455,7 @@ def test_seqid():
 
 
 def test_source():
-    """[aeneas::Feature] Test source handling."""
+    """Test source handling."""
     gff3 = ['chr', 'vim', 'gene', '1000', '2000', '.', '+', '.', 'ID=g1']
     f1 = Feature('\t'.join(gff3))
     assert f1.source == 'vim'
@@ -488,7 +488,7 @@ def test_source():
 
 
 def test_type():
-    """[aeneas::Feature] Test type handling."""
+    """Test type handling."""
     gff3 = ['chr', 'vim', 'mRNA', '1000', '2000', '.', '+', '.', 'ID=mRNA1']
     f1 = Feature('\t'.join(gff3))
     assert f1.type == 'mRNA'
@@ -499,7 +499,7 @@ def test_type():
 
 
 def test_region():
-    """[aeneas::Feature] Test coordinate handling."""
+    """Test coordinate handling."""
     gff3 = ['chr', 'vim', 'gene', '1000', '2000', '.', '+', '.', 'ID=g1']
     f1 = Feature('\t'.join(gff3))
     assert f1._region == Range(1000, 2000)
@@ -532,7 +532,7 @@ def test_region():
 
 
 def test_score():
-    """[aeneas::Feature] Test score handling."""
+    """Test score handling."""
     gff3 = ['chr', 'vim', 'EST_match', '57229', '57404', '.', '+', '.', '.']
     f1 = Feature('\t'.join(gff3))
     assert f1.score is None
@@ -551,7 +551,7 @@ def test_score():
 
 
 def test_strand():
-    """[aeneas::Feature] Test strand handling."""
+    """Test strand handling."""
     gff3 = ['chr', 'vim', 'EST_match', '57229', '57404', '.', '.', '.', '.']
     f1 = Feature('\t'.join(gff3))
     assert f1.strand == '.'
@@ -589,7 +589,7 @@ def test_strand():
 
 
 def test_phase():
-    """[aeneas::Feature] Test phase handling."""
+    """Test phase handling."""
     gff3 = ['chr', 'vim', 'mRNA', '1001', '1420', '.', '+', '.', 'ID=t1']
     m1 = Feature('\t'.join(gff3))
     assert m1.phase is None
@@ -617,7 +617,7 @@ def test_phase():
 
 
 def test_attributes():
-    """[aeneas::Feature] Test attribute handling."""
+    """Test attribute handling."""
     gene = eden()
     assert gene.get_attribute('ID') == 'gene00001'
     assert gene.get_attribute('ID', as_list=True) == 'gene00001'
@@ -670,7 +670,7 @@ def test_attributes():
 
 def test_multi():
     """
-    [aeneas::Feature] Test handling of multi-features.
+    Test handling of multi-features.
 
     In GFF3 discontiguous sequence features are often encoded using multi-
     features: that is, a single feature described across mulitple entries
@@ -699,7 +699,7 @@ def test_multi():
 
 
 def test_compare():
-    """[aeneas::Feature] Test comparison and sorting of features."""
+    """Test comparison and sorting of features."""
     gff3 = ['chr1', 'vim', 'gene', '1000', '2000', '.', '+', '.', '.']
     g1 = Feature('\t'.join(gff3))
     gff3 = ['chr1', 'vim', 'gene', '3000', '4000', '.', '+', '.', '.']
@@ -745,7 +745,7 @@ def test_compare():
 
 
 def test_cyclic():
-    """[aeneas::Feature] Test handling of cyclic features."""
+    """Test handling of cyclic features."""
     gene = eden()
     for feature in gene:
         if feature.get_attribute('ID') == 'exon00002':

@@ -126,7 +126,7 @@ class GFF3Reader():
 
 
 def test_grape():
-    """[aeneas::GFF3Reader] Sanity check."""
+    """Sanity check."""
     with open('testdata/grape-cpgat.gff3', 'r') as infile:
         reader = GFF3Reader(instream=infile)
         output = ''
@@ -136,7 +136,7 @@ def test_grape():
 
 
 def test_pdom():
-    """[aeneas::GFF3Reader] Pdom GFF3 with sequence."""
+    """Pdom GFF3 with sequence."""
     reader = GFF3Reader(infilename='testdata/pdom-withseq.gff3',
                         assumesorted=True)
     records = list()
@@ -172,7 +172,7 @@ def test_pdom():
 
 
 def test_pbar():
-    """[aeneas::GFF3Reader] Pbar GFF3 with sequence."""
+    """Pbar GFF3 with sequence."""
     infile = open('testdata/pbar-withseq.gff3', 'r')
     reader = GFF3Reader(instream=infile, assumesorted=True)
     records = list()
@@ -217,7 +217,7 @@ def test_pbar():
 
 
 def test_child_strand():
-    """[aeneas::GFF3Reader] Lhum bad child strand."""
+    """Lhum bad child strand."""
     reader = GFF3Reader(infilename='testdata/lhum-cds-strand.gff3')
     with pytest.raises(AssertionError) as e:
         for record in reader:
@@ -226,7 +226,7 @@ def test_child_strand():
 
 
 def test_parent_span():
-    """[aeneas::GFF3Reader] Lhum child exceeds parent span."""
+    """Lhum child exceeds parent span."""
     reader = GFF3Reader(infilename='testdata/lhum-mrna-span.gff3')
     with pytest.raises(AssertionError) as ae:
         for record in reader:
@@ -237,7 +237,7 @@ def test_parent_span():
 
 
 def test_id_mismatch():
-    """[aeneas::GFF3Reader] Lhum ID mismatch."""
+    """Lhum ID mismatch."""
     reader = GFF3Reader(infilename='testdata/lhum-feat-dup.gff3')
     with pytest.raises(AssertionError) as ae:
         for record in reader:

@@ -108,7 +108,7 @@ class Sequence():
 # -----------------------------------------------------------------------------
 
 def test_repr():
-    """[aeneas::Sequence] Test string representation of sequences."""
+    """Test string representation of sequences."""
     try:
         from StringIO import StringIO
     except ImportError:
@@ -133,7 +133,7 @@ def test_repr():
 
 
 def test_seqid():
-    """[aeneas::Sequence] Test sequence ID parsing and retrieval."""
+    """Test sequence ID parsing and retrieval."""
     s1 = Sequence('>scaffold_789', 'ACGT')
     assert s1.seqid == 'scaffold_789'
 
@@ -147,14 +147,14 @@ def test_seqid():
 
 
 def test_len():
-    """[aeneas::Sequence] Test length."""
+    """Test length."""
     assert len(Sequence('>chr1', 'ACGT')) == 4
     assert len(Sequence('>contig2', 'AAAAACCCCCGGGGGNNNNNTTTTT')) == 25
     assert len(Sequence('>lcl|TheAccession', 'AACCGGNNTT')) == 10
 
 
 def test_compare():
-    """[aeneas::Sequence] Test sorting and comparison"""
+    """Test sorting and comparison"""
     from .feature import Feature
     s1 = Sequence('>chr1', 'ACGT')
     s2 = Sequence('>contig2', 'AAAAACCCCCGGGGGNNNNNTTTTT')
@@ -176,7 +176,7 @@ def test_compare():
 
 
 def test_accession():
-    """[aeneas::Sequence] Test accession parsing."""
+    """Test accession parsing."""
     s1 = Sequence('>gi|572257426|ref|XP_006607122.1|', 'ACGT')
     s2 = Sequence('>gnl|Tcas|XP_008191512.1', 'ACGT')
     s3 = Sequence('>lcl|PdomMRNAr1.2-10981.1 some description here', 'ACGT')

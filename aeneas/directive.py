@@ -142,7 +142,7 @@ class Directive():
 # -----------------------------------------------------------------------------
 
 def test_basic():
-    """[aeneas::Directive] Test basic object construction."""
+    """Test basic object construction."""
     d = Directive('##gff-version 3')
     assert d.type == 'gff-version' and d.version == '3'
     d = Directive('##gff-version    3')  # 3 spaces
@@ -170,7 +170,7 @@ def test_basic():
 
 
 def test_custom_directive():
-    """[aeneas::Directive] Test custom directive type."""
+    """Test custom directive type."""
     d1 = Directive('##bogus-directive')
     d2 = Directive('##bonus-directive   abc 1 2 3')
     d3 = Directive('##Type DNA NC_005213.1')
@@ -184,7 +184,7 @@ def test_custom_directive():
 
 
 def test_sequence_region():
-    """[aeneas::Directive] Test sequence-region directive type."""
+    """Test sequence-region directive type."""
     r1 = Directive('##sequence-region ctg123 1 1497228')
     r2 = Directive('##sequence-region   ctg123 1 1497228')  # 3 spaces
     r3 = Directive('##sequence-region	ctg123 1 1497228')  # tab
@@ -207,7 +207,7 @@ def test_sequence_region():
 
 
 def test_ontology_directives():
-    """[aeneas::Directive] Test ontology directives."""
+    """Test ontology directives."""
     so_uri = ('http://song.cvs.sourceforge.net/viewvc/song/ontology/'
               'so.obo?revision=1.263')
     attr_uri = 'http://www.bogus.edu/attr-o.obo'
@@ -223,7 +223,7 @@ def test_ontology_directives():
 
 
 def test_species_directive():
-    """[aeneas::Directive] Test species directive."""
+    """Test species directive."""
     amel = 'http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=7460'
     pdom = 'http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=743375'
     sinv = 'http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=13686'
@@ -238,7 +238,7 @@ def test_species_directive():
 
 
 def test_genome_build_directive():
-    """[aeneas::Directive] Test genome-build directive."""
+    """Test genome-build directive."""
     b1 = Directive('##genome-build NCBI B36')
     b2 = Directive('##genome-build   WormBase ws110')
     b3 = Directive('##genome-build	FlyBase  r4.1')
@@ -252,7 +252,7 @@ def test_genome_build_directive():
 
 
 def test_sorting():
-    """[aeneas::Directive] Test sorting and comparison"""
+    """Test sorting and comparison"""
     from .comment import Comment
     from .feature import Feature
 

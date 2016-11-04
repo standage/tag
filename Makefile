@@ -6,7 +6,7 @@
 # ------------------------------------------------------------------------------
 
 test:
-	py.test -v --cov=aeneas aeneas/*.py
+	py.test -v --cov=aeneas --doctest-modules aeneas/*.py
 
 style:
 	pep8 aeneas/*.py
