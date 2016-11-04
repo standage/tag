@@ -8,6 +8,7 @@
 # -----------------------------------------------------------------------------
 import pytest
 
+
 class Comment():
     """
     Represents a comment in an annotation (GFF3) file.

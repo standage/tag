@@ -216,12 +216,22 @@ def test_pbar():
         record.version == '3'
 
 
+def test_pbar_empty_lines():
+    """Pbar GFF3 with empty lines."""
+    infile = open('testdata/pbar-withspaces.gff3', 'r')
+    reader = GFF3Reader(instream=infile, assumesorted=True)
+    records = list()
+    for record in reader:
+        records.append(record)
+    assert len(records) == 6
+
+
 def test_child_strand():
     """Lhum bad child strand."""
     reader = GFF3Reader(infilename='testdata/lhum-cds-strand.gff3')
     with pytest.raises(AssertionError) as e:
         for record in reader:
-            pass
+            pass  # pragma: no cover
     assert 'child of feature LH19950-RA has a different strand' in str(e.value)
 
 
@@ -230,7 +240,7 @@ def test_parent_span():
     reader = GFF3Reader(infilename='testdata/lhum-mrna-span.gff3')
     with pytest.raises(AssertionError) as ae:
         for record in reader:
-            pass
+            pass  # pragma: no cover
     testmessage = 'child of feature LH19950 is not contained within its span '
     assert testmessage in str(ae.value)
 
@@ -240,7 +250,7 @@ def test_id_mismatch():
     reader = GFF3Reader(infilename='testdata/lhum-feat-dup.gff3')
     with pytest.raises(AssertionError) as ae:
         for record in reader:
-            pass
+            pass  # pragma: no cover
     testmessage = ('feature seq disagreement for ID="LH19950": scaffold2 vs '
                    'scaffold1')
     assert testmessage in str(ae.value)
