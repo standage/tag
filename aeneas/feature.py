@@ -176,9 +176,9 @@ class Feature(object):
                     self.fid, self.seqid, child.seqid
                 )
             )
-        assert self._strand == child._strand, \
-            ('child of feature {} has a different strand'.format(self.fid))
         if rangecheck is True:
+            assert self._strand == child._strand, \
+                ('child of feature {} has a different strand'.format(self.fid))
             assert self._region.contains(child._region), \
                 (
                     'child of feature {} is not contained within its span '
