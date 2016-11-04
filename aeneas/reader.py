@@ -7,6 +7,7 @@
 # licensed under the BSD 3-clause license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
 
+import pytest
 import sys
 from .comment import Comment
 from .directive import Directive
@@ -218,35 +219,29 @@ def test_pbar():
 def test_child_strand():
     """[aeneas::GFF3Reader] Lhum bad child strand."""
     reader = GFF3Reader(infilename='testdata/lhum-cds-strand.gff3')
-    try:
-        for record in reader:  # pragma: no cover
+    with pytest.raises(AssertionError) as ae:
+        for record in reader:
             pass
-    except AssertionError as e:
-        if 'child of feature LH19950-RA has a different strand' != e.args[0]:
-            raise e  # pragma: no cover
+    assert 'child of feature LH19950-RA has a different strand' in str(ae.value)
 
 
 def test_parent_span():
     """[aeneas::GFF3Reader] Lhum child exceeds parent span."""
     reader = GFF3Reader(infilename='testdata/lhum-mrna-span.gff3')
-    try:
-        for record in reader:  # pragma: no cover
+    with pytest.raises(AssertionError) as ae:
+        for record in reader:
             pass
-    except AssertionError as e:
-        testmessage = ('child of feature LH19950 is not contained within its '
-                       'span (13-2275)')
-        if testmessage != e.args[0]:
-            raise e  # pragma: no cover
+    testmessage = ('child of feature LH19950 is not contained within its span '
+                   '(13-2275)')
+    assert testmessage in str(ae.value)
 
 
 def test_id_mismatch():
     """[aeneas::GFF3Reader] Lhum ID mismatch."""
     reader = GFF3Reader(infilename='testdata/lhum-feat-dup.gff3')
-    try:
-        for record in reader:  # pragma: no cover
+    with pytest.raises(AssertionError) as ae:
+        for record in reader:
             pass
-    except AssertionError as e:
-        testmessage = ('feature seq disagreement for ID="LH19950": scaffold2 '
-                       'vs scaffold1')
-        if testmessage != e.args[0]:
-            raise e  # pragma: no cover
+    testmessage = ('feature seq disagreement for ID="LH19950": scaffold2 vs '
+                   'scaffold1')
+    assert testmessage in str(ae.value)
