@@ -4,8 +4,9 @@
 # Copyright (C) 2015 Daniel Standage <daniel.standage@gmail.com>
 #
 # This file is part of aeneas (http://github.com/standage/aeneas) and is
-# licensed under the ISC license: see LICENSE.txt.
+# licensed under the BSD 3-clause license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
+import pytest
 
 
 class Comment():
@@ -55,40 +56,37 @@ class Comment():
 # -----------------------------------------------------------------------------
 
 def test_init():
-    """[aeneas::Comment] Test constructor."""
+    """Test constructor."""
     c1 = Comment('# A strange game. The only winning move is not to play. '
                  'How about a nice game of chess?')
-    try:
-        c2 = Comment('This is not a valid comment')
-    except AssertionError:
-        pass
     assert c1._rawdata == ('# A strange game. The only winning move is not to '
                            'play. How about a nice game of chess?')
+    with pytest.raises(AssertionError):
+        c2 = Comment('This is not a valid comment')
 
 
 def test_repr():
-    """[aeneas::Comment] Test default representation."""
+    """Test default representation."""
     c1 = Comment('# This gene model is a fragment')
     c2 = Comment('############## Ignore below this point.')
 
-    assert "%r" % c1 == '# This gene model is a fragment'
-    assert "%r" % c2 == '############## Ignore below this point.'
+    assert repr(c1) == '# This gene model is a fragment'
+    assert repr(c2) == '############## Ignore below this point.'
 
 
 def test_str():
-    """[aeneas::Comment] Test string representation."""
+    """Test string representation."""
     c1 = Comment('# This gene model is a fragment')
     c2 = Comment('############## Ignore below this point.')
 
-    assert "%s" % c1 == 'This gene model is a fragment'
-    assert "%s" % c2 == 'Ignore below this point.'
+    assert str(c1) == 'This gene model is a fragment'
+    assert str(c2) == 'Ignore below this point.'
 
 
 def test_sort():
-    """[aeneas::Comment] Test sorting and comparison."""
+    """Test sorting and comparison."""
     from .directive import Directive
     from .feature import Feature
-
     c1 = Comment('# This gene model is a fragment')
     c2 = Comment('############## Ignore below this point.')
     d = Directive('##sequence-region chr 1 1000')

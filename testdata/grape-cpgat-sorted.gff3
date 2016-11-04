@@ -1,0 +1,33 @@
+##gff-version   3
+##sequence-region   chr8 1 100000
+chr8	CpGAT	gene	72	5081	.	-	.	ID=chr8.g1;Name=chr8.g1
+chr8	CpGAT	mRNA	72	5081	.	-	.	ID=chr8.g1.t1;Parent=chr8.g1;Name=chr8.g1.t1;index=1
+chr8	CpGAT	exon	72	167	.	-	1	ID=chr8.g1.t1.exon1;Parent=chr8.g1.t1
+chr8	CpGAT	CDS	72	167	.	-	0	ID=chr8.g1.t1.cds;Parent=chr8.g1.t1
+chr8	AEGeAn::CanonGFF3	intron	168	348	.	-	.	Parent=chr8.g1.t1
+chr8	CpGAT	exon	349	522	.	-	1	ID=chr8.g1.t1.exon2;Parent=chr8.g1.t1
+chr8	CpGAT	CDS	349	522	.	-	0	ID=chr8.g1.t1.cds;Parent=chr8.g1.t1
+chr8	AEGeAn::CanonGFF3	intron	523	610	.	-	.	Parent=chr8.g1.t1
+chr8	CpGAT	exon	611	702	.	-	1	ID=chr8.g1.t1.exon3;Parent=chr8.g1.t1
+chr8	CpGAT	CDS	611	702	.	-	2	ID=chr8.g1.t1.cds;Parent=chr8.g1.t1
+chr8	AEGeAn::CanonGFF3	intron	703	4915	.	-	.	Parent=chr8.g1.t1
+chr8	CpGAT	exon	4916	5081	.	-	1	ID=chr8.g1.t1.exon4;Parent=chr8.g1.t1
+chr8	CpGAT	CDS	4916	5081	.	-	0	ID=chr8.g1.t1.cds;Parent=chr8.g1.t1
+###
+chr8	CpGAT	gene	10538	11678	.	-	.	ID=chr8.g2;Name=chr8.g2
+chr8	CpGAT	mRNA	10538	11678	.	-	.	ID=chr8.g2.t1;Parent=chr8.g2;Name=chr8.g2.t1;index=1
+chr8	CpGAT	three_prime_UTR	10538	10746	.	-	.	Parent=chr8.g2.t1
+chr8	CpGAT	exon	10538	11678	.	-	1	ID=chr8.g2.t1.exon1;Parent=chr8.g2.t1
+chr8	CpGAT	CDS	10747	11577	.	-	0	ID=chr8.g1.t2.cds;Parent=chr8.g2.t1
+chr8	CpGAT	five_prime_UTR	11578	11678	.	-	.	Parent=chr8.g2.t1
+###
+chr8	CpGAT	gene	22053	23448	.	+	.	ID=chr8.g3;Name=chr8.g3
+chr8	CpGAT	mRNA	22053	23448	.	+	.	ID=chr8.g3.t1;Parent=chr8.g3;Name=chr8.g3.t1;index=1
+chr8	CpGAT	five_prime_UTR	22053	22166	.	+	.	Parent=chr8.g3.t1
+chr8	CpGAT	exon	22053	22550	.	+	1	ID=chr8.g3.t1.exon1;Parent=chr8.g3.t1
+chr8	CpGAT	CDS	22167	22550	.	+	0	ID=chr8.g1.t3.cds;Parent=chr8.g3.t1
+chr8	AEGeAn::CanonGFF3	intron	22551	22650	.	+	.	Parent=chr8.g3.t1
+chr8	CpGAT	CDS	22651	23022	.	+	0	ID=chr8.g1.t3.cds;Parent=chr8.g3.t1
+chr8	CpGAT	exon	22651	23448	.	+	1	ID=chr8.g3.t1.exon2;Parent=chr8.g3.t1
+chr8	CpGAT	three_prime_UTR	23023	23448	.	+	.	Parent=chr8.g3.t1
+###

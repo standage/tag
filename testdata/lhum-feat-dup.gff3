@@ -1,0 +1,18 @@
+##gff-version   3
+scaffold1	hymb	gene	13	2265	.	-	.	ID=LH19950;Name=LH19950;Alias=LH19950;
+scaffold1	hymb	mRNA	13	2265	.	-	.	ID=LH19950-RA;Parent=LH19950;Name=LH19950-RA;Alias=LH19950-RA;
+scaffold1	hymb	exon	2225	2265	.	-	.	Parent=LH19950-RA
+scaffold1	hymb	exon	1971	2074	.	-	.	Parent=LH19950-RA
+scaffold1	hymb	exon	1573	1720	.	-	.	Parent=LH19950-RA
+scaffold1	hymb	exon	492	1308	.	-	.	Parent=LH19950-RA
+scaffold1	hymb	exon	13	384	.	-	.	Parent=LH19950-RA
+scaffold1	hymb	CDS	13	384	.	-	0	Parent=LH19950-RA
+scaffold1	hymb	CDS	492	1308	.	-	1	Parent=LH19950-RA
+scaffold1	hymb	CDS	1573	1720	.	-	2	Parent=LH19950-RA
+scaffold1	hymb	CDS	1971	2074	.	-	1	Parent=LH19950-RA
+scaffold1	hymb	CDS	2225	2265	.	-	0	Parent=LH19950-RA
+###
+scaffold2	hymb	gene	512209	512415	.	-	.	ID=LH19950;Name=LH15247;Alias=LH15247;
+scaffold2	hymb	mRNA	512209	512415	.	-	.	ID=LH19950-RA;Parent=LH19950;Name=LH15247-RA;Alias=LH15247-RA;
+scaffold2	hymb	exon	512209	512415	.	-	.	Parent=LH19950-RA
+scaffold2	hymb	CDS	512209	512415	.	-	0	Parent=LH19950-RA
