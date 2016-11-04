@@ -8,6 +8,7 @@
 # -----------------------------------------------------------------------------
 
 from __future__ import print_function
+import pytest
 import re
 
 
@@ -29,25 +30,21 @@ class Sequence():
         return len(self.seq)
 
     def __lt__(self, other):
-        """Rich comparison operator for Python 3 support."""
         if isinstance(other, Sequence):
             return self.seqid < other.seqid
         return False
 
     def __le__(self, other):
-        """Rich comparison operator for Python 3 support."""
         if isinstance(other, Sequence):
             return self.seqid <= other.seqid
         return False
 
     def __gt__(self, other):
-        """Rich comparison operator for Python 3 support."""
         if isinstance(other, Sequence):
             return self.seqid > other.seqid
         return True
 
     def __ge__(self, other):
-        """Rich comparison operator for Python 3 support."""
         if isinstance(other, Sequence):
             return self.seqid >= other.seqid
         return True
@@ -115,8 +112,8 @@ def test_repr():
         from io import StringIO
 
     s1 = Sequence('>seq1', 'ACGT')
-    assert '%s' % s1 == '>seq1\nACGT'
-    assert '%r' % s1 == '>seq1\nACGT'
+    assert str(s1) == '>seq1\nACGT'
+    assert repr(s1) == '>seq1\nACGT'
     sio = StringIO()
     s1.format_seq(linewidth=0, outstream=sio)
     assert sio.getvalue() == 'ACGT\n'
@@ -129,7 +126,7 @@ def test_repr():
     sio.close()
 
     s3 = Sequence('>scf3', ('A'*70) + ('C'*70))
-    assert '%s' % s3 == '>scf3\n%s\n%s\n' % ('A'*70, 'C'*70)
+    assert str(s3) == '>scf3\n{}\n{}\n'.format('A'*70, 'C'*70)
 
 
 def test_seqid():
@@ -140,10 +137,8 @@ def test_seqid():
     s2 = Sequence('>gnl|aeneas|ABC123 [Bogus vulgaris]', 'ACGT')
     assert s2.seqid == 'gnl|aeneas|ABC123'
 
-    try:
+    with pytest.raises(AssertionError):
         s3 = Sequence('> no_space_allowed', 'ACGT')
-    except AssertionError:
-        pass
 
 
 def test_len():
@@ -180,8 +175,12 @@ def test_accession():
     s1 = Sequence('>gi|572257426|ref|XP_006607122.1|', 'ACGT')
     s2 = Sequence('>gnl|Tcas|XP_008191512.1', 'ACGT')
     s3 = Sequence('>lcl|PdomMRNAr1.2-10981.1 some description here', 'ACGT')
+    s4 = Sequence('>not|standard|format', 'ACGT')
+    s5 = Sequence('>rawid', 'ACGT')
 
     assert s1.accession == 'XP_006607122.1'
     assert s2.accession == 'XP_008191512.1'
     assert s3.accession == 'PdomMRNAr1.2-10981.1' and \
         s3.seqid == 'lcl|PdomMRNAr1.2-10981.1'
+    assert s4.accession is None
+    assert s5.accession is None
