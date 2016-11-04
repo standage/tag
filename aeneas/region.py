@@ -229,23 +229,23 @@ def test_intersect():
 
 def test_overlap():
     """[aeneas::Region] Test region overlap."""
-    assert Region(1, 10).overlap(Region(11, 20)) == False
-    assert Region(100, 1000).overlap(Region(2000, 2500)) == False
-    assert Region(1, 10).overlap(Region(9, 15)) == True
-    assert Region(1, 10).overlap(Region(10, 15)) == True
-    assert Region(279886, 283581).overlap(Region(280065, 297216)) == True
+    assert Region(1, 10).overlap(Region(11, 20)) is False
+    assert Region(100, 1000).overlap(Region(2000, 2500)) is False
+    assert Region(1, 10).overlap(Region(9, 15)) is True
+    assert Region(1, 10).overlap(Region(10, 15)) is True
+    assert Region(279886, 283581).overlap(Region(280065, 297216)) is True
 
 
 def test_contains_within():
     """[aeneas::Region] Containment tests."""
-    assert Region(1, 10).contains(Region(1, 10)) == True
-    assert Region(1, 10).within(Region(1, 10)) == True
-    assert Region(1, 10).contains(Region(2, 5)) == True
-    assert Region(2, 5).contains(Region(1, 10)) == False
-    assert Region(279886, 283581).contains(Region(280065, 297216)) == False
-    assert Region(279886, 283581).contains(Region(279986, 283481)) == True
-    assert Region(279986, 283481).contains(Region(279886, 283581)) == False
-    assert Region(279986, 283481).within(Region(279886, 283581)) == True
+    assert Region(1, 10).contains(Region(1, 10)) is True
+    assert Region(1, 10).within(Region(1, 10)) is True
+    assert Region(1, 10).contains(Region(2, 5)) is True
+    assert Region(2, 5).contains(Region(1, 10)) is False
+    assert Region(279886, 283581).contains(Region(280065, 297216)) is False
+    assert Region(279886, 283581).contains(Region(279986, 283481)) is True
+    assert Region(279986, 283481).contains(Region(279886, 283581)) is False
+    assert Region(279986, 283481).within(Region(279886, 283581)) is True
 
 
 def test_transform():

@@ -219,10 +219,10 @@ def test_pbar():
 def test_child_strand():
     """[aeneas::GFF3Reader] Lhum bad child strand."""
     reader = GFF3Reader(infilename='testdata/lhum-cds-strand.gff3')
-    with pytest.raises(AssertionError) as ae:
+    with pytest.raises(AssertionError) as e:
         for record in reader:
             pass
-    assert 'child of feature LH19950-RA has a different strand' in str(ae.value)
+    assert 'child of feature LH19950-RA has a different strand' in str(e.value)
 
 
 def test_parent_span():
