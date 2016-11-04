@@ -6,3 +6,6 @@
 build/
 docs/_build/
 env/
+env3/
+*.swp
+.cache/
