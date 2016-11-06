@@ -8,5 +8,11 @@
 test:
 	py.test -v --cov=aeneas --doctest-modules aeneas/*.py
 
+install:
+	pip install .
+
+devenv:
+	pip install pytest pytest-cov pep8
+
 style:
 	pep8 aeneas/*.py
