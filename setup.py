@@ -10,10 +10,12 @@
 
 from setuptools import setup
 import glob
+import versioneer
 
 
 setup(name='aeneas',
-      version='0.1.0',
+      version=versioneer.get_version(),
+      cmdclass=versioneer.get_cmdclass(),
       description='Tools for genome annotation data analysis',
       url='http://github.com/standage/aeneas',
       author='Daniel Standage',
