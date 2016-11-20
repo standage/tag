@@ -15,7 +15,7 @@ from .feature import Feature
 from .sequence import Sequence
 
 
-def parse_fasta(data):
+def parse_fasta(data):  # pragma: no cover
     """
     Load sequences in Fasta format.
 

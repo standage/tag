@@ -2,5 +2,6 @@
 show_missing = True
 
 [run]
+branch = True
 omit =
     aeneas/_version.py
