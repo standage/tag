@@ -303,18 +303,16 @@ class Feature(object):
             if self.children is not None:
                 oldid = self.get_attribute('ID')
                 for child in self.children:
-                    if oldid is not None:
-                        child.add_attribute('Parent', attrvalue,
-                                            oldvalue=oldid)
-                    else:
-                        child.add_attribute('Parent', attrvalue)
+                    child.add_attribute('Parent', attrvalue,
+                                        oldvalue=oldid)
             self._attrs[attrkey] = attrvalue
             return
 
         # Handle all other attribute types
         if oldvalue is not None:
-            assert oldvalue in self._attrs[attrkey]
-            del self._attrs[attrkey][oldvalue]
+            if attrkey in self._attrs:
+                assert oldvalue in self._attrs[attrkey]
+                del self._attrs[attrkey][oldvalue]
         if attrkey not in self._attrs or append is False:
             self._attrs[attrkey] = dict()
         self._attrs[attrkey][attrvalue] = True
@@ -392,7 +390,7 @@ def eden():
         elif feature.type == 'mRNA':
             mRNAs.append(feature)
             gene.add_child(feature)
-        else:
+        else:  # pragma: no cover
             for parent in feature.get_attribute('Parent', as_list=True):
                 for mRNA in mRNAs:
                     if mRNA.get_attribute('ID') == parent:
@@ -658,12 +656,16 @@ def test_attributes():
     gff3 = ['chr', 'vim', 'mRNA', '1001', '1420', '.', '+', '.', '.']
     m1 = Feature('\t'.join(gff3))
     assert m1.phase is None
+    m1.add_attribute('ID', 't1')
+    assert m1.get_attribute('ID') == 't1'
 
     gff3 = ['chr', 'vim', 'CDS', '1001', '1420', '.', '+', '.', '.']
     c1 = Feature('\t'.join(gff3))
     m1.add_child(c1)
     m1.add_attribute('ID', 'mRNA1')
     assert c1.get_attribute('Parent') == 'mRNA1'
+    c1.type = 'exon'
+    assert c1.type == 'exon'
 
 
 def test_multi():
@@ -684,7 +686,7 @@ def test_multi():
                 assert feature.multi_rep._region == Range(1200, 1500)
             elif feature.get_attribute('ID') == 'cds00003':
                 assert feature.multi_rep._region == Range(3300, 3902)
-            elif feature.get_attribute('ID') == 'cds00004':
+            elif feature.get_attribute('ID') == 'cds00004':  # pragma no cover
                 assert feature.multi_rep._region == Range(3390, 3902)
         else:
             assert not feature.is_multi and feature.multi_rep is None

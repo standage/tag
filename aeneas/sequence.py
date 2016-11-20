@@ -65,19 +65,20 @@ class Sequence():
         * >gnl|Tcas|XP_008191512.1
         * >lcl|PdomMRNAr1.2-10981.1
         """
+        accession = None
         if self.defline.startswith('>gi|'):
             match = re.match('>gi\|\d+\|[^\|]+\|([^\|\n ]+)', self.defline)
             if match:
-                return match.group(1)
+                accession = match.group(1)
         elif self.defline.startswith('>gnl|'):
             match = re.match('>gnl\|[^\|]+\|([^\|\n ]+)', self.defline)
             if match:
-                return match.group(1)
+                accession = match.group(1)
         elif self.defline.startswith('>lcl|'):
             match = re.match('>lcl\|([^\|\n ]+)', self.defline)
             if match:
-                return match.group(1)
-        return None
+                accession = match.group(1)
+        return accession
 
     def format_seq(self, outstream=None, linewidth=70):
         """Print a sequence in a readable format."""
@@ -177,10 +178,16 @@ def test_accession():
     s3 = Sequence('>lcl|PdomMRNAr1.2-10981.1 some description here', 'ACGT')
     s4 = Sequence('>not|standard|format', 'ACGT')
     s5 = Sequence('>rawid', 'ACGT')
+    s6 = Sequence('>gi|bogus|fmt|doesntparse', 'ACGT')
+    s7 = Sequence('>gnl|bogus', 'ACGT')
+    s8 = Sequence('>lcl|', 'ACGT')
 
     assert s1.accession == 'XP_006607122.1'
     assert s2.accession == 'XP_008191512.1'
     assert s3.accession == 'PdomMRNAr1.2-10981.1' and \
         s3.seqid == 'lcl|PdomMRNAr1.2-10981.1'
-    assert s4.accession is None
-    assert s5.accession is None
+    for seq in [s4, s5, s6, s7, s8]:
+        assert seq.accession is None
+
+    with pytest.raises(AssertionError):
+        s = Sequence('gi|572257426|ref|XP_006607122.1|', 'ACGT')
