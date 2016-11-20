@@ -22,3 +22,6 @@ style:
 loc:
 	cloc --exclude-list-file=<(echo aeneas/_version.py) aeneas/*.py
 	cloc tests/test_*.py
+
+clean:
+	find . -type d -name __pycache__ -maxdepth 2 -exec rm -r {} \;
