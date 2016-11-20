@@ -5,8 +5,10 @@
 # licensed under the BSD 3-clause license: see LICENSE.txt.
 # ------------------------------------------------------------------------------
 
+SHELL=/bin/bash -o pipefail
+
 test:
-	py.test -v --cov=aeneas --doctest-modules aeneas/*.py
+	py.test -v --cov=aeneas --doctest-modules tests/*.py
 
 install:
 	pip install .
@@ -15,4 +17,8 @@ devenv:
 	pip install pytest pytest-cov pep8
 
 style:
-	pep8 aeneas/*.py
+	pep8 aeneas/*.py tests/*.py
+
+loc:
+	cloc --exclude-list-file=<(echo aeneas/_version.py) aeneas/*.py
+	cloc tests/test_*.py
