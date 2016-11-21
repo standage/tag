@@ -77,6 +77,7 @@ class GFF3Reader():
 
                 parentid = feature.get_attribute('Parent')
                 if parentid is None:
+                    # All components of a multi-feature are added here...
                     self.records.append(feature)
                 else:
                     if parentid not in self.featsbyparent:
@@ -96,6 +97,11 @@ class GFF3Reader():
                         self.featsbyid[featureid] = feature
 
         for obj in self._resolve_features():
+            if isinstance(obj, Feature):
+                if obj.is_multi and obj.multi_rep != obj:
+                    # ...so we must filter multi-features here and only yield
+                    # the multi-feature representative
+                    continue
             yield obj
 
     def _resolve_features(self):
