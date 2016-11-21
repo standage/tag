@@ -7,7 +7,6 @@
 # licensed under the BSD 3-clause license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
 
-import pytest
 from .comment import Comment
 from .directive import Directive
 from .range import Range

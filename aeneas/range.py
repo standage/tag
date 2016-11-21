@@ -6,7 +6,6 @@
 # This file is part of aeneas (http://github.com/standage/aeneas) and is
 # licensed under the BSD 3-clause license: see LICENSE.txt.
 # -----------------------------------------------------------------------------
-import pytest
 
 
 class Range(object):
