@@ -143,3 +143,16 @@ def test_id_mismatch():
             pass  # pragma: no cover
     testmessage = 'seqid mismatch for feature LH19950'
     assert testmessage in str(ae.value)
+
+
+def test_multi():
+    """Multi-feature handling"""
+    reader = GFF3Reader(infilename='tests/testdata/amel-cdna-multi.gff3')
+    records = [r for r in reader]
+    assert len(records) == 4
+    assert isinstance(records[0], Directive)
+    assert isinstance(records[1], Directive)
+    assert isinstance(records[2], Feature)
+    assert records[2].type == 'gene'
+    assert isinstance(records[3], Feature)
+    assert records[3].type == 'cDNA_match'

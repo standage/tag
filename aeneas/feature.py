@@ -26,7 +26,7 @@ class Feature(object):
         self._seqid = fields[0]
         self._source = fields[1]
         self._type = fields[2]
-        self._region = Range(int(fields[3]) - 1, int(fields[4]))
+        self._range = Range(int(fields[3]) - 1, int(fields[4]))
         if fields[5] == '.':
             self.score = None
         else:
@@ -69,7 +69,7 @@ class Feature(object):
         return string
 
     def __len__(self):
-        return len(self._region)
+        return len(self._range)
 
     def __lt__(self, other):
         if isinstance(other, Directive) or isinstance(other, Comment):
@@ -82,9 +82,9 @@ class Feature(object):
             return True
         elif self.seqid > other.seqid:
             return False
-        elif self._region.__eq__(other._region):
+        elif self._range == other._range:
             return self.type > other.type
-        return self._region.__lt__(other._region)
+        return self._range < other._range
 
     def __le__(self, other):
         if isinstance(other, Directive) or isinstance(other, Comment):
@@ -97,9 +97,9 @@ class Feature(object):
             return True
         elif self.seqid > other.seqid:
             return False
-        elif self._region.__eq__(other._region):
+        elif self._range == other._range:
             return self.type >= other.type
-        return self._region.__le__(other._region)
+        return self._range <= other._range
 
     def __gt__(self, other):
         if isinstance(other, Directive) or isinstance(other, Comment):
@@ -112,9 +112,9 @@ class Feature(object):
             return True
         elif self.seqid < other.seqid:
             return False
-        elif self._region.__eq__(other._region):
+        elif self._range == other._range:
             return self.type < other.type
-        return self._region.__gt__(other._region)
+        return self._range > other._range
 
     def __ge__(self, other):
         if isinstance(other, Directive) or isinstance(other, Comment):
@@ -127,9 +127,9 @@ class Feature(object):
             return True
         elif self.seqid < other.seqid:
             return False
-        elif self._region.__eq__(other._region):
+        elif self._range == other._range:
             return self.type <= other.type
-        return self._region.__ge__(other._region)
+        return self._range >= other._range
 
     def __iter__(self):
         """Generator iterates through a feature and all its subfeatures."""
@@ -178,7 +178,7 @@ class Feature(object):
         if rangecheck is True:
             assert self._strand == child._strand, \
                 ('child of feature {} has a different strand'.format(self.fid))
-            assert self._region.contains(child._region), \
+            assert self._range.contains(child._range), \
                 (
                     'child of feature {} is not contained within its span '
                     '({}-{})'.format(self.fid, child.start, child.end)
@@ -239,18 +239,18 @@ class Feature(object):
 
     @property
     def start(self):
-        return self._region.start
+        return self._range.start
 
     @property
     def end(self):
-        return self._region.end
+        return self._range.end
 
     def set_coord(self, start, end):
-        self._region = Range(start, end)
+        self._range = Range(start, end)
 
     def transform(self, offset, newseqid=None):
         for feature in self:
-            feature._region.transform(offset)
+            feature._range.transform(offset)
             if newseqid is not None:
                 feature.seqid = newseqid
 
