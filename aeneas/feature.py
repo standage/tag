@@ -64,7 +64,7 @@ class Feature(object):
             if string != '':
                 string += '\n'
             string += str(feature)
-        if self.children is not None:
+        if self.children is not None or self.is_multi:
             string += '\n###'
         return string
 
@@ -161,9 +161,14 @@ class Feature(object):
             raise Exception('feature graph is cyclic')
         if self not in marked:
             tempmarked[self] = True
+            features = list()
+            if self.siblings is not None:
+                features.extend(reversed(self.siblings))
             if self.children is not None:
-                for child in reversed(self.children):
-                    child._visit(L, marked, tempmarked)
+                features.extend(reversed(self.children))
+            if len(features) > 0:
+                for feature in features:
+                    feature._visit(L, marked, tempmarked)
             marked[self] = True
             del tempmarked[self]
             L.insert(0, self)
