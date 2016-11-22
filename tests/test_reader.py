@@ -153,6 +153,8 @@ def test_multi():
     assert isinstance(records[0], Directive)
     assert isinstance(records[1], Directive)
     assert isinstance(records[2], Feature)
-    assert records[2].type == 'gene'
+    assert records[2].type == 'cDNA_match'
+    assert repr(records[2]) == \
+        open('tests/testdata/amel-cdna-multi-out.gff3').read().strip()
     assert isinstance(records[3], Feature)
-    assert records[3].type == 'cDNA_match'
+    assert records[3].type == 'gene'

@@ -9,6 +9,7 @@
 
 import pytest
 from aeneas.range import Range
+from aeneas.reader import GFF3Reader
 
 
 def test_repr():
@@ -123,3 +124,11 @@ def test_transform():
 
     assert r1 == Range(100, 110)
     assert r2 == Range(1000, 2000)
+
+
+def test_amel():
+    reader = GFF3Reader(infilename='tests/testdata/amel-cdna-multi.gff3')
+    records = [r for r in reader]
+    assert len(records) == 4
+    assert records[2]._range == Range(263429, 264299)
+    assert records[3]._range == Range(263429, 325784)

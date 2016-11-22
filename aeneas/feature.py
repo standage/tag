@@ -162,7 +162,7 @@ class Feature(object):
         if self not in marked:
             tempmarked[self] = True
             features = list()
-            if self.siblings is not None:
+            if self.siblings is not None and self.is_toplevel:
                 features.extend(reversed(self.siblings))
             if self.children is not None:
                 features.extend(reversed(self.children))
@@ -200,6 +200,10 @@ class Feature(object):
     @property
     def is_multi(self):
         return self.multi_rep is not None
+
+    @property
+    def is_toplevel(self):
+        return self.get_attribute('Parent') is None
 
     def add_sibling(self, sibling):
         if self.siblings is None:
