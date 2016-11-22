@@ -3,25 +3,24 @@
 # -----------------------------------------------------------------------------
 # Copyright (C) 2015 Daniel Standage <daniel.standage@gmail.com>
 #
-# This file is part of aeneas (http://github.com/standage/aeneas) and is
-# licensed under the BSD 3-clause license: see LICENSE.txt.
+# This file is part of tag (http://github.com/standage/tag) and is licensed
+# under the BSD 3-clause license: see LICENSE.
 # -----------------------------------------------------------------------------
-"""Setup configuration for aeneas"""
 
 from setuptools import setup
 import glob
 import versioneer
 
 
-setup(name='aeneas',
+setup(name='tag',
       version=versioneer.get_version(),
       cmdclass=versioneer.get_cmdclass(),
-      description='Tools for genome annotation data analysis',
-      url='http://github.com/standage/aeneas',
+      description='Toolkit for genome annotation data analysis',
+      url='http://github.com/standage/tag',
       author='Daniel Standage',
       author_email='daniel.standage@gmail.com',
       license='BSD-3',
-      packages=['aeneas'],
+      packages=['tag'],
       tests_require=['pytest', 'pytest-cov', 'pep8'],
       scripts=list(glob.glob('scripts/*.py')),
       classifiers=[

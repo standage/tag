@@ -1,2 +1,2 @@
 include versioneer.py
-include aeneas/_version.py
+include tag/_version.py

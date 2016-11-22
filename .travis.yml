@@ -11,6 +11,7 @@ python:
 install:
     - make devenv
     - export PYTHONPATH=/home/travis/build/standage/aeneas/:$PYTHONPATH
+    - export PYTHONPATH=/home/travis/build/standage/tag/:$PYTHONPATH
 script:
     - make test
     - make style

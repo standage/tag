@@ -42,8 +42,8 @@ def get_config():
     cfg.VCS = "git"
     cfg.style = "pep440"
     cfg.tag_prefix = ""
-    cfg.parentdir_prefix = "aeneas-"
-    cfg.versionfile_source = "aeneas/_version.py"
+    cfg.parentdir_prefix = "tag-"
+    cfg.versionfile_source = "tag/_version.py"
     cfg.verbose = False
     return cfg
 
