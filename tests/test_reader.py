@@ -3,16 +3,16 @@
 # -----------------------------------------------------------------------------
 # Copyright (C) 2015 Daniel Standage <daniel.standage@gmail.com>
 #
-# This file is part of aeneas (http://github.com/standage/aeneas) and is
-# licensed under the BSD 3-clause license: see LICENSE.txt.
+# This file is part of tag (http://github.com/standage/tag) and is licensed
+# under the BSD 3-clause license: see LICENSE.
 # -----------------------------------------------------------------------------
 
 import pytest
-from aeneas.comment import Comment
-from aeneas.directive import Directive
-from aeneas.feature import Feature
-from aeneas.reader import GFF3Reader
-from aeneas.sequence import Sequence
+from tag.comment import Comment
+from tag.directive import Directive
+from tag.feature import Feature
+from tag.reader import GFF3Reader
+from tag.sequence import Sequence
 
 
 def test_grape():

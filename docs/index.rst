@@ -1,5 +1,5 @@
-aeneas: annotation analysis in Python!
-======================================
+tag: genome annotation analysis in Python!
+==========================================
 
 More coming soon.
 
