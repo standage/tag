@@ -147,7 +147,7 @@ def test_region():
     """Test coordinate handling."""
     gff3 = ['chr', 'vim', 'gene', '1000', '2000', '.', '+', '.', 'ID=g1']
     f1 = Feature('\t'.join(gff3))
-    assert f1._region == Range(999, 2000)
+    assert f1._range == Range(999, 2000)
     assert f1.start == 999 and f1.end == 2000
 
     gff3 = ['contig5', 'vim', 'mRNA', '500', '2500', '.', '+', '.',
@@ -164,19 +164,19 @@ def test_region():
 
     f1.add_child(f2)
     assert len(f1.children) == 1
-    assert f2._region == Range(499, 2500)
+    assert f2._range == Range(499, 2500)
 
     f2.set_coord(999, 2000)
     assert f2.start == 999 and f2.end == 2000
 
     f1.transform(100000)
     for feature in f1:
-        assert feature._region == Range(100999, 102000)
+        assert feature._range == Range(100999, 102000)
 
     f1.transform(100000, newseqid='scf89')
     for feature in f1:
         assert feature.seqid == 'scf89'
-        assert feature._region == Range(200999, 202000)
+        assert feature._range == Range(200999, 202000)
 
 
 def test_score():
@@ -282,7 +282,7 @@ def test_attributes():
         assert child.get_attribute('Parent') == 'g1'
 
     for feature in gene:
-        if feature.type == 'exon' and feature._region == Range(4999, 5500):
+        if feature.type == 'exon' and feature._range == Range(4999, 5500):
             assert feature.get_attribute('Parent') == [
                 'mRNA00001',
                 'mRNA00002',
@@ -331,13 +331,13 @@ def test_multi():
         if feature.type == 'CDS':
             assert feature.is_multi
             if feature.get_attribute('ID') == 'cds00001':
-                assert feature.multi_rep._region == Range(1200, 1500)
+                assert feature.multi_rep._range == Range(1200, 1500)
             elif feature.get_attribute('ID') == 'cds00002':
-                assert feature.multi_rep._region == Range(1200, 1500)
+                assert feature.multi_rep._range == Range(1200, 1500)
             elif feature.get_attribute('ID') == 'cds00003':
-                assert feature.multi_rep._region == Range(3300, 3902)
+                assert feature.multi_rep._range == Range(3300, 3902)
             elif feature.get_attribute('ID') == 'cds00004':  # pragma no cover
-                assert feature.multi_rep._region == Range(3390, 3902)
+                assert feature.multi_rep._range == Range(3390, 3902)
         else:
             assert not feature.is_multi and feature.multi_rep is None
 

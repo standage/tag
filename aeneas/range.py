@@ -54,14 +54,14 @@ class Range(object):
                                              self._end < other.end)
 
     def __le__(self, other):
-        return self.__eq__(other) or self.__lt__(other)
+        return self == other or self < other
 
     def __gt__(self, other):
         return self._start > other.start or (self._start == other.start and
                                              self._end > other.end)
 
     def __ge__(self, other):
-        return self.__eq__(other) or self.__gt__(other)
+        return self == other or self > other
     # End rich comparison operators for Python 3 support
 
     @property
