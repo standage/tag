@@ -1,4 +1,4 @@
-# tag: **t**oolkit for **a**nnotating **g**enomes
+# tag: Toolkit for Annotating Genomes
 
 ## Package status
 
