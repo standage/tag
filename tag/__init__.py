@@ -8,6 +8,10 @@
 # -----------------------------------------------------------------------------
 """Package-wide configuration"""
 
+try:
+    import __builtin__ as builtins
+except:
+    import builtins
 from . import comment
 from . import feature
 from . import range
@@ -19,10 +23,10 @@ __version__ = get_versions()['version']
 del get_versions
 
 
-def file_handle(filename, mode):
+def open(filename, mode):
     if mode not in ['r', 'w']:
         raise ArgumentError('invalid mode "{}"'.format(mode))
-    openfunc = open
+    openfunc = builtins.open
     if filename.endswith('.gz'):
         openfunc = gzopen
         mode += 't'
