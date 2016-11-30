@@ -17,7 +17,7 @@ devenv:
 	pip install pytest pytest-cov pep8
 
 style:
-	pep8 tag/*.py tests/*.py
+	pep8 tag/*.py tests/*.py scripts/*.py
 
 loc:
 	cloc --exclude-list-file=<(echo tag/_version.py) tag/*.py
@@ -25,3 +25,4 @@ loc:
 
 clean:
 	find . -type d -name __pycache__ -maxdepth 2 -exec rm -r {} \;
+	rm -rf tag.egg-info/

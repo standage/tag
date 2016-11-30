@@ -12,10 +12,11 @@ import argparse
 import intervaltree
 import tag
 
+
 def interval_set_span(intset):
-    begin = min([x for x,y,z in intset])
-    end = max([y for x,y,z in intset])
-    cds = set([z for x,y,z in intset])
+    begin = min([x for x, y, z in intset])
+    end = max([y for x, y, z in intset])
+    cds = set([z for x, y, z in intset])
     return begin, end, cds
 
 parser = argparse.ArgumentParser()
