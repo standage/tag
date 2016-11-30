@@ -198,6 +198,10 @@ class Feature(object):
         return self.get_attribute('ID')
 
     @property
+    def slug(self):
+        return '{:s}[{:d}, {:d})'.format(self.seqid, self.start, self.end)
+
+    @property
     def is_multi(self):
         return self.multi_rep is not None
 
