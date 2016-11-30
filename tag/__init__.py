@@ -25,7 +25,7 @@ del get_versions
 
 def open(filename, mode):
     if mode not in ['r', 'w']:
-        raise ArgumentError('invalid mode "{}"'.format(mode))
+        raise ValueError('invalid mode "{}"'.format(mode))
     openfunc = builtins.open
     if filename.endswith('.gz'):
         openfunc = gzopen
