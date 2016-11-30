@@ -13,13 +13,15 @@ import tag
 
 def test_tag_open_read():
     fh = tag.open('tag/__init__.py', 'r')
-    assert hasattr(fh, 'mode')
+    line = next(fh)
+    assert line == '#!/usr/bin/env python\n'
 
     with pytest.raises(IOError):
         fh = tag.open('tag/bogus.py', 'r')
 
     fh = tag.open('tests/testdata/gzipdata.gff3.gz', 'r')
-    assert not hasattr(fh, 'mode')
+    line = next(fh)
+    assert line == '##gff-version 3\n'
 
     with pytest.raises(IOError):
         fh = tag.open('tag/bogus.gz', 'r')
