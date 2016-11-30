@@ -8,7 +8,7 @@
 # ------------------------------------------------------------------------------
 
 import re
-from .range import Range
+from tag.range import Range
 
 
 dirtypes = ['gff-version', 'sequence-region', 'feature-ontology', 'species',

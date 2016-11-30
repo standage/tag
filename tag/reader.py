@@ -8,10 +8,10 @@
 # ------------------------------------------------------------------------------
 
 import sys
-from .comment import Comment
-from .directive import Directive
-from .feature import Feature
-from .sequence import Sequence
+from tag.comment import Comment
+from tag.directive import Directive
+from tag.feature import Feature
+from tag.sequence import Sequence
 
 
 def parse_fasta(data):  # pragma: no cover

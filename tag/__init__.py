@@ -16,6 +16,7 @@ from . import comment
 from . import feature
 from . import range
 from . import reader
+from . import writer
 from gzip import open as gzopen
 
 from ._version import get_versions

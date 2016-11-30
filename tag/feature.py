@@ -7,10 +7,10 @@
 # under the BSD 3-clause license: see LICENSE.
 # ------------------------------------------------------------------------------
 
-from .comment import Comment
-from .directive import Directive
-from .range import Range
-from .sequence import Sequence
+from tag.comment import Comment
+from tag.directive import Directive
+from tag.range import Range
+from tag.sequence import Sequence
 
 
 class Feature(object):
