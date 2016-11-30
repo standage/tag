@@ -15,13 +15,13 @@ def test_tag_open_read():
     fh = tag.open('tag/__init__.py', 'r')
     assert hasattr(fh, 'mode')
 
-    with pytest.raises(FileNotFoundError):
+    with pytest.raises(IOError):
         fh = tag.open('tag/bogus.py', 'r')
 
     fh = tag.open('tests/testdata/gzipdata.gff3.gz', 'r')
     assert not hasattr(fh, 'mode')
 
-    with pytest.raises(FileNotFoundError):
+    with pytest.raises(IOError):
         fh = tag.open('tag/bogus.gz', 'r')
 
 
