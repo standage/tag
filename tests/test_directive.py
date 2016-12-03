@@ -60,13 +60,13 @@ def test_sequence_region():
     r4 = Directive('##sequence-region 1 1 1000')
 
     assert r1.type == 'sequence-region' and r1.seqid == 'ctg123' and \
-        r1.region == Range(0, 1497228)
+        r1.range == Range(0, 1497228)
     assert r2.type == 'sequence-region' and r2.seqid == 'ctg123' and \
-        r2.region == Range(0, 1497228)
+        r2.range == Range(0, 1497228)
     assert r3.type == 'sequence-region' and r3.seqid == 'ctg123' and \
-        r3.region == Range(0, 1497228)
+        r3.range == Range(0, 1497228)
     assert r4.type == 'sequence-region' and r4.seqid == '1' and \
-        r4.region == Range(0, 1000)
+        r4.range == Range(0, 1000)
 
     with pytest.raises(AssertionError) as ae:
         r5 = Directive('##sequence-region   BoGuScHr 123456 4321')

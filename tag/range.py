@@ -19,7 +19,7 @@ class Range(object):
 
     def __init__(self, start, end):
         assert start >= 0, ('start coordinate {} invalid, must be an '
-                            'integer > 0'.format(start))
+                            'integer >= 0'.format(start))
         assert end >= 0, ('end coordinate {} invalid,  must be an '
                           'integer > 0'.format(start))
         assert start <= end, ('coordinates [{}, {}] invalid, start must be '
