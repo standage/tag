@@ -53,6 +53,7 @@ class GFF3Reader():
         self.declared_regions = dict()
         self.inferred_regions = dict()
         self._counter = 0
+        self._prevrecord = None
 
     def __iter__(self):
         """Generator function returns GFF3 entries."""
@@ -65,6 +66,11 @@ class GFF3Reader():
             elif line == '###':
                 if self.assumesorted:
                     for obj in self._resolve_features():
+                        if self._prevrecord and self._prevrecord > obj:
+                            msg = 'sorting error: '
+                            msg += '{} > {}'.format(self._prevrecord, obj)
+                            raise ValueError(msg)
+                        self._prevrecord = obj
                         self._counter += 1
                         yield obj
             elif line.startswith('#'):
@@ -129,9 +135,15 @@ class GFF3Reader():
                     # ...so we must filter multi-features here and only yield
                     # the multi-feature representative
                     continue
-            testrecord = self.check_version_pragma(obj)
-            if testrecord:
-                yield testrecord
+
+            if self._counter == 0:
+                isv = isinstance(obj, Directive) and obj.type == 'gff-version'
+                if not isv:
+                    self._prevrecord = Directive('##gff-version 3')
+                    self._counter += 1
+                    yield self._prevrecord
+
+            self._prevrecord = obj
             self._counter += 1
             yield obj
 
@@ -163,10 +175,3 @@ class GFF3Reader():
         self.featsbyid = dict()
         self.featsbyparent = dict()
         self.countsbytype = dict()
-
-    def check_version_pragma(self, obj):
-        if self._counter == 0:
-            isv = isinstance(obj, Directive) and obj.type == 'gff-version'
-            if not isv:
-                self._counter += 1
-                return Directive('##gff-version 3')
