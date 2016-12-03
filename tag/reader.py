@@ -52,6 +52,7 @@ class GFF3Reader():
         self.strict = strict
         self.declared_regions = dict()
         self.inferred_regions = dict()
+        self._counter = 0
 
     def __iter__(self):
         """Generator function returns GFF3 entries."""
@@ -64,6 +65,10 @@ class GFF3Reader():
             elif line == '###':
                 if self.assumesorted:
                     for obj in self._resolve_features():
+                        testrecord = self.check_version_pragma(obj)
+                        if testrecord:
+                            yield testrecord
+                        self._counter += 1
                         yield obj
             elif line.startswith('#'):
                 if line == '##FASTA':
@@ -127,6 +132,10 @@ class GFF3Reader():
                     # ...so we must filter multi-features here and only yield
                     # the multi-feature representative
                     continue
+            testrecord = self.check_version_pragma(obj)
+            if testrecord:
+                yield testrecord
+            self._counter += 1
             yield obj
 
     def _resolve_features(self):
@@ -140,8 +149,12 @@ class GFF3Reader():
         if not self.assumesorted:
             for seqid in self.inferred_regions:
                 if seqid not in self.declared_regions:
-                    seqreg = self.inferred_regions[seqid]
-                    self.records.append(seqreg)
+                    seqrange = self.inferred_regions[seqid]
+                    srstring = '##sequence-region {:s} {:d} {:d}'.format(
+                        seqid, seqrange.start + 1, seqrange.end
+                    )
+                    seqregion = Directive(srstring)
+                    self.records.append(seqregion)
 
         for record in sorted(self.records):
             yield record
@@ -153,3 +166,10 @@ class GFF3Reader():
         self.featsbyid = dict()
         self.featsbyparent = dict()
         self.countsbytype = dict()
+
+    def check_version_pragma(self, obj):
+        if self._counter == 0:
+            isv = isinstance(obj, Directive) and obj.type == 'gff-version'
+            if not isv:
+                self._counter += 1
+                return Directive('##gff-version 3')

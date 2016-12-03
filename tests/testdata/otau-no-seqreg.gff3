@@ -30,4 +30,3 @@ NC_014426.1	RefSeq	exon	16093	18093	.	+	.	Parent=mRNA6;Dbxref=Genbank:XM_0030740
 NC_014426.1	RefSeq	CDS	16093	18093	.	+	0	ID=CDS3;Parent=mRNA6;Dbxref=Genbank:XP_003074070.1,GeneID:9832453;Name=XP_003074070.1;Note=inframe stop codon;gbkey=CDS;product=PAB-dependent poly(A) ribonuclease%2C subunit PAN2 (ISS);protein_id=XP_003074070.1
 NC_014426.1	RefSeq	exon	18236	19804	.	+	.	Parent=mRNA6;Dbxref=Genbank:XM_003074024.1,GeneID:9832453;end_range=19804,.;gbkey=mRNA;partial=true;product=PAB-dependent poly(A) ribonuclease%2C subunit PAN2 (ISS);transcript_id=XM_003074024.1
 NC_014426.1	RefSeq	CDS	18236	19804	.	+	0	ID=CDS3;Parent=mRNA6;Dbxref=Genbank:XP_003074070.1,GeneID:9832453;Name=XP_003074070.1;Note=inframe stop codon;gbkey=CDS;product=PAB-dependent poly(A) ribonuclease%2C subunit PAN2 (ISS);protein_id=XP_003074070.1
-NC_014426.1	RefSeq	gap	18166	18185	.	+	.	gbkey=gap

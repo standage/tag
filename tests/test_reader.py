@@ -8,6 +8,7 @@
 # -----------------------------------------------------------------------------
 
 import pytest
+from tag.range import Range
 from tag.comment import Comment
 from tag.directive import Directive
 from tag.feature import Feature
@@ -164,9 +165,12 @@ def test_no_seqreg():
     """Missing sequence region pragmas"""
     reader = GFF3Reader(infilename='tests/testdata/otau-no-seqreg.gff3')
     records = [r for r in reader]
-    assert len(records) == 6
+    assert len(records) == 8
     assert isinstance(records[0], Directive)
     assert records[0].type == 'gff-version'
     assert isinstance(records[1], Directive)
     assert records[1].type == 'sequence-region'
-    assert records[1].Range == Range(9779, 18185)
+    assert records[1].range == Range(9779, 19804)
+    for r in records[2:]:
+        assert isinstance(r, Feature)
+        assert r.type == 'gene'
