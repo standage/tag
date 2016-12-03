@@ -40,8 +40,8 @@ class Directive():
         if formatmatch:
             self.dirtype = 'sequence-region'
             self.seqid = formatmatch.group(1)
-            self.region = Range(int(formatmatch.group(2)) - 1,
-                                int(formatmatch.group(3)))
+            self.range = Range(int(formatmatch.group(2)) - 1,
+                               int(formatmatch.group(3)))
             return
 
         formatmatch = re.match('##((feature|attribute|source)-ontology)'
@@ -94,7 +94,7 @@ class Directive():
                     return False
                 elif other.type == 'sequence-region':
                     if self.seqid == other.seqid:
-                        return self.region.__lt__(other.region)
+                        return self.range.__lt__(other.range)
                     else:
                         return self.seqid < other.seqid
                 else:
@@ -117,7 +117,7 @@ class Directive():
                     return False
                 elif other.type == 'sequence-region':
                     if self.seqid == other.seqid:
-                        return self.region.__le__(other.region)
+                        return self.range.__le__(other.range)
                     else:
                         return self.seqid <= other.seqid
                 else:
