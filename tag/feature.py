@@ -199,7 +199,8 @@ class Feature(object):
 
     @property
     def slug(self):
-        return '{:s}[{:d}, {:d})'.format(self.seqid, self.start, self.end)
+        return '{:s}@{:s}[{:d}, {:d})'.format(self.type, self.seqid,
+                                              self.start + 1, self.end)
 
     @property
     def is_multi(self):

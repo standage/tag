@@ -65,9 +65,6 @@ class GFF3Reader():
             elif line == '###':
                 if self.assumesorted:
                     for obj in self._resolve_features():
-                        testrecord = self.check_version_pragma(obj)
-                        if testrecord:
-                            yield testrecord
                         self._counter += 1
                         yield obj
             elif line.startswith('#'):

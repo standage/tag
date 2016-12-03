@@ -8,6 +8,7 @@
 # -----------------------------------------------------------------------------
 
 import pytest
+import tag
 from tag.range import Range
 from tag.comment import Comment
 from tag.directive import Directive
@@ -179,12 +180,21 @@ def test_no_seqreg():
 def test_feature_out_of_range():
     """Feature out of the sequence-region-specified range."""
     reader = GFF3Reader(infilename='tests/testdata/vcar-out-of-bounds.gff3')
-    with pytest.raises(ValueError) as ve:
+    with pytest.raises(ValueError) as e:
         records = [r for r in reader]
-    assert 'out-of-bounds' in str(ve)
+    assert 'feature gene@NW_003307548.1[95396, 100541) out-of-bounds' in str(e)
 
     reader = GFF3Reader(infilename='tests/testdata/vcar-out-of-bounds.gff3',
                         assumesorted=True)
+    with pytest.raises(ValueError) as e:
+        records = [r for r in reader]
+    assert 'feature gene@NW_003307548.1[95396, 100541) out-of-bounds' in str(e)
+
+
+def test_seqreg_dup():
+    """Duplicated sequence-region pragma."""
+    infile = tag.open('tests/testdata/vcar-seqreg-dup.gff3.gz', 'r')
+    reader = GFF3Reader(instream=infile)
     with pytest.raises(ValueError) as ve:
         records = [r for r in reader]
-    assert 'out-of-bounds' in str(ve)
+    assert 'declared in multiple ##sequence-region entries' in str(ve)
