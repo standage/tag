@@ -174,3 +174,17 @@ def test_no_seqreg():
     for r in records[2:]:
         assert isinstance(r, Feature)
         assert r.type == 'gene'
+
+
+def test_feature_out_of_range():
+    """Feature out of the sequence-region-specified range."""
+    reader = GFF3Reader(infilename='tests/testdata/vcar-out-of-bounds.gff3')
+    with pytest.raises(ValueError) as ve:
+        records = [r for r in reader]
+    assert 'out-of-bounds' in str(ve)
+
+    reader = GFF3Reader(infilename='tests/testdata/vcar-out-of-bounds.gff3',
+                        assumesorted=True)
+    with pytest.raises(ValueError) as ve:
+        records = [r for r in reader]
+    assert 'out-of-bounds' in str(ve)
