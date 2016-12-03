@@ -158,3 +158,15 @@ def test_multi():
         open('tests/testdata/amel-cdna-multi-out.gff3').read().strip()
     assert isinstance(records[3], Feature)
     assert records[3].type == 'gene'
+
+
+def test_no_seqreg():
+    """Missing sequence region pragmas"""
+    reader = GFF3Reader(infilename='tests/testdata/otau-no-seqreg.gff3')
+    records = [r for r in reader]
+    assert len(records) == 6
+    assert isinstance(records[0], Directive)
+    assert records[0].type == 'gff-version'
+    assert isinstance(records[1], Directive)
+    assert records[1].type == 'sequence-region'
+    assert records[1].Range == Range(9779, 18185)
