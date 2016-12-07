@@ -7,10 +7,10 @@
 # under the BSD 3-clause license: see LICENSE.
 # ------------------------------------------------------------------------------
 
-from .comment import Comment
-from .directive import Directive
-from .range import Range
-from .sequence import Sequence
+from tag.comment import Comment
+from tag.directive import Directive
+from tag.range import Range
+from tag.sequence import Sequence
 
 
 class Feature(object):
@@ -194,6 +194,12 @@ class Feature(object):
         self.children.sort()
 
     @property
+    def num_children(self):
+        if self.children is None:
+            return 0
+        return len(self.children)
+
+    @property
     def fid(self):
         return self.get_attribute('ID')
 
@@ -352,6 +358,10 @@ class Feature(object):
         elif as_string:
             return ','.join(attrvalues)
         return attrvalues
+
+    def drop_attribute(self, attrkey):
+        if attrkey in self._attrs:
+            del self._attrs[attrkey]
 
     def get_attribute_keys(self):
         return sorted(list(self._attrs))
