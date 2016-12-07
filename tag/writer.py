@@ -9,6 +9,10 @@
 
 from __future__ import print_function
 from collections import defaultdict
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 import sys
 import tag
 from tag.feature import Feature
@@ -20,7 +24,13 @@ class GFF3Writer():
     def __init__(self, instream, outfile='-'):
         self._instream = instream
         self.outfilename = outfile
-        self.outfile = sys.stdout if outfile == '-' else tag.open(outfile, 'w')
+        self.outfile = None
+        if outfile == '-':
+            self.outfile == sys.stdout
+        elif isinstance(outfile, StringIO):
+            self.outfile = outfile
+        else:
+            self.outfile = tag.open(outfile, 'w')
         self.retainids = False
         self.feature_counts = defaultdict(int)
 
