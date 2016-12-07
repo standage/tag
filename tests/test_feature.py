@@ -105,6 +105,7 @@ def test_source():
     gff3 = ['chr', 'vim', 'gene', '1000', '2000', '.', '+', '.', 'ID=g1']
     f1 = Feature('\t'.join(gff3))
     assert f1.source == 'vim'
+    assert f1.num_children == 0
 
     f1.source = 'nano'
     assert f1.source == 'nano'
@@ -119,6 +120,7 @@ def test_source():
     f3 = Feature('\t'.join(gff3))
     f2.add_child(f3)
     f1.add_child(f2)
+    assert f1.num_children == 1
     for feature in f1:
         if feature.type == 'mRNA':
             assert feature.source == 'emacs'
@@ -294,8 +296,6 @@ def test_attributes():
     for feature in gene:
         if feature.get_attribute('ID') == 'mRNA00003':
             feature.add_attribute('ID', 'mRNA3')
-        # elif feature.get_attribute('ID') in ['cds00003', 'cds00004']:
-        #     assert feature.get_attribute('Parent') == 'mRNA3'
 
     assert repr(gene) == \
         open('tests/testdata/eden-mod.gff3', 'r').read().rstrip()
@@ -303,6 +303,9 @@ def test_attributes():
     gene.add_attribute('Note', 'I need to test access of other attributes')
     assert gene.attributes == ('ID=g1;Name=Aragorn,Gandalf;Note='
                                'I need to test access of other attributes')
+    gene.drop_attribute('BogusAttributeButThatIsOkayNoHarmDone')
+    gene.drop_attribute('Name')
+    assert gene.get_attribute('Name') is None
 
     gff3 = ['chr', 'vim', 'mRNA', '1001', '1420', '.', '+', '.', '.']
     m1 = Feature('\t'.join(gff3))
