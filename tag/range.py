@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 #
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Copyright (C) 2015 Daniel Standage <daniel.standage@gmail.com>
 #
 # This file is part of tag (http://github.com/standage/tag) and is licensed
 # under the BSD 3-clause license: see LICENSE.
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 class Range(object):
@@ -15,6 +15,19 @@ class Range(object):
     Start and end coordinates correspond to the 0-based half-open interval:
     start inclusive, end exclusive (start=0 and end=10 corresonds to the first
     10 nucleotides).
+
+    :Example:
+
+    >>> rng = Range(0, 1000)
+    >>> rng
+    [0, 1000)
+    >>> len(rng)
+    1000
+    >>> rng.start = 500
+    >>> rng.start
+    500
+    >>> rng.end
+    1000
     """
 
     def __init__(self, start, end):
@@ -30,7 +43,7 @@ class Range(object):
     def __str__(self):
         if self._start == self._end:
             return str(self._start)
-        return '{}-{}'.format(self._start, self._end)
+        return '[{}, {})'.format(self._start, self._end)
 
     def __repr__(self):
         return str(self)
@@ -93,11 +106,23 @@ class Range(object):
         self._end = newend
 
     def merge(self, other):
+        """
+        Merge this range object with another (ranges need not overlap or abut).
+
+        :returns: a new Range object representing the interval containing both
+                  ranges.
+        """
         newstart = min(self._start, other.start)
         newend = max(self._end, other.end)
         return Range(newstart, newend)
 
     def intersect(self, other):
+        """
+        Determine the interval of overlap between this range and another.
+
+        :returns: a new Range object representing the overlapping interval,
+                  or `None` if the ranges do not overlap.
+        """
         if not self.overlap(other):
             return None
 
@@ -106,21 +131,29 @@ class Range(object):
         return Range(newstart, newend)
 
     def overlap(self, other):
+        """Determine whether this range overlaps with another."""
         if self._start < other.end and self._end > other.start:
             return True
         return False
 
     def contains(self, other):
+        """Determine whether this range contains another."""
         if self._start <= other.start and self._end >= other.end:
             return True
         return False
 
     def within(self, other):
+        """Determine whether this range is contained within another."""
         return other.contains(self)
 
     def transform(self, offset):
+        """
+        Shift this range by the specified offset.
+
+        Note: the resulting range must be a valid interval.
+        """
         assert self._start + offset > 0, \
-            ('offset {} invalid; resulting range [{}, {}] is '
+            ('offset {} invalid; resulting range [{}, {}) is '
              'undefined'.format(offset, self._start+offset, self._end+offset))
         self._start += offset
         self._end += offset

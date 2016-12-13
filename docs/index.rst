@@ -4,7 +4,9 @@ tag: genome annotation analysis in Python!
 More coming soon.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
+
+   api
 
 
 
