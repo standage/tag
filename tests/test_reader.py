@@ -211,3 +211,11 @@ def test_seqreg_outoforder():
     reader = GFF3Reader(instream=infile, assumesorted=True)
     with pytest.raises(ValueError) as ve:
         records = [r for r in reader]
+
+
+def test_gzip_input():
+    reader = GFF3Reader(infilename='tests/testdata/gzipdata.gff3.gz')
+    records = [r for r in reader]
+    assert len(records) == 5
+    genes = [r for r in records if hasattr(r, 'type') and r.type == 'gene']
+    assert len(genes) == 3
