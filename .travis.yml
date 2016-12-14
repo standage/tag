@@ -14,6 +14,7 @@ install:
 script:
     - make test
     - make style
+    - make doc
 after_success:
     - make loc
     - bash <(curl -s https://codecov.io/bash)

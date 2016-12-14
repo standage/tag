@@ -17,7 +17,7 @@ install:
 	pip install .
 
 devenv:
-	pip install pytest pytest-cov pep8
+	pip install pytest pytest-cov pep8 sphinx
 
 style:
 	pep8 tag/*.py tests/*.py scripts/*.py
