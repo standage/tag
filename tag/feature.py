@@ -18,8 +18,6 @@ class Feature(object):
     """
     Represents a feature entry from a GFF3 file.
 
-    :Example:
-
     >>> feature = tag.demo_feature()
     >>> feature.seqid
     'contig1'

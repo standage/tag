@@ -1,7 +1,8 @@
-The tag Python API
-==================
+The :code:`tag` Python API
+==========================
 
-Asdf.
+The following classes/modules are included in the :code:`tag` Python API, which
+is under `semantic versioning <http://semver.org>`_.
 
 .. toctree::
    :maxdepth: 1

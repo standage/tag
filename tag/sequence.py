@@ -18,8 +18,6 @@ class Sequence():
     We do not encourage putting FASTA sequences in your GFF3 files, but since
     the specification explicitly allows it we have to handle it. :-(
 
-    :Example:
-
     >>> s = Sequence('>contig1 description', 'ACGT')
     >>> s.defline
     '>contig1 description'

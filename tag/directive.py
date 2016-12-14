@@ -28,8 +28,6 @@ class Directive():
     specific: they will be parsed without complaint, but no guarantees can be
     made about accessing their attributes.
 
-    :Example:
-
     >>> sr = Directive('##sequence-region chr1 5000 10000')
     >>> sr.type
     'sequence-region'

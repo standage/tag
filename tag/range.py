@@ -16,8 +16,6 @@ class Range(object):
     start inclusive, end exclusive (start=0 and end=10 corresonds to the first
     10 nucleotides).
 
-    :Example:
-
     >>> rng = Range(0, 1000)
     >>> rng
     [0, 1000)
