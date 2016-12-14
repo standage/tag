@@ -43,7 +43,7 @@ Rather, this will likely be handled on a case-by-case basis: for example, conver
 Annotation graphs
 -----------------
 
-The concept of an "annotation graph" was first introduced by Eilbeck *et al.* (`citation <https://dx.doi.org/10.1186%2Fgb-2005-6-5-r44>`_) and then elaborated on by Gremme *et al.* (`citation <http://dx.doi.org/10.1109/TCBB.2013.68>`_).
+The concept of an "annotation graph" was first introduced by Eilbeck *et al.* (`citation <https://dx.doi.org/10.1186%2Fgb-2005-6-5-r44>`__) and then elaborated on by Gremme *et al.* (`citation <http://dx.doi.org/10.1109/TCBB.2013.68>`__).
 The **tag** library relies on this concept heavily.
 In short, rather than processing a data file one entry at a time (line by line), the idea is to group related features into a directed acyclic graph structure.
 
