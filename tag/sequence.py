@@ -1,18 +1,40 @@
 #!/usr/bin/env python
 #
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Copyright (C) 2015 Daniel Standage <daniel.standage@gmail.com>
 #
 # This file is part of tag (http://github.com/standage/tag) and is licensed
 # under the BSD 3-clause license: see LICENSE.
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 from __future__ import print_function
 import re
 
 
 class Sequence():
-    """Represents a biological sequence."""
+    """
+    Represents a sequence (almost always a nucleotide sequence).
+
+    We do not encourage putting FASTA sequences in your GFF3 files, but since
+    the specification explicitly allows it we have to handle it. :-(
+
+    :Example:
+
+    >>> s = Sequence('>contig1 description', 'ACGT')
+    >>> s.defline
+    '>contig1 description'
+    >>> s.seq
+    'ACGT'
+    >>> s.seqid
+    'contig1'
+    >>> len(s)
+    4
+    >>> s = Sequence('>gi|12345|gb|BOGUSSEQ', 'GATTACA')
+    >>> s.seq
+    'GATTACA'
+    >>> s.accession
+    'BOGUSSEQ'
+    """
 
     def __init__(self, defline, seq):
         assert defline.startswith('>') and defline[1] != ' '
@@ -80,7 +102,16 @@ class Sequence():
         return accession
 
     def format_seq(self, outstream=None, linewidth=70):
-        """Print a sequence in a readable format."""
+        """
+        Print a sequence in a readable format.
+
+        :param outstream: if `None`, formatted sequence is returned as a
+                          string; otherwise, it is treated as a file-like
+                          object and the formatted sequence is printed to the
+                          outstream
+        :param linewidth: width for wrapping sequences over multiple lines; set
+                          to 0 for no wrapping
+        """
         if linewidth == 0 or len(self.seq) <= linewidth:
             if outstream is None:
                 return self.seq

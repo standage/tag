@@ -23,6 +23,23 @@ class Directive():
     `Directive` objects should be treated as read-only: modify at your peril!
     Also, separator directives (`###`) and the `##FASTA` directive are handled
     directly by parsers and not by this class.
+
+    Directives not explicitly declared in the GFF3 spec are application
+    specific: they will be parsed without complaint, but no guarantees can be
+    made about accessing their attributes.
+
+    :Example:
+
+    >>> sr = Directive('##sequence-region chr1 5000 10000')
+    >>> sr.type
+    'sequence-region'
+    >>> sr.seqid
+    'chr1'
+    >>> gb = Directive('##genome-build   BeeBase 4.5')
+    >>> gb.type
+    'genome-build'
+    >>> gb.source
+    'BeeBase'
     """
 
     def __init__(self, data):
@@ -73,10 +90,6 @@ class Directive():
 
     @property
     def type(self):
-        """
-        Directives not following one of the explicitly described formats in the
-        GFF3 spec are application specific and not supported.
-        """
         if self.dirtype in dirtypes:
             return self.dirtype
         return None

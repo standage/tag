@@ -1,4 +1,5 @@
-Class 'range'
-=============
+Feature
+=======
 
-Asdf.
+.. automodule:: tag.feature
+   :members:

@@ -10,6 +10,9 @@ SHELL=/bin/bash -o pipefail
 test:
 	py.test -v --cov=tag --doctest-modules tag/*.py tests/*.py
 
+doc:
+	cd docs && make html
+
 install:
 	pip install .
 

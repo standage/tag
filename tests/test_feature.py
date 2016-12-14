@@ -61,7 +61,7 @@ def test_basic():
     assert '%s' % f1 == '\t'.join(gff3)
     assert '%r' % f1 == '\t'.join(gff3)
     assert len(f1) == 1001
-    assert f1.slug == 'gene@chr[1000, 2000)'
+    assert f1.slug == 'gene@chr[1000, 2000]'
 
     gff3[8] = 'ID=gene1;Name=EDEN'
     f2 = Feature('\t'.join(gff3))

@@ -1,4 +1,5 @@
-Class 'range'
-=============
+Sequence
+========
 
-Asdf.
+.. automodule:: tag.sequence
+   :members:

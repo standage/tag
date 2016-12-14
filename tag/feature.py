@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 #
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Copyright (C) 2015 Daniel Standage <daniel.standage@gmail.com>
 #
 # This file is part of tag (http://github.com/standage/tag) and is licensed
 # under the BSD 3-clause license: see LICENSE.
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
+import tag
 from tag.comment import Comment
 from tag.directive import Directive
 from tag.range import Range
@@ -14,7 +15,40 @@ from tag.sequence import Sequence
 
 
 class Feature(object):
-    """Represents a feature entry from a GFF3 file."""
+    """
+    Represents a feature entry from a GFF3 file.
+
+    :Example:
+
+    >>> feature = tag.demo_feature()
+    >>> feature.seqid
+    'contig1'
+    >>> feature.source
+    'snap'
+    >>> feature.type
+    'gene'
+    >>> feature.start, feature.end
+    (999, 7500)
+    >>> feature.score is None
+    True
+    >>> feature.strand
+    '+'
+    >>> feature.phase is None
+    True
+    >>> feature.attributes
+    'ID=gene1'
+    >>> feature.num_children
+    1
+    >>> feature.is_multi
+    False
+    >>> feature.is_toplevel
+    True
+    >>> for child in feature:
+    ...     if child.type == 'CDS':
+    ...         assert child.get_attribute('ID') == 'cds1'
+    >>> feature.slug
+    'gene@contig1[1000, 7500]'
+    """
 
     def __init__(self, data):
         fields = data.split('\t')
@@ -174,6 +208,7 @@ class Feature(object):
             L.insert(0, self)
 
     def add_child(self, child, rangecheck=False):
+        """Add a child feature to this feature."""
         assert self.seqid == child.seqid, \
             (
                 'seqid mismatch for feature {} ({} vs {})'.format(
@@ -205,7 +240,13 @@ class Feature(object):
 
     @property
     def slug(self):
-        return '{:s}@{:s}[{:d}, {:d})'.format(self.type, self.seqid,
+        """
+        A concise slug for this feature.
+
+        Unlike the internal representation, which is 0-based half-open, the
+        slug is a 1-based closed interval (a la GFF3).
+        """
+        return '{:s}@{:s}[{:d}, {:d}]'.format(self.type, self.seqid,
                                               self.start + 1, self.end)
 
     @property
@@ -217,6 +258,24 @@ class Feature(object):
         return self.get_attribute('Parent') is None
 
     def add_sibling(self, sibling):
+        """
+        Designate this a multi-feature representative and add a co-feature.
+
+        Some features exist discontinuously on the sequence, and therefore
+        cannot be declared with a single GFF3 entry (which can encode only a
+        single interval). The canonical encoding for these types of features is
+        called a multi-feature, in which a single feature is declared on
+        multiple lines with multiple entries all sharing the same feature type
+        and ID attribute. This is commonly done with coding sequence (CDS)
+        features.
+
+        In this package, each multi-feature has a single "representative"
+        feature object, and all other objects/entries associated with that
+        multi-feature are attached to it as "siblings".
+
+        Invoking this method will designate the calling feature as the
+        multi-feature representative and add the argument as a sibling.
+        """
         if self.siblings is None:
             self.siblings = list()
             self.multi_rep = self
@@ -266,9 +325,11 @@ class Feature(object):
         return self._range.end
 
     def set_coord(self, start, end):
+        """Manually reset the feature's coordinates."""
         self._range = Range(start, end)
 
     def transform(self, offset, newseqid=None):
+        """Transform the feature's coordinates by the given offset."""
         for feature in self:
             feature._range.transform(offset)
             if newseqid is not None:
@@ -301,7 +362,9 @@ class Feature(object):
 
     def add_attribute(self, attrkey, attrvalue, append=False, oldvalue=None):
         """
-        Attributes stored as nested dictionaries.
+        Add an attribute to this feature.
+
+        Feature attributes are stored as nested dictionaries.
 
         Each feature can only have one ID, so ID attribute mapping is 'string'
         to 'string'. All other attributes can have multiple values, so mapping
@@ -360,13 +423,21 @@ class Feature(object):
         return attrvalues
 
     def drop_attribute(self, attrkey):
+        """Drop the specified attribute from the feature."""
         if attrkey in self._attrs:
             del self._attrs[attrkey]
 
     def get_attribute_keys(self):
+        """Return a list of all this feature's attribute keys."""
         return sorted(list(self._attrs))
 
     def parse_attributes(self, attrstring):
+        """
+        Parse an attribute string.
+
+        Given a string with semicolon-separated key-value pairs, populate a
+        dictionary with the given attributes.
+        """
         if attrstring == '.':
             return dict()
 

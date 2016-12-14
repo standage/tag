@@ -1,4 +1,5 @@
-Class 'range'
-=============
+Comment
+=======
 
-Asdf.
+.. automodule:: tag.comment
+   :members:
