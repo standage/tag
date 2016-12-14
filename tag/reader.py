@@ -8,6 +8,7 @@
 # -----------------------------------------------------------------------------
 
 import sys
+import tag
 from tag.range import Range
 from tag.comment import Comment
 from tag.directive import Directive
@@ -70,7 +71,7 @@ class GFF3Reader():
         self.instream = instream
         if infilename:
             self.infilename = infilename
-            self.instream = open(infilename, 'r')
+            self.instream = tag.open(infilename, 'r')
         self.assumesorted = assumesorted
         self.strict = strict
         self.declared_regions = dict()
