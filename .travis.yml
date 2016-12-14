@@ -16,4 +16,4 @@ script:
     - make style
 after_success:
     - make loc
-    - codecov
+    - bash <(curl -s https://codecov.io/bash)
