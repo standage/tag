@@ -1,17 +1,52 @@
 The Python API
 ==============
 
-The following classes/modules are included tag's Python API, which is under
-`semantic versioning <http://semver.org>`_.
+The following classes/modules are included **tag**'s Python API, which is under `semantic versioning <http://semver.org>`_.
 
-.. toctree::
-   :maxdepth: 1
+Range
+-----
 
-   range
-   comment
-   directive
-   sequence
-   feature
-   reader
-   writer
+.. automodule:: tag.range
+   :members:
 
+Comment
+-------
+
+.. automodule:: tag.comment
+   :members:
+
+Directive
+---------
+
+.. automodule:: tag.directive
+   :members:
+
+Sequence
+--------
+
+.. automodule:: tag.sequence
+   :members:
+
+Feature
+-------
+
+.. automodule:: tag.feature
+   :members:
+
+Readers
+-------
+
+Currently the :code:`readers` module contains only a single class, GFF3Reader,
+but may include others in the future.
+
+.. automodule:: tag.reader
+   :members:
+
+Writers
+-------
+
+Currently the :code:`writers` module contains only a single class, GFF3Writer,
+but may include others in the future.
+
+.. automodule:: tag.writer
+   :members:
