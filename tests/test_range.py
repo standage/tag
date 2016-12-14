@@ -19,13 +19,13 @@ def test_repr():
     r3 = Range(528, 901)
     r4 = Range(42, 42)
 
-    assert str(r1) == '0-10'
-    assert str(r2) == '1234-5678'
-    assert str(r3) == '528-901'
+    assert str(r1) == '[0, 10)'
+    assert str(r2) == '[1234, 5678)'
+    assert str(r3) == '[528, 901)'
     assert str(r4) == '42'
-    assert repr(r1) == '0-10'
-    assert repr(r2) == '1234-5678'
-    assert repr(r3) == '528-901'
+    assert repr(r1) == '[0, 10)'
+    assert repr(r2) == '[1234, 5678)'
+    assert repr(r3) == '[528, 901)'
     assert repr(r4) == '42'
 
 

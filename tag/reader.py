@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 #
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Copyright (C) 2015 Daniel Standage <daniel.standage@gmail.com>
 #
 # This file is part of tag (http://github.com/standage/tag) and is licensed
 # under the BSD 3-clause license: see LICENSE.
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 import sys
 from tag.range import Range
@@ -37,7 +37,30 @@ def parse_fasta(data):  # pragma: no cover
 
 
 class GFF3Reader():
-    """Loads sequence features and other GFF3 entries into memory."""
+    """
+    Loads sequence features and other GFF3 entries into memory.
+
+    Features and other objects are obtained by iterating over the GFF3Reader
+    object.
+
+    >>> reader = GFF3Reader(infilename='tests/testdata/grape-cpgat.gff3')
+    >>> for entry in reader:
+    ...     if hasattr(entry, 'type') and entry.type == 'gene':
+    ...         print(entry.slug)
+    gene@chr8[72, 5081]
+    gene@chr8[10538, 11678]
+    gene@chr8[22053, 23448]
+
+    By default, the GFF3Reader assumes the input is not in sorted order and
+    loads the entire annotation into memory to ensure sorting and resolution
+    of ID/Parent relationships. If the input is sorted according to genomic
+    position and independent features are separated by :code:`###` directives,
+    memory consumption will be drastically reduced by setting the
+    :code:`assumesorted` attribute to True.
+
+    The :code:`strict` attribute enforces some additional sanity checks, which
+    in some exceptional cases may need to be relaxed.
+    """
 
     def __init__(self, instream=None, infilename=None,
                  assumesorted=False, strict=True):

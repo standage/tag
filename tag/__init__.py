@@ -32,3 +32,29 @@ def open(filename, mode):
         openfunc = gzopen
         mode += 't'
     return openfunc(filename, mode)
+
+
+def demo_feature():
+    gene = feature.Feature(
+        'contig1\tsnap\tgene\t1000\t7500\t.\t+\t.\tID=gene1'
+    )
+    mrna = feature.Feature(
+        'contig1\tsnap\tmRNA\t1000\t7500\t.\t+\t.\tID=mrna1;Parent=gene1'
+    )
+    exon1 = feature.Feature(
+        'contig1\tsnap\texon\t1000\t3700\t.\t+\t.\tParent=mrna1'
+    )
+    exon2 = feature.Feature(
+        'contig1\tsnap\texon\t7250\t7500\t.\t+\t.\tParent=mrna1'
+    )
+    cds1 = feature.Feature(
+        'contig1\tsnap\tCDS\t1289\t3700\t.\t+\t0\tID=cds1;Parent=mrna1'
+    )
+    cds2 = feature.Feature(
+        'contig1\tsnap\tCDS\t7250\t7352\t.\t+\t0\tID=cds1;Parent=mrna1'
+    )
+    cds1.add_sibling(cds2)
+    for f in [exon1, exon2, cds1, cds2]:
+        mrna.add_child(f)
+    gene.add_child(mrna)
+    return gene

@@ -182,13 +182,13 @@ def test_feature_out_of_range():
     reader = GFF3Reader(infilename='tests/testdata/vcar-out-of-bounds.gff3')
     with pytest.raises(ValueError) as e:
         records = [r for r in reader]
-    assert 'feature gene@NW_003307548.1[95396, 100541) out-of-bounds' in str(e)
+    assert 'feature gene@NW_003307548.1[95396, 100541] out-of-bounds' in str(e)
 
     reader = GFF3Reader(infilename='tests/testdata/vcar-out-of-bounds.gff3',
                         assumesorted=True)
     with pytest.raises(ValueError) as e:
         records = [r for r in reader]
-    assert 'feature gene@NW_003307548.1[95396, 100541) out-of-bounds' in str(e)
+    assert 'feature gene@NW_003307548.1[95396, 100541] out-of-bounds' in str(e)
 
 
 def test_seqreg_dup():

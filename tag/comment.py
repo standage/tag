@@ -13,9 +13,11 @@ class Comment():
     Represents a comment in an annotation (GFF3) file.
 
     Any GFF3 entry starting with >= 1 '#' characters is treated as a comment,
-    with two exceptions: first, the separator directive, a line containing
-    '###' and nothing more; second, any entry beginning with just two '#'
-    characters is treated as a directive.
+    with two exceptions:
+
+    - the separator directive, a line containing '###' and nothing more
+    - any entry beginning with just two '#' characters is treated as a
+      directive.
     """
 
     def __init__(self, data):
