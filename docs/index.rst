@@ -1,7 +1,7 @@
 **tag**: genome annotation analysis in Python!
 ==============================================
 
-**tag** is a free open-source software package for working with genome annotation data.
+**tag** is a free open-source software package for analyzing genome annotation data.
 It is developed as a reusable library with a focus on ease of use.
 **tag** is implemented in pure Python (no compiling required) with minimal dependencies!
 

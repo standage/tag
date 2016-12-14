@@ -5,11 +5,11 @@
 [![GenHub build status](https://img.shields.io/travis/standage/tag.svg)](https://travis-ci.org/standage/tag)
 [![codecov.io coverage](https://img.shields.io/codecov/c/github/standage/tag.svg)](https://codecov.io/github/standage/tag)
 
-To install:
+> *Computational biology is 90% text formatting and ID cross-referencing!*
+> -- discouraged graduate students everywhere
 
-- the most recent stable release: `pip install tag`
-- the most up-to-date unreleased code: `pip install git+https://github.com/standage/tag.git`
+**tag** is a free open-source software package for analyzing genome annotation data.
 
-The **tag** software is implemented in pure Python and has no runtime dependencies.
+To install the most recent stable release execute `pip install tag` from your terminal.
 
-Full project documentation is available at https://tag.readthedocs.io.
+Full installation instructions and project documentation are available at https://tag.readthedocs.io.
