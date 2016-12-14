@@ -32,7 +32,7 @@ class Range(object):
         assert start >= 0, ('start coordinate {} invalid, must be an '
                             'integer >= 0'.format(start))
         assert end >= 0, ('end coordinate {} invalid,  must be an '
-                          'integer > 0'.format(start))
+                          'integer >= 0'.format(end))
         assert start <= end, ('coordinates [{}, {}] invalid, start must be '
                               '<= end'.format(start, end))
         self._start = start
@@ -81,9 +81,9 @@ class Range(object):
 
     @start.setter
     def start(self, newstart):
-        assert newstart > 0, \
+        assert newstart >= 0, \
             ('new start coordinate {} invalid, must be an '
-             'integer > 0'.format(newstart))
+             'integer >= 0'.format(newstart))
         assert newstart <= self._end, \
             ('new start coordinate {} invalid, must '
              'be <= end {}'.format(newstart, self._end))
@@ -95,9 +95,9 @@ class Range(object):
 
     @end.setter
     def end(self, newend):
-        assert newend > 0, \
+        assert newend >= 0, \
             ('new end coordinate {} invalid, must be an '
-             'integer > 0'.format(newend))
+             'integer >= 0'.format(newend))
         assert self._start <= newend, \
             ('new end coordinate {} is invalid, '
              'must be >= start {}'.format(newend, self._start))
