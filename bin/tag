@@ -8,29 +8,13 @@
 # -----------------------------------------------------------------------------
 
 from __future__ import print_function
-import argparse
 import tag
-import sys
 
 
 mains = {
     'gff3': tag.cli.gff3.main,
     'occ': tag.cli.occ.main,
 }
-
-
-def parser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-v', '--version', action='version',
-                        version='tag v{}'.format(tag.__version__))
-    parser.add_argument('-l', '--logfile', metavar='FILE', default=sys.stderr,
-                        type=argparse.FileType('w'))
-    subparsers = parser.add_subparsers(dest='cmd', metavar='cmd',
-                                       help='gff3 | occ')
-    tag.cli.gff3.subparser(subparsers)
-    tag.cli.occ.subparser(subparsers)
-
-    return parser
 
 
 def main(args):
@@ -40,4 +24,4 @@ def main(args):
 
 
 if __name__ == '__main__':
-    main(parser().parse_args())
+    main(tag.cli.parser().parse_args())

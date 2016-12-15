@@ -1,0 +1,6 @@
+##gff-version 3
+##sequence-region   NC_001566.1 1794 3424
+NC_001566.1	RefSeq	gene	1794	3359	.	+	.	ID=gene1;Dbxref=GeneID:807695;Name=COX1;gbkey=Gene;gene=COX1;gene_biotype=protein_coding
+NC_001566.1	RefSeq	CDS	1794	3359	.	+	0	Parent=gene1;Dbxref=Genbank:NP_008083.1,GeneID:807695;Name=NP_008083.1;gbkey=CDS;gene=COX1;product=cytochrome c oxidase subunit I;protein_id=NP_008083.1;transl_table=5
+NC_001566.1	RefSeq	tRNA	3355	3424	.	+	.	Parent=gene1;codons=2%2C3;gbkey=tRNA;gene=COX1;product=tRNA-Leu
+###

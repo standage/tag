@@ -47,7 +47,7 @@ class GFF3Writer():
         self.feature_counts = defaultdict(int)
 
     def __del__(self):
-        if self.outfilename != '-':
+        if self.outfilename != '-' and not isinstance(self.outfile, StringIO):
             self.outfile.close()
 
     def write(self, relax=False):
