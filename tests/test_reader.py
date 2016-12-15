@@ -193,7 +193,7 @@ def test_feature_out_of_range():
 
 def test_seqreg_dup():
     """Duplicated sequence-region pragma."""
-    infile = tag.open('tests/testdata/vcar-seqreg-dup.gff3.gz', 'r')
+    infile = tag.pkgdata('vcar-seqreg-dup.gff3.gz')
     reader = GFF3Reader(instream=infile)
     with pytest.raises(ValueError) as ve:
         records = [r for r in reader]
@@ -202,12 +202,12 @@ def test_seqreg_dup():
 
 def test_seqreg_outoforder():
     """sequence-region pragma declared after features on that sequence."""
-    infile = tag.open('tests/testdata/grape-cpgat-seqreg-after.gff3.gz', 'r')
+    infile = tag.pkgdata('grape-cpgat-seqreg-after.gff3.gz')
     reader = GFF3Reader(instream=infile)
     records = [r for r in reader]
     assert len(records) == 5
 
-    infile = tag.open('tests/testdata/grape-cpgat-seqreg-after.gff3.gz', 'r')
+    infile = tag.pkgdata('grape-cpgat-seqreg-after.gff3.gz')
     reader = GFF3Reader(instream=infile, assumesorted=True)
     with pytest.raises(ValueError) as ve:
         records = [r for r in reader]

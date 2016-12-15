@@ -19,7 +19,7 @@ def test_tag_open_read():
     with pytest.raises(IOError):
         fh = tag.open('tag/bogus.py', 'r')
 
-    fh = tag.open('tests/testdata/gzipdata.gff3.gz', 'r')
+    fh = tag.pkgdata('gzipdata.gff3.gz')
     line = next(fh)
     assert line == '##gff-version 3\n'
 
