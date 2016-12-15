@@ -49,3 +49,16 @@ def test_gff3_strict():
     tag.cli.gff3.main(args)
     testout = tag.pkgdata('mito-trna-out.gff3').read()
     assert args.out.getvalue() == testout
+
+
+def test_occ():
+    oldstdout = sys.stdout
+
+    sys.stdout = StringIO()
+    args = type('', (), {})()
+    args.gff3 = 'tests/testdata/oluc-20kb.gff3'
+    args.strict = True
+    tag.cli.occ.main(args)
+    assert sys.stdout.getvalue() == '14100\n'
+
+    sys.stdout = oldstdout

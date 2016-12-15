@@ -1,0 +1,57 @@
+##gff-version 3
+#!genome-build ASM9206v1
+#!genome-build-accession NCBI_Assembly:GCF_000092065.1
+##sequence-region   NC_009355.1 1 20000
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=436017
+NC_009355.1	RefSeq	gene	939	3671	.	-	.	ID=gene1;Dbxref=GeneID:5000032;Name=OSTLU_23817;end_range=3671,.;gbkey=Gene;gene_biotype=protein_coding;locus_tag=OSTLU_23817;partial=true;start_range=.,939
+NC_009355.1	RefSeq	mRNA	939	3671	.	-	.	ID=mRNA1;Parent=gene1;Dbxref=Genbank:XM_001415671.1,GeneID:5000032;Name=XM_001415671.1;end_range=3671,.;gbkey=mRNA;partial=true;product=predicted protein;start_range=.,939;transcript_id=XM_001415671.1
+NC_009355.1	RefSeq	exon	939	3671	.	-	.	Parent=mRNA1;Dbxref=Genbank:XM_001415671.1,GeneID:5000032;end_range=3671,.;gbkey=mRNA;partial=true;product=predicted protein;start_range=.,939;transcript_id=XM_001415671.1
+NC_009355.1	RefSeq	CDS	939	3671	.	-	0	Parent=mRNA1;Dbxref=Genbank:XP_001415708.1,GeneID:5000032;Name=XP_001415708.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_001415708.1
+###
+NC_009355.1	RefSeq	gene	3907	6927	.	+	.	ID=gene2;Dbxref=GeneID:4999490;Name=OSTLU_23818;gbkey=Gene;gene_biotype=protein_coding;locus_tag=OSTLU_23818
+NC_009355.1	RefSeq	mRNA	3907	6927	.	+	.	ID=mRNA2;Parent=gene2;Dbxref=Genbank:XM_001415321.1,GeneID:4999490;Name=XM_001415321.1;gbkey=mRNA;product=predicted protein;transcript_id=XM_001415321.1
+NC_009355.1	RefSeq	exon	3907	6927	.	+	.	Parent=mRNA2;Dbxref=Genbank:XM_001415321.1,GeneID:4999490;gbkey=mRNA;product=predicted protein;transcript_id=XM_001415321.1
+NC_009355.1	RefSeq	CDS	3933	6299	.	+	0	Parent=mRNA2;Dbxref=Genbank:XP_001415358.1,GeneID:4999490;Name=XP_001415358.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_001415358.1
+###
+NC_009355.1	RefSeq	gene	7085	9160	.	+	.	ID=gene3;Dbxref=GeneID:4999875;Name=OSTLU_28610;gbkey=Gene;gene_biotype=protein_coding;locus_tag=OSTLU_28610
+NC_009355.1	RefSeq	mRNA	7085	9160	.	+	.	ID=mRNA3;Parent=gene3;Dbxref=Genbank:XM_001415322.1,GeneID:4999875;Name=XM_001415322.1;gbkey=mRNA;product=predicted protein;transcript_id=XM_001415322.1
+NC_009355.1	RefSeq	exon	7085	9160	.	+	.	Parent=mRNA3;Dbxref=Genbank:XM_001415322.1,GeneID:4999875;gbkey=mRNA;product=predicted protein;transcript_id=XM_001415322.1
+NC_009355.1	RefSeq	CDS	7108	8961	.	+	0	Parent=mRNA3;Dbxref=Genbank:XP_001415359.1,GeneID:4999875;Name=XP_001415359.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_001415359.1
+###
+NC_009355.1	RefSeq	gene	9830	11480	.	+	.	ID=gene4;Dbxref=GeneID:4999707;Name=OSTLU_23820;end_range=11480,.;gbkey=Gene;gene_biotype=protein_coding;locus_tag=OSTLU_23820;partial=true
+NC_009355.1	RefSeq	mRNA	9830	11480	.	+	.	ID=mRNA4;Parent=gene4;Dbxref=Genbank:XM_001415323.1,GeneID:4999707;Name=XM_001415323.1;end_range=11480,.;gbkey=mRNA;partial=true;product=predicted protein;transcript_id=XM_001415323.1
+NC_009355.1	RefSeq	exon	9830	11480	.	+	.	Parent=mRNA4;Dbxref=Genbank:XM_001415323.1,GeneID:4999707;end_range=11480,.;gbkey=mRNA;partial=true;product=predicted protein;transcript_id=XM_001415323.1
+NC_009355.1	RefSeq	CDS	9840	11480	.	+	0	Parent=mRNA4;Dbxref=Genbank:XP_001415360.1,GeneID:4999707;Name=XP_001415360.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_001415360.1
+###
+NC_009355.1	RefSeq	gene	11467	12599	.	-	.	ID=gene5;Dbxref=GeneID:5000037;Name=OSTLU_23821;gbkey=Gene;gene_biotype=protein_coding;locus_tag=OSTLU_23821
+NC_009355.1	RefSeq	mRNA	11467	12599	.	-	.	ID=mRNA5;Parent=gene5;Dbxref=Genbank:XM_001415672.1,GeneID:5000037;Name=XM_001415672.1;gbkey=mRNA;product=predicted protein;transcript_id=XM_001415672.1
+NC_009355.1	RefSeq	exon	11467	12599	.	-	.	Parent=mRNA5;Dbxref=Genbank:XM_001415672.1,GeneID:5000037;gbkey=mRNA;product=predicted protein;transcript_id=XM_001415672.1
+NC_009355.1	RefSeq	CDS	11545	12501	.	-	0	Parent=mRNA5;Dbxref=Genbank:XP_001415709.1,GeneID:5000037;Name=XP_001415709.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_001415709.1
+###
+NC_009355.1	RefSeq	gene	12683	13768	.	+	.	ID=gene6;Dbxref=GeneID:4999743;Name=OSTLU_85990;end_range=13768,.;gbkey=Gene;gene_biotype=protein_coding;locus_tag=OSTLU_85990;partial=true;start_range=.,12683
+NC_009355.1	RefSeq	mRNA	12683	13768	.	+	.	ID=mRNA6;Parent=gene6;Dbxref=Genbank:XM_001415324.1,GeneID:4999743;Name=XM_001415324.1;end_range=13768,.;gbkey=mRNA;partial=true;product=predicted protein;start_range=.,12683;transcript_id=XM_001415324.1
+NC_009355.1	RefSeq	exon	12683	13768	.	+	.	Parent=mRNA6;Dbxref=Genbank:XM_001415324.1,GeneID:4999743;end_range=13768,.;gbkey=mRNA;partial=true;product=predicted protein;start_range=.,12683;transcript_id=XM_001415324.1
+NC_009355.1	RefSeq	CDS	12683	13768	.	+	0	Parent=mRNA6;Dbxref=Genbank:XP_001415361.1,GeneID:4999743;Name=XP_001415361.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_001415361.1
+###
+NC_009355.1	RefSeq	gene	13805	15325	.	-	.	ID=gene7;Dbxref=GeneID:4999561;Name=OSTLU_40330;end_range=15325,.;gbkey=Gene;gene_biotype=protein_coding;locus_tag=OSTLU_40330;partial=true;start_range=.,13805
+NC_009355.1	RefSeq	mRNA	13805	15325	.	-	.	ID=mRNA7;Parent=gene7;Dbxref=Genbank:XM_001415673.1,GeneID:4999561;Name=XM_001415673.1;end_range=15325,.;gbkey=mRNA;partial=true;product=predicted protein;start_range=.,13805;transcript_id=XM_001415673.1
+NC_009355.1	RefSeq	exon	13805	15325	.	-	.	Parent=mRNA7;Dbxref=Genbank:XM_001415673.1,GeneID:4999561;end_range=15325,.;gbkey=mRNA;partial=true;product=predicted protein;start_range=.,13805;transcript_id=XM_001415673.1
+NC_009355.1	RefSeq	CDS	13805	15325	.	-	0	Parent=mRNA7;Dbxref=InterPro:IPR001345,InterPro:IPR003094,Genbank:XP_001415710.1,GeneID:4999561;Name=XP_001415710.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_001415710.1
+###
+NC_009355.1	RefSeq	gene	16040	16264	.	+	.	ID=gene8;Dbxref=GeneID:4999517;Name=OSTLU_28615;end_range=16264,.;gbkey=Gene;gene_biotype=protein_coding;locus_tag=OSTLU_28615;partial=true;start_range=.,16040
+NC_009355.1	RefSeq	mRNA	16040	16264	.	+	.	ID=mRNA8;Parent=gene8;Dbxref=Genbank:XM_001415325.1,GeneID:4999517;Name=XM_001415325.1;end_range=16264,.;gbkey=mRNA;partial=true;product=predicted protein;start_range=.,16040;transcript_id=XM_001415325.1
+NC_009355.1	RefSeq	exon	16040	16264	.	+	.	Parent=mRNA8;Dbxref=Genbank:XM_001415325.1,GeneID:4999517;end_range=16264,.;gbkey=mRNA;partial=true;product=predicted protein;start_range=.,16040;transcript_id=XM_001415325.1
+NC_009355.1	RefSeq	CDS	16040	16264	.	+	0	Parent=mRNA8;Dbxref=Genbank:XP_001415362.1,GeneID:4999517;Name=XP_001415362.1;gbkey=CDS;product=hypothetical protein;protein_id=XP_001415362.1
+###
+NC_009355.1	RefSeq	gene	16306	17812	.	-	.	ID=gene9;Dbxref=GeneID:5000043;Name=OSTLU_28616;gbkey=Gene;gene_biotype=protein_coding;locus_tag=OSTLU_28616
+NC_009355.1	RefSeq	mRNA	16306	17812	.	-	.	ID=mRNA9;Parent=gene9;Dbxref=Genbank:XM_001415674.1,GeneID:5000043;Name=XM_001415674.1;gbkey=mRNA;product=VIC family transporter: potassium ion channel;transcript_id=XM_001415674.1
+NC_009355.1	RefSeq	exon	16306	17812	.	-	.	Parent=mRNA9;Dbxref=Genbank:XM_001415674.1,GeneID:5000043;gbkey=mRNA;product=VIC family transporter: potassium ion channel;transcript_id=XM_001415674.1
+NC_009355.1	RefSeq	CDS	16326	17528	.	-	0	Parent=mRNA9;Dbxref=InterPro:IPR005821,Genbank:XP_001415711.1,GeneID:5000043;Name=XP_001415711.1;gbkey=CDS;product=VIC family transporter: potassium ion channel;protein_id=XP_001415711.1
+###
+NC_009355.1	RefSeq	gene	18192	18755	.	+	.	ID=gene10;Dbxref=GeneID:4999752;Name=OSTLU_40358;end_range=18755,.;gbkey=Gene;gene_biotype=protein_coding;locus_tag=OSTLU_40358;partial=true;start_range=.,18192
+NC_009355.1	RefSeq	mRNA	18192	18755	.	+	.	ID=mRNA10;Parent=gene10;Dbxref=Genbank:XM_001415326.1,GeneID:4999752;Name=XM_001415326.1;end_range=18755,.;gbkey=mRNA;partial=true;product=predicted protein;start_range=.,18192;transcript_id=XM_001415326.1
+NC_009355.1	RefSeq	exon	18192	18290	.	+	.	Parent=mRNA10;Dbxref=Genbank:XM_001415326.1,GeneID:4999752;gbkey=mRNA;partial=true;product=predicted protein;start_range=.,18192;transcript_id=XM_001415326.1
+NC_009355.1	RefSeq	CDS	18192	18290	.	+	0	ID=CDS1;Parent=mRNA10;Dbxref=InterPro:IPR000086,Genbank:XP_001415363.1,GeneID:4999752;Name=XP_001415363.1;gbkey=CDS;partial=true;product=hypothetical protein;protein_id=XP_001415363.1;start_range=.,18192
+NC_009355.1	RefSeq	exon	18342	18755	.	+	.	Parent=mRNA10;Dbxref=Genbank:XM_001415326.1,GeneID:4999752;end_range=18755,.;gbkey=mRNA;partial=true;product=predicted protein;transcript_id=XM_001415326.1
+NC_009355.1	RefSeq	CDS	18342	18755	.	+	0	ID=CDS1;Parent=mRNA10;Dbxref=InterPro:IPR000086,Genbank:XP_001415363.1,GeneID:4999752;Name=XP_001415363.1;gbkey=CDS;partial=true;product=hypothetical protein;protein_id=XP_001415363.1
+###

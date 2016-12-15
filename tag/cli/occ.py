@@ -11,6 +11,7 @@ from __future__ import print_function
 import argparse
 from intervaltree import IntervalTree
 import tag
+import sys
 
 
 def interval_set_span(intset):
@@ -42,7 +43,7 @@ def main(args):
                 if subfeat.type == 'CDS':
                     if subfeat.seqid not in coding_exons:
                         coding_exons[subfeat.seqid] = IntervalTree()
-                    coding_exons[subfeat.seqid].addi(subfeat.start - 1,
+                    coding_exons[subfeat.seqid].addi(subfeat.start,
                                                      subfeat.end,
                                                      subfeat)
 
