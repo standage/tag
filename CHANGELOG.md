@@ -4,10 +4,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][unreleased]
 ### Added
-- Package scaffolding (README, license, changelog, setup config, etc)
-- `Region` class, with complete test coverage
-- Configuration for continuous integration with Travis
-- `Comment` class, with complete test coverage
-- `Directive` class, with complete test coverage
-- `Feature` class, with complete test coverage
-- Basic documenation scaffolding with sphinx / ReadTheDocs
+- Basic data structures
+    - Range
+    - Comment
+    - Directive
+    - Sequence
+    - Feature
+- Annotation I/O
+    - GFF3Reader
+    - GFF3Writer
+- Package scaffolding
+    - README
+    - documentation
+    - license
+    - changelog
+    - various config files
