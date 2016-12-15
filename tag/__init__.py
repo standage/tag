@@ -17,6 +17,7 @@ from . import feature
 from . import range
 from . import reader
 from . import writer
+from . import cli
 from gzip import open as gzopen
 
 from ._version import get_versions
