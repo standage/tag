@@ -15,7 +15,7 @@ import sys
 
 mains = {
     'gff3': tag.cli.gff3.main,
-    # 'occ': tag.cli.occ.main,
+    'occ': tag.cli.occ.main,
 }
 
 
@@ -28,7 +28,7 @@ def parser():
     subparsers = parser.add_subparsers(dest='cmd', metavar='cmd',
                                        help='gff3 | occ')
     tag.cli.gff3.subparser(subparsers)
-    # tag.cli.occ.subparser(subparsers)
+    tag.cli.occ.subparser(subparsers)
 
     return parser
 
