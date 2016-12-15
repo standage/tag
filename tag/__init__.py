@@ -34,6 +34,11 @@ def open(filename, mode):
     return openfunc(filename, mode)
 
 
+def pkgdata(filename):
+    fullpath = '{dir}/{fn}'.format(dir='tests/testdata/', fn=filename)
+    return open(fullpath, 'r')
+
+
 def demo_feature():
     gene = feature.Feature(
         'contig1\tsnap\tgene\t1000\t7500\t.\t+\t.\tID=gene1'

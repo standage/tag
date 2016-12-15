@@ -12,16 +12,16 @@ import glob
 import versioneer
 
 
+d = 'Genome annotation data analysis and management implemented in pure Python'
 setup(name='tag',
       version=versioneer.get_version(),
       cmdclass=versioneer.get_cmdclass(),
-      description='Toolkit for genome annotation data analysis',
-      url='http://github.com/standage/tag',
+      description=d,
+      url='http://tag.readthedocs.io',
       author='Daniel Standage',
       author_email='daniel.standage@gmail.com',
       license='BSD-3',
       packages=['tag'],
-      tests_require=['pytest', 'pytest-cov', 'pep8'],
       scripts=list(glob.glob('scripts/*.py')),
       classifiers=[
           'Development Status :: 4 - Beta',
