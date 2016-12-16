@@ -17,10 +17,10 @@ install:
 	pip install .
 
 devenv:
-	pip install pytest pytest-cov pep8 sphinx
+	pip install pytest pytest-cov pep8 sphinx intervaltree
 
 style:
-	pep8 tag/*.py tests/*.py scripts/*.py
+	pep8 tag/*.py tests/*.py tag/cli/*.py bin/tag
 
 loc:
 	cloc --exclude-list-file=<(echo tag/_version.py) tag/*.py

@@ -1,0 +1,29 @@
+##gff-version 3
+##sequence-region scaffold42 1 21000
+scaffold42	nano	gene	1001	4000	.	+	.	ID=gene1
+scaffold42	nano	mRNA	1001	4000	.	+	.	ID=mrna1;Parent=gene1
+scaffold42	nano	exon	1001	2000	.	+	.	Parent=mrna1
+scaffold42	nano	exon	3001	4000	.	+	.	Parent=mrna1
+###
+scaffold42	nano	gene	5001	10000	.	+	.	ID=gene2
+scaffold42	nano	mRNA	5001	10000	.	+	.	ID=mrna2;Parent=gene2
+scaffold42	nano	exon	5001	6000	.	+	.	Parent=mrna2
+scaffold42	nano	exon	7001	8000	.	+	.	Parent=mrna2
+scaffold42	nano	exon	9001	10000	.	+	.	Parent=mrna2
+###
+scaffold42	nano	gene	9501	12500	.	-	.	ID=gene3
+scaffold42	nano	mRNA	9501	12500	.	-	.	ID=mrna3;Parent=gene3
+scaffold42	nano	exon	9501	10500	.	-	.	Parent=mrna3
+scaffold42	nano	exon	11501	12500	.	-	.	Parent=mrna3
+###
+scaffold42	nano	gene	12001	17000	.	+	.	ID=gene4
+scaffold42	nano	mRNA	12001	17000	.	+	.	ID=mrna4;Parent=gene4
+scaffold42	nano	exon	12001	13000	.	+	.	Parent=mrna4
+scaffold42	nano	exon	14001	15000	.	+	.	Parent=mrna4
+scaffold42	nano	exon	16001	17000	.	+	.	Parent=mrna4
+###
+scaffold42	nano	gene	18001	21000	.	-	.	ID=gene5
+scaffold42	nano	mRNA	18001	21000	.	-	.	ID=mrna5;Parent=gene5
+scaffold42	nano	exon	18001	19000	.	-	.	Parent=mrna5
+scaffold42	nano	exon	20001	21000	.	-	.	Parent=mrna5
+###

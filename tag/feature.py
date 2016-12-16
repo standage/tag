@@ -76,6 +76,10 @@ class Feature(object):
             assert self.phase in [0, 1, 2], \
                 'invalid phase "{}"'.format(self.phase)
 
+    @property
+    def entry_type(self):
+        return 'tag.feature.Feature'
+
     def __str__(self):
         """String representation of the feature, sans children."""
         score = '.'

@@ -11,7 +11,7 @@ from __future__ import print_function
 from collections import defaultdict
 try:
     from StringIO import StringIO
-except ImportError:
+except ImportError:  # pragma: no cover
     from io import StringIO
 import sys
 import tag
@@ -47,7 +47,7 @@ class GFF3Writer():
         self.feature_counts = defaultdict(int)
 
     def __del__(self):
-        if self.outfilename != '-':
+        if self.outfilename != '-' and not isinstance(self.outfile, StringIO):
             self.outfile.close()
 
     def write(self, relax=False):

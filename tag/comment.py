@@ -24,6 +24,10 @@ class Comment():
         assert data.startswith('#')
         self._rawdata = data
 
+    @property
+    def entry_type(self):
+        return 'tag.comment.Comment'
+
     def __repr__(self):
         return self._rawdata
 

@@ -25,9 +25,11 @@ Most GFF parsers will load data into memory for you--the trivial bit--but will n
 
 .. code:: python
 
-   # Calculate number of exons per gene
-   for gene in gff3reader:
-       exons = [subfeat for subfeat in gene if subfeat.type == 'exon']
+   # Compute number of exons per gene
+   import tag
+   reader = tag.reader.GFF3Reader(infilename='/data/genomes/mybug.gff3.gz')
+   for gene in tag.select.features(reader, type='gene'):
+       exons = [feat for feat in gene if feat.type == exon]
        print('num exons:', len(exons))
 
 See :doc:`the primer on annotation formats <formats>` for more information.

@@ -10,5 +10,14 @@
 
 **tag** is a free open-source software package for analyzing genome annotation data.
 
+```python
+# Compute number of exons per gene
+import tag
+reader = tag.reader.GFF3Reader(infilename='/data/genomes/mybug.gff3.gz')
+for gene in tag.select.features(reader, type='gene'):
+    exons = [feat for feat in gene if feat.type == exon]
+    print('num exons:', len(exons))
+```
+
 To install the most recent stable release execute `pip install tag` from your terminal.
 Full installation instructions and project documentation are available at https://tag.readthedocs.io.

@@ -10,13 +10,15 @@
 
 try:
     import __builtin__ as builtins
-except:
+except:  # pragma: no cover
     import builtins
 from . import comment
 from . import feature
 from . import range
 from . import reader
 from . import writer
+from . import cli
+from . import select
 from gzip import open as gzopen
 
 from ._version import get_versions

@@ -42,15 +42,27 @@ class GFF3Reader():
     Loads sequence features and other GFF3 entries into memory.
 
     Features and other objects are obtained by iterating over the GFF3Reader
-    object.
+    object. See the :code:`tag.select` module for available filtering
+    functions.
 
-    >>> reader = GFF3Reader(infilename='tests/testdata/grape-cpgat.gff3')
+    >>> reader = GFF3Reader(infilename='tests/testdata/pbar-withseq.gff3')
     >>> for entry in reader:
-    ...     if hasattr(entry, 'type') and entry.type == 'gene':
-    ...         print(entry.slug)
-    gene@chr8[72, 5081]
-    gene@chr8[10538, 11678]
-    gene@chr8[22053, 23448]
+    ...     print(entry.entry_type)
+    tag.directive.Directive
+    tag.directive.Directive
+    tag.directive.Directive
+    tag.comment.Comment
+    tag.feature.Feature
+    tag.feature.Feature
+    tag.feature.Feature
+    tag.sequence.Sequence
+    tag.sequence.Sequence
+    >>> reader = GFF3Reader(infilename='tests/testdata/pbar-withseq.gff3')
+    >>> for feature in tag.select.features(reader, type='gene'):
+    ...     print(feature.slug)
+    ...
+    gene@NW_011929623.1[4557, 5749]
+    gene@NW_011929624.1[3725, 4229]
 
     By default, the GFF3Reader assumes the input is not in sorted order and
     loads the entire annotation into memory to ensure sorting and resolution

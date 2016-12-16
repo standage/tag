@@ -70,7 +70,7 @@ def test_pbar():
     records = list()
     for record in reader:
         records.append(record)
-    assert len(records) == 8
+    assert len(records) == 9
 
     record = records.pop()
     assert isinstance(record, Sequence) and \
@@ -91,6 +91,9 @@ def test_pbar():
     record = records.pop()
     assert isinstance(record, Feature) and \
         record.get_attribute('Dbxref') == 'GeneID:105422795'
+
+    record = records.pop()
+    assert isinstance(record, Comment)
 
     record = records.pop()
     assert isinstance(record, Directive) and \
