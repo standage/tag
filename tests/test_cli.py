@@ -57,6 +57,7 @@ def test_occ():
     sys.stdout = StringIO()
     args = type('', (), {})()
     args.gff3 = 'tests/testdata/oluc-20kb.gff3'
+    args.type = 'CDS'
     args.strict = True
     tag.cli.occ.main(args)
     assert sys.stdout.getvalue() == '14100\n'
