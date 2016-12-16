@@ -7,6 +7,7 @@
 # under the BSD 3-clause license: see LICENSE.
 # -----------------------------------------------------------------------------
 
+from __future__ import print_function
 try:
     from StringIO import StringIO
 except ImportError:
@@ -18,20 +19,25 @@ import sys
 
 def test_cli_args():
     oldstdout = sys.stdout
+    oldstderr = sys.stderr
 
     parser = tag.cli.parser()
     sys.stdout = StringIO()
+    sys.stderr = StringIO()
     with pytest.raises(SystemExit) as se:
         args = parser.parse_args(['-v'])
-    assert tag.__version__ in sys.stdout.getvalue()
+    assert tag.__version__ in sys.stdout.getvalue() or \
+        tag.__version__ in sys.stderr.getvalue()
 
     parser = tag.cli.parser()
     sys.stdout = StringIO()
+    sys.stderr = StringIO()
     with pytest.raises(SystemExit) as se:
         args = parser.parse_args(['gff3', '-h'])
     assert 'input file in GFF3 format' in sys.stdout.getvalue()
 
     sys.stdout = oldstdout
+    sys.stderr = oldstderr
 
 
 def test_gff3_strict():

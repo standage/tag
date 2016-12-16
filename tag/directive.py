@@ -87,6 +87,10 @@ class Directive():
         assert self.dirtype is not None
 
     @property
+    def entry_type(self):
+        return 'tag.directive.Directive'
+
+    @property
     def type(self):
         if self.dirtype in dirtypes:
             return self.dirtype

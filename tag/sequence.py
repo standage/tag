@@ -39,6 +39,10 @@ class Sequence():
         self.defline = defline
         self.seq = seq
 
+    @property
+    def entry_type(self):
+        return 'tag.sequence.Sequence'
+
     def __str__(self):
         return self.defline + '\n' + self.format_seq()
 

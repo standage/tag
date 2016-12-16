@@ -10,7 +10,7 @@
 
 try:
     import __builtin__ as builtins
-except:
+except:  # pragma: no cover
     import builtins
 from . import comment
 from . import feature

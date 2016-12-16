@@ -11,7 +11,7 @@ from __future__ import print_function
 from collections import defaultdict
 try:
     from StringIO import StringIO
-except ImportError:
+except ImportError:  # pragma: no cover
     from io import StringIO
 import sys
 import tag
