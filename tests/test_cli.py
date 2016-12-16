@@ -51,7 +51,7 @@ def test_gff3_strict():
     assert args.out.getvalue() == testout
 
 
-def test_occ():
+def test_occ_alga():
     oldstdout = sys.stdout
 
     sys.stdout = StringIO()
@@ -62,6 +62,12 @@ def test_occ():
     tag.cli.occ.main(args)
     assert sys.stdout.getvalue() == '14100\n'
 
+    sys.stdout = oldstdout
+
+
+def test_occ_alignments():
+    oldstdout = sys.stdout
+
     sys.stdout = StringIO()
     args = type('', (), {})()
     args.gff3 = 'tests/testdata/bogus-aligns.gff3'
@@ -69,5 +75,33 @@ def test_occ():
     args.strict = True
     tag.cli.occ.main(args)
     assert sys.stdout.getvalue() == '7006\n'
+
+    sys.stdout = oldstdout
+
+
+def test_occ_genes():
+    oldstdout = sys.stdout
+
+    sys.stdout = StringIO()
+    args = type('', (), {})()
+    args.gff3 = 'tests/testdata/bogus-genes.gff3'
+    args.type = 'gene'
+    args.strict = True
+    tag.cli.occ.main(args)
+    assert sys.stdout.getvalue() == '18000\n'
+
+    sys.stdout = oldstdout
+
+
+def test_occ_exons():
+    oldstdout = sys.stdout
+
+    sys.stdout = StringIO()
+    args = type('', (), {})()
+    args.gff3 = 'tests/testdata/bogus-genes.gff3'
+    args.type = 'exon'
+    args.strict = True
+    tag.cli.occ.main(args)
+    assert sys.stdout.getvalue() == '11000\n'
 
     sys.stdout = oldstdout
