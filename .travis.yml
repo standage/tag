@@ -8,8 +8,8 @@ python:
     - 3.4
     - 3.5
 install:
+    - pip install .
     - make devenv
-    - export PYTHONPATH=/home/travis/build/standage/tag/:$PYTHONPATH
 script:
     - make test
     - make style
