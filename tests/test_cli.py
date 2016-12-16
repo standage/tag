@@ -51,57 +51,22 @@ def test_gff3_strict():
     assert args.out.getvalue() == testout
 
 
-def test_occ_alga():
+@pytest.mark.parametrize('gff3,ftype,expected_output', [
+    ('oluc-20kb.gff3', 'CDS', '14100\n'),
+    ('bogus-aligns.gff3', 'cDNA_match', '7006\n'),
+    ('bogus-genes.gff3', 'gene', '18000\n'),
+    ('bogus-genes.gff3', 'mRNA', '18000\n'),
+    ('bogus-genes.gff3', 'exon', '11000\n'),
+])
+def test_occ(gff3, ftype, expected_output):
     oldstdout = sys.stdout
 
     sys.stdout = StringIO()
     args = type('', (), {})()
-    args.gff3 = 'tests/testdata/oluc-20kb.gff3'
-    args.type = 'CDS'
+    args.gff3 = 'tests/testdata/' + gff3
+    args.type = ftype
     args.strict = True
     tag.cli.occ.main(args)
-    assert sys.stdout.getvalue() == '14100\n'
-
-    sys.stdout = oldstdout
-
-
-def test_occ_alignments():
-    oldstdout = sys.stdout
-
-    sys.stdout = StringIO()
-    args = type('', (), {})()
-    args.gff3 = 'tests/testdata/bogus-aligns.gff3'
-    args.type = 'cDNA_match'
-    args.strict = True
-    tag.cli.occ.main(args)
-    assert sys.stdout.getvalue() == '7006\n'
-
-    sys.stdout = oldstdout
-
-
-def test_occ_genes():
-    oldstdout = sys.stdout
-
-    sys.stdout = StringIO()
-    args = type('', (), {})()
-    args.gff3 = 'tests/testdata/bogus-genes.gff3'
-    args.type = 'gene'
-    args.strict = True
-    tag.cli.occ.main(args)
-    assert sys.stdout.getvalue() == '18000\n'
-
-    sys.stdout = oldstdout
-
-
-def test_occ_exons():
-    oldstdout = sys.stdout
-
-    sys.stdout = StringIO()
-    args = type('', (), {})()
-    args.gff3 = 'tests/testdata/bogus-genes.gff3'
-    args.type = 'exon'
-    args.strict = True
-    tag.cli.occ.main(args)
-    assert sys.stdout.getvalue() == '11000\n'
+    assert sys.stdout.getvalue() == expected_output
 
     sys.stdout = oldstdout
