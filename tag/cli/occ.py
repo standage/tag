@@ -34,15 +34,19 @@ def main(args):
     reader = tag.reader.GFF3Reader(infilename=args.gff3, strict=args.strict)
     for feature in tag.select.features(reader, type=args.type, traverse=True):
         features[feature.seqid].addi(feature.start, feature.end, feature)
+        if feature.is_multi and feature.is_toplevel:
+            for sib in feature.siblings:
+                features[sib.seqid].addi(sib.start, sib.end, sib)
 
     total_occ = 0
     ints_acct_for = defaultdict(IntervalTree)
     for seqid in features:
-        for begin, end, feats in features[seqid]:
+        for interval in features[seqid]:
+            begin, end, feat = interval
             if ints_acct_for[seqid][begin:end] != set():
                 continue
 
-            feats = set(feats)
+            feats = set([feat])
             overlapping = features[seqid][begin:end]
             testbegin, testend, testfeats = interval_set_span(overlapping)
             while set(feats) < testfeats:

@@ -62,4 +62,12 @@ def test_occ():
     tag.cli.occ.main(args)
     assert sys.stdout.getvalue() == '14100\n'
 
+    sys.stdout = StringIO()
+    args = type('', (), {})()
+    args.gff3 = 'tests/testdata/bogus-aligns.gff3'
+    args.type = 'cDNA_match'
+    args.strict = True
+    tag.cli.occ.main(args)
+    assert sys.stdout.getvalue() == '7006\n'
+
     sys.stdout = oldstdout

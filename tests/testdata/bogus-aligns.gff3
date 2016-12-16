@@ -1,0 +1,14 @@
+##gff-version 3
+##sequence-region contig1955 1 13000
+contig1955	nano	cDNA_match	1000	2000	.	+	.	ID=match1
+contig1955	nano	cDNA_match	3000	4000	.	+	.	ID=match1
+###
+contig1955	nano	cDNA_match	3050	4050	.	+	.	ID=match2
+contig1955	nano	cDNA_match	5050	6050	.	+	.	ID=match2
+###
+contig1955	nano	cDNA_match	6000	7000	.	+	.	ID=match3
+contig1955	nano	cDNA_match	8000	9000	.	+	.	ID=match3
+###
+contig1955	nano	cDNA_match	10000	11000	.	+	.	ID=match4
+contig1955	nano	cDNA_match	12000	13000	.	+	.	ID=match4
+###
