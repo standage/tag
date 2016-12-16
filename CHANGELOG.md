@@ -13,6 +13,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Annotation I/O
     - GFF3Reader
     - GFF3Writer
+- Composable generator functions for streaming annotation processing
+- A command line interface through the `tag` script
 - Package scaffolding
     - README
     - documentation
