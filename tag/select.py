@@ -37,6 +37,25 @@ def features(entrystream, type=None, traverse=False):
                 yield feature
 
 
+def directives(entrystream, type=None):
+    """
+    Pull directives out of the specified entry stream.
+
+    :param entrystream: a stream of entries
+    :param type: retrieve only directives of the specified type; set to
+                 :code:`None` to retrieve all directives
+    """
+    for directive in entry_type_filter(entrystream, tag.directive.Directive):
+        if not type or type == directive.type:
+            yield directive
+
+
+def sequences(entrystream):
+    """Pull sequences out of the specified entry stream."""
+    for sequence in entry_type_filter(entrystream, tag.sequence.Sequence):
+        yield sequence
+
+
 def entry_type_filter(entrystream, entryclass):
     """
     Generic entry filter.

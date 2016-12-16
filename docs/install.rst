@@ -30,10 +30,9 @@ Please see the :doc:`API documentation <api>` for a description of the data stru
 
    >>> import tag
    >>> reader = tag.reader.GFF3Reader(infilename='/data/genomes/mybug.gff3.gz')
-   >>> for entry in reader
-   ...    if hasattr(entry, 'type') and entry.type == 'intron':
-   ...        if len(entry) > 100000:
-   ...            print(entry.slug)
+   >>> for entry in tag.select.features(reader, type='intron'):
+   ...     if len(entry) > 100000:
+   ...         print(entry.slug)
    intron@scaffold3[37992, 149255]
    intron@scaffold55[288477, 389001]
    intron@scaffold192[1057, 196433]
