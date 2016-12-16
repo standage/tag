@@ -17,7 +17,7 @@ install:
 	pip install .
 
 devenv:
-	pip install pytest pytest-cov pep8 sphinx intervaltree
+	pip install pytest pytest-cov pep8 sphinx
 
 style:
 	pep8 tag/*.py tests/*.py tag/cli/*.py bin/tag
