@@ -28,6 +28,37 @@ def test_features():
     assert 'cannot traverse without a specific feature type' in str(ve)
 
 
+def test_window_contain():
+    ifn = 'tests/testdata/pdom-withseq.gff3'
+    reader = tag.reader.GFF3Reader(infilename=ifn)
+    features = tag.select.features(reader)
+    window = tag.select.window(features, 'PdomSCFr1.2-0483', 3000, 7000)
+    selected = [f for f in window]
+    assert len(selected) == 1
+    assert selected[0].get_attribute('Name') == 'PdomGENEr1.2-04310'
+
+
+def test_window_overlap():
+    ifn = 'tests/testdata/osat-twoscaf.gff3.gz'
+    reader = tag.reader.GFF3Reader(infilename=ifn)
+    features = tag.select.features(reader)
+    window = tag.select.window(features, 'NW_015379189.1', 15000, 20000,
+                               strict=False)
+    selected = [f for f in window]
+    assert len(selected) == 3
+    assert [f.type for f in selected] == ['region', 'gene', 'gene']
+
+
+def test_window_seqid():
+    ifn = 'tests/testdata/osat-twoscaf.gff3.gz'
+    reader = tag.reader.GFF3Reader(infilename=ifn)
+    features = tag.select.features(reader)
+    window = tag.select.window(features, 'NW_015379208.1')
+    selected = [f for f in window]
+    assert len(selected) == 2
+    assert [f.type for f in selected] == ['region', 'gene']
+
+
 def test_directives():
     ifn = 'tests/testdata/pbar-withseq.gff3'
 

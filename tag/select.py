@@ -37,6 +37,39 @@ def features(entrystream, type=None, traverse=False):
                 yield feature
 
 
+def window(featurestream, seqid, start=None, end=None, strict=True):
+    """
+    Pull features out of the designated genomic interval.
+
+    This function uses 0-based half-open intervals, not the 1-based closed
+    intervals used by GFF3.
+
+    :param featurestream: a stream of feature entries
+    :param seqid: ID of the sequence from which to select features
+    :param start: start of the genomic interval
+    :param end: end of the genomic interval
+    :param strict: when set to :code:`True`, only features completely contained
+                   within the interval are selected; when set to :code:`False`,
+                   any feature overlapping the interval is selected
+    """
+    region = None
+    if start and end:
+        region = tag.range.Range(start, end)
+
+    for feature in featurestream:
+        if feature.seqid != seqid:
+            continue
+        if region:
+            if strict:
+                if region.contains(feature._range):
+                    yield feature
+            else:
+                if region.overlap(feature._range):
+                    yield feature
+        else:
+            yield feature
+
+
 def directives(entrystream, type=None):
     """
     Pull directives out of the specified entry stream.
