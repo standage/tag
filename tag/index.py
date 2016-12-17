@@ -10,15 +10,16 @@
 from collections import defaultdict
 from intervaltree import IntervalTree
 import tag
+from tag.directive import Directive
 
 
 class Index(defaultdict):
 
-    declared_regions = dict()
-    inferred_regions = dict()
-
     def __init__(self):
         defaultdict.__init__(self, IntervalTree)
+        self.declared_regions = dict()
+        self.inferred_regions = dict()
+        self.yield_inferred = True
 
     def consume(self, entrystream):
         for entry in entrystream:
@@ -39,3 +40,18 @@ class Index(defaultdict):
                 newend = max(entry.end, self.inferred_regions[entry.seqid].end)
                 self.inferred_regions[entry.seqid].start = newstart
                 self.inferred_regions[entry.seqid].end = newend
+
+    @property
+    def outstream(self):
+        regions = self.inferred_regions
+        if not self.yield_inferred:
+            regions = self.declared_regions
+
+        for seqid in sorted(list(self.keys())):
+            sr = regions[seqid]
+            data = '##sequence-region {} {} {}'.format(seqid, sr.start, sr.end)
+            yield Directive(data)
+
+        for seqid in sorted(list(self.keys())):
+            for interval in self[seqid]:
+                yield interval.data
