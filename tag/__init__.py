@@ -15,6 +15,7 @@ except:  # pragma: no cover
 from . import comment
 from . import feature
 from . import range
+from . import index
 from . import reader
 from . import writer
 from . import cli
