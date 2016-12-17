@@ -8,7 +8,7 @@
 # ------------------------------------------------------------------------------
 
 
-class Comment():
+class Comment(object):
     """
     Represents a comment in an annotation (GFF3) file.
 
@@ -23,10 +23,6 @@ class Comment():
     def __init__(self, data):
         assert data.startswith('#')
         self._rawdata = data
-
-    @property
-    def entry_type(self):
-        return 'tag.comment.Comment'
 
     def __repr__(self):
         return self._rawdata

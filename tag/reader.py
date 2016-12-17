@@ -47,20 +47,19 @@ class GFF3Reader():
 
     >>> reader = GFF3Reader(infilename='tests/testdata/pbar-withseq.gff3')
     >>> for entry in reader:
-    ...     print(entry.entry_type)
-    tag.directive.Directive
-    tag.directive.Directive
-    tag.directive.Directive
-    tag.comment.Comment
-    tag.feature.Feature
-    tag.feature.Feature
-    tag.feature.Feature
-    tag.sequence.Sequence
-    tag.sequence.Sequence
+    ...     print(type(entry))
+    <class 'tag.directive.Directive'>
+    <class 'tag.directive.Directive'>
+    <class 'tag.directive.Directive'>
+    <class 'tag.comment.Comment'>
+    <class 'tag.feature.Feature'>
+    <class 'tag.feature.Feature'>
+    <class 'tag.feature.Feature'>
+    <class 'tag.sequence.Sequence'>
+    <class 'tag.sequence.Sequence'>
     >>> reader = GFF3Reader(infilename='tests/testdata/pbar-withseq.gff3')
     >>> for feature in tag.select.features(reader, type='gene'):
     ...     print(feature.slug)
-    ...
     gene@NW_011929623.1[4557, 5749]
     gene@NW_011929624.1[3725, 4229]
 
