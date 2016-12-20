@@ -15,7 +15,7 @@ dirtypes = ['gff-version', 'sequence-region', 'feature-ontology', 'species',
             'attribute-ontology', 'source-ontology', 'genome-build']
 
 
-class Directive():
+class Directive(object):
     """
     Represents a directive from a GFF3 file.
 
@@ -85,10 +85,6 @@ class Directive():
         self.data = formatmatch.group(3)
 
         assert self.dirtype is not None
-
-    @property
-    def entry_type(self):
-        return 'tag.directive.Directive'
 
     @property
     def type(self):
