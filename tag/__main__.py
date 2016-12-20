@@ -21,7 +21,3 @@ def main(args):
     assert args.cmd in mains
     mainmethod = mains[args.cmd]
     mainmethod(args)
-
-
-if __name__ == '__main__':
-    main(tag.cli.parser().parse_args())

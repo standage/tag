@@ -22,7 +22,7 @@ setup(name='tag',
       author_email='daniel.standage@gmail.com',
       license='BSD-3',
       packages=['tag', 'tag.cli'],
-      scripts=list(glob.glob('bin/tag')),
+      entry_points={'console_scripts': ['tag = tag.__main__:main']}
       install_requires=['intervaltree'],
       classifiers=[
           'Development Status :: 4 - Beta',
