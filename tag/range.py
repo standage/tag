@@ -155,3 +155,6 @@ class Range(object):
              'undefined'.format(offset, self._start+offset, self._end+offset))
         self._start += offset
         self._end += offset
+
+    def copy(self):
+        return Range(self._start, self._end)

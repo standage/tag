@@ -44,9 +44,33 @@ def test_declared(infer, s1, s2, s3, e1, e2, e3):
     index.consume(reader)
 
     index.yield_inferred = infer
-    sr = [e for e in index.outstream if isinstance(e, tag.directive.Directive)]
+    sr = [e for e in index if isinstance(e, tag.directive.Directive)]
     test = list()
     for seqid, start, end in zip([123, 124, 125], [s1, s2, s3], [e1, e2, e3]):
         data = '##sequence-region scaffold_{} {} {}'.format(seqid, start, end)
         test.append(data)
     assert [str(s) for s in sorted(sr)] == test
+
+
+def test_consume():
+    reader = tag.reader.GFF3Reader(tag.pkgdata('pdom-withseq.gff3'))
+    entries = [e for e in reader]
+    assert len(entries) == 6
+    index = tag.index.Index()
+
+    with pytest.raises(ValueError) as ve:
+        index.consume_seqreg(entries[0])
+    assert 'expected ##sequence-region directive' in str(ve)
+
+    with pytest.raises(ValueError) as ve:
+        index.consume_seqreg(entries[4])
+    assert 'expected ##sequence-region directive' in str(ve)
+
+    with pytest.raises(ValueError) as ve:
+        index.consume_feature(entries[0])
+    assert 'expected Feature object' in str(ve)
+
+    index.consume_seqreg(entries[1])
+    index.consume_feature(entries[3])
+    index.consume_file('tests/testdata/pcan-123.gff3.gz')
+    assert len(index) == 4
