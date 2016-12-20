@@ -32,6 +32,16 @@ class Index(defaultdict):
     gene@scaffold_125[18994, 19335]
     gene@scaffold_125[57450, 57680]
     gene@scaffold_125[86995, 87151]
+    >>> reader = tag.reader.GFF3Reader(tag.pkgdata('grape-cpgat.gff3'))
+    >>> index = tag.index.Index()
+    >>> index.consume(reader)
+    >>> index.yield_inferred = False
+    >>> for entry in index:
+    ...     print(entry.slug)
+    sequence chr8[1, 100000]
+    gene@chr8[72, 5081]
+    gene@chr8[10538, 11678]
+    gene@chr8[22053, 23448]
     """
 
     def __init__(self):
@@ -92,7 +102,7 @@ class Index(defaultdict):
             yield tag.directive.Directive(data)
 
         for seqid in sorted(list(self.keys())):
-            for interval in self[seqid]:
+            for interval in sorted(self[seqid]):
                 yield interval.data
 
     def query(self, seqid, start, end, strict=True):
