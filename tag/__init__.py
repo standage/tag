@@ -13,7 +13,9 @@ try:
 except:  # pragma: no cover
     import builtins
 from . import comment
+from . import directive
 from . import feature
+from . import sequence
 from . import range
 from . import index
 from . import reader

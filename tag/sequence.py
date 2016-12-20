@@ -11,7 +11,7 @@ from __future__ import print_function
 import re
 
 
-class Sequence():
+class Sequence(object):
     """
     Represents a sequence (almost always a nucleotide sequence).
 
@@ -38,10 +38,6 @@ class Sequence():
         assert defline.startswith('>') and defline[1] != ' '
         self.defline = defline
         self.seq = seq
-
-    @property
-    def entry_type(self):
-        return 'tag.sequence.Sequence'
 
     def __str__(self):
         return self.defline + '\n' + self.format_seq()

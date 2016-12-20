@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.1.1] - 2016-12-19
+### Changed
+- CLI implemented using `entry_points` instead of a dedicated script.
+
+### Fixed
+- Entry type inference now correct by inheriting from `object`.
+
 ## [0.1.0] - 2016-12-16
 ### Added
 - Basic data structures
