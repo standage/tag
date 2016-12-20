@@ -39,6 +39,16 @@ def test_cli_args():
     sys.stdout = oldstdout
     sys.stderr = oldstderr
 
+    parser = tag.cli.parser()
+    args = parser.parse_args(['gff3', '-r', 'tests/testdata/mito-trna.gff3'])
+    args.out = StringIO()
+    tag.__main__.main(args)
+    testout = tag.pkgdata('mito-trna-out.gff3').read()
+    assert args.out.getvalue() == testout
+
+    with pytest.raises(SystemExit):
+        tag.__main__.main()
+
 
 def test_gff3_strict():
     args = type('', (), {})()
