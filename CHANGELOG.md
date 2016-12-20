@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [0.1.1] - 2016-12-19
 ### Changed
 - CLI implemented using `entry_points` instead of a dedicated script.
 
