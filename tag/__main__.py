@@ -17,7 +17,9 @@ mains = {
 }
 
 
-def main(args):
+def main(args=None):
+    if args is None:
+        args = tag.cli.parser().parse_args()
     assert args.cmd in mains
     mainmethod = mains[args.cmd]
     mainmethod(args)
