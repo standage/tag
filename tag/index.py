@@ -49,7 +49,8 @@ class Index(defaultdict):
 
         for seqid in sorted(list(self.keys())):
             sr = regions[seqid]
-            data = '##sequence-region {} {} {}'.format(seqid, sr.start, sr.end)
+            template = '##sequence-region {} {} {}'
+            data = template.format(seqid, sr.start + 1, sr.end)
             yield Directive(data)
 
         for seqid in sorted(list(self.keys())):
