@@ -9,11 +9,11 @@
 
 import sys
 import tag
-from tag.range import Range
-from tag.comment import Comment
-from tag.directive import Directive
-from tag.feature import Feature
-from tag.sequence import Sequence
+from tag import Range
+from tag import Comment
+from tag import Directive
+from tag import Feature
+from tag import Sequence
 
 
 def parse_fasta(data):  # pragma: no cover
