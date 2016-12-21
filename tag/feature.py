@@ -453,3 +453,15 @@ class Feature(object):
             valdict = dict((val, True) for val in values)
             attributes[key] = valdict
         return attributes
+
+    @property
+    def cdslen(self):
+        """
+        Translated length of this feature.
+
+        Undefined for non-mRNA features.
+        """
+        if self.type != 'mRNA':
+            return None
+
+        return sum([len(c) for c in self.children if c.type == 'CDS'])
