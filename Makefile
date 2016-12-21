@@ -27,5 +27,5 @@ loc:
 	cloc tests/test_*.py
 
 clean:
-	find . -type d -name __pycache__ -maxdepth 2 -exec rm -r {} \;
-	rm -rf tag.egg-info/
+	find . -type d -name '*__pycache__*' -maxdepth 2 -exec rm -r {} \;
+	rm -rf tag.egg-info/ build/ dist/
