@@ -2,10 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [Unreleased]
 ### Added
 - Module for mRNA handling, with a function for selecting the primary mRNA from
-  a gene or other feature
+  a gene or other feature.
+- New CLI command `tag pmrna`.
 
 ### Changed
 - Modules focused on classes / data structure now support more concise imports

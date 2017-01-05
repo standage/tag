@@ -86,3 +86,17 @@ def test_occ(gff3, ftype, expected_output):
     assert sys.stdout.getvalue() == expected_output
 
     sys.stdout = oldstdout
+
+
+def test_pmrna():
+    oldstdout = sys.stdout
+    sys.stdout = StringIO()
+    args = type('', (), {})()
+    args.gff3 = 'tests/testdata/nanosplice.gff3'
+    args.strict = True
+    tag.cli.pmrna.main(args)
+
+    testout = tag.pkgdata('nanosplice-primary.gff3').read()
+    assert sys.stdout.getvalue() == testout
+
+    sys.stdout = oldstdout

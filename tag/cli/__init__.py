@@ -12,6 +12,7 @@ import sys
 import tag
 from . import gff3
 from . import occ
+from . import pmrna
 
 
 def parser():
@@ -21,8 +22,9 @@ def parser():
     parser.add_argument('-l', '--logfile', metavar='FILE', default=sys.stderr,
                         type=argparse.FileType('w'))
     subparsers = parser.add_subparsers(dest='cmd', metavar='cmd',
-                                       help='gff3 | occ')
+                                       help='gff3 | occ | pmrna')
     tag.cli.gff3.subparser(subparsers)
     tag.cli.occ.subparser(subparsers)
+    tag.cli.pmrna.subparser(subparsers)
 
     return parser

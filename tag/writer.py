@@ -50,7 +50,7 @@ class GFF3Writer():
         if self.outfilename != '-' and not isinstance(self.outfile, StringIO):
             self.outfile.close()
 
-    def write(self, relax=False):
+    def write(self):
         """Pull features from the instream and write them to the output."""
         for entry in self._instream:
             if isinstance(entry, Feature):
