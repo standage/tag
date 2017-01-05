@@ -8,8 +8,8 @@
 # -----------------------------------------------------------------------------
 
 import pytest
-from tag.feature import Feature
-from tag.sequence import Sequence
+from tag import Feature
+from tag import Sequence
 
 
 def test_repr():

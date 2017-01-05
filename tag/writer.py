@@ -15,8 +15,8 @@ except ImportError:  # pragma: no cover
     from io import StringIO
 import sys
 import tag
-from tag.feature import Feature
-from tag.reader import GFF3Reader
+from tag import Feature
+from tag import GFF3Reader
 
 
 class GFF3Writer():

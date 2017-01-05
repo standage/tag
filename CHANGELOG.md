@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Module for mRNA handling, with a function for selecting the primary mRNA from
   a gene or other feature
 
+### Changed
+- Modules focused on classes / data structure now support more concise imports
+  (for example, `from tag import Feature` and `tag.Feature` now supported and
+  preferred over `from tag.feature import feature` and `tag.feature.Feature`).
+
 ## [0.1.1] - 2016-12-19
 ### Changed
 - CLI implemented using `entry_points` instead of a dedicated script.

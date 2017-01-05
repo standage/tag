@@ -14,8 +14,8 @@ except ImportError:
     from io import StringIO
 import pytest
 import tag
-from tag.reader import GFF3Reader
-from tag.writer import GFF3Writer
+from tag import GFF3Reader
+from tag import GFF3Writer
 
 
 def test_write_grape():
