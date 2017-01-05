@@ -8,11 +8,11 @@
 # -----------------------------------------------------------------------------
 
 import pytest
-from tag.comment import Comment
-from tag.directive import Directive
-from tag.feature import Feature
-from tag.range import Range
-from tag.sequence import Sequence
+from tag import Comment
+from tag import Directive
+from tag import Feature
+from tag import Range
+from tag import Sequence
 
 
 def eden():

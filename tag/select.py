@@ -21,7 +21,7 @@ def features(entrystream, type=None, traverse=False):
                      to :code:`True` to search each feature graph for the
                      specified feature type
     """
-    for feature in entry_type_filter(entrystream, tag.feature.Feature):
+    for feature in entry_type_filter(entrystream, tag.Feature):
         if traverse:
             if type is None:
                 message = 'cannot traverse without a specific feature type'
@@ -54,7 +54,7 @@ def window(featurestream, seqid, start=None, end=None, strict=True):
     """
     region = None
     if start and end:
-        region = tag.range.Range(start, end)
+        region = tag.Range(start, end)
 
     for feature in featurestream:
         if feature.seqid != seqid:
@@ -78,14 +78,14 @@ def directives(entrystream, type=None):
     :param type: retrieve only directives of the specified type; set to
                  :code:`None` to retrieve all directives
     """
-    for directive in entry_type_filter(entrystream, tag.directive.Directive):
+    for directive in entry_type_filter(entrystream, tag.Directive):
         if not type or type == directive.type:
             yield directive
 
 
 def sequences(entrystream):
     """Pull sequences out of the specified entry stream."""
-    for sequence in entry_type_filter(entrystream, tag.sequence.Sequence):
+    for sequence in entry_type_filter(entrystream, tag.Sequence):
         yield sequence
 
 

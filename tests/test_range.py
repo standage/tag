@@ -8,7 +8,7 @@
 # -----------------------------------------------------------------------------
 
 import pytest
-from tag.range import Range
+from tag import Range
 from tag.reader import GFF3Reader
 
 

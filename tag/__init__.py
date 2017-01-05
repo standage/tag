@@ -12,15 +12,15 @@ try:
     import __builtin__ as builtins
 except:  # pragma: no cover
     import builtins
-from . import comment
-from . import directive
-from . import feature
-from . import sequence
-from . import range
-from . import reader
-from . import writer
-from . import cli
-from . import select
+from tag.comment import Comment
+from tag.directive import Directive
+from tag.feature import Feature
+from tag.sequence import Sequence
+from tag.range import Range
+from tag.reader import GFF3Reader
+from tag.writer import GFF3Writer
+from tag import cli
+from tag import select
 from gzip import open as gzopen
 
 from ._version import get_versions

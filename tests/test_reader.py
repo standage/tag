@@ -9,12 +9,12 @@
 
 import pytest
 import tag
-from tag.range import Range
-from tag.comment import Comment
-from tag.directive import Directive
-from tag.feature import Feature
-from tag.reader import GFF3Reader
-from tag.sequence import Sequence
+from tag import Range
+from tag import Comment
+from tag import Directive
+from tag import Feature
+from tag import GFF3Reader
+from tag import Sequence
 
 
 def test_grape():

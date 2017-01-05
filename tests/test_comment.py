@@ -8,9 +8,9 @@
 # -----------------------------------------------------------------------------
 
 import pytest
-from tag.comment import Comment
-from tag.directive import Directive
-from tag.feature import Feature
+from tag import Comment
+from tag import Directive
+from tag import Feature
 
 
 def test_init():
