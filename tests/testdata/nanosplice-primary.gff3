@@ -1,0 +1,8 @@
+##gff-version 3
+##sequence-region 42 5001 12000
+42	nano	gene	5001	12000	.	-	.	ID=gene1
+42	nano	mRNA	5001	12000	.	-	.	ID=mRNA1;Parent=gene1
+42	nano	CDS	5001	6000	.	-	1	Parent=mRNA1
+42	nano	CDS	9001	10000	.	-	2	Parent=mRNA1
+42	nano	CDS	11001	12000	.	-	0	Parent=mRNA1
+###

@@ -21,6 +21,7 @@ from tag.reader import GFF3Reader
 from tag.writer import GFF3Writer
 from tag import cli
 from tag import select
+from tag import mrna
 from gzip import open as gzopen
 
 from ._version import get_versions
