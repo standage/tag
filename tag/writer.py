@@ -16,6 +16,7 @@ except ImportError:  # pragma: no cover
 import sys
 import tag
 from tag import Feature
+from tag import Sequence
 from tag import GFF3Reader
 
 
@@ -45,6 +46,7 @@ class GFF3Writer():
             self.outfile = tag.open(outfile, 'w')
         self.retainids = False
         self.feature_counts = defaultdict(int)
+        self._seq_written = False
 
     def __del__(self):
         if self.outfilename != '-' and not isinstance(self.outfile, StringIO):
@@ -62,4 +64,7 @@ class GFF3Writer():
                         feature.add_attribute('ID', fid)
                     else:
                         feature.drop_attribute('ID')
+            if isinstance(entry, Sequence) and not self._seq_written:
+                print('##FASTA', file=self.outfile)
+                self._seq_written = True
             print(repr(entry), file=self.outfile)
