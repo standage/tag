@@ -12,6 +12,7 @@ from tag.comment import Comment
 from tag.directive import Directive
 from tag.range import Range
 from tag.sequence import Sequence
+from tag.score import Score
 
 
 class Feature(object):
@@ -27,7 +28,7 @@ class Feature(object):
     'gene'
     >>> feature.start, feature.end
     (999, 7500)
-    >>> feature.score is None
+    >>> feature.score.value is None
     True
     >>> feature.strand
     '+'
@@ -59,10 +60,7 @@ class Feature(object):
         self._source = fields[1]
         self._type = fields[2]
         self._range = Range(int(fields[3]) - 1, int(fields[4]))
-        if fields[5] == '.':
-            self.score = None
-        else:
-            self.score = float(fields[5])
+        self.score = Score(fields[5])
         self._strand = fields[6]
         if fields[7] == '.':
             self.phase = None
@@ -78,15 +76,12 @@ class Feature(object):
 
     def __str__(self):
         """String representation of the feature, sans children."""
-        score = '.'
-        if self.score is not None:
-            score = "{:.3f}".format(self.score)
         phase = '.'
         if self.phase is not None:
             phase = str(self.phase)
         return '\t'.join([
             self.seqid, self.source, self.type, str(self.start + 1),
-            str(self.end), score, self.strand, phase, self.attributes
+            str(self.end), str(self.score), self.strand, phase, self.attributes
         ])
 
     def __repr__(self):

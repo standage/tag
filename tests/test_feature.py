@@ -69,7 +69,7 @@ def test_basic():
 
     gff3[5] = '0.28466'
     f3 = Feature('\t'.join(gff3))
-    assert abs(f3.score - 0.28466) <= 0.00001
+    assert abs(f3.score.value - 0.28466) <= 0.00001
     gff3[5] = '0.285'
     assert '%s' % f3 == '\t'.join(gff3)
 
@@ -186,17 +186,17 @@ def test_score():
     """Test score handling."""
     gff3 = ['chr', 'vim', 'EST_match', '57229', '57404', '.', '+', '.', '.']
     f1 = Feature('\t'.join(gff3))
-    assert f1.score is None
+    assert f1.score.value is None
 
     gff3[5] = '0.97'
     f2 = Feature('\t'.join(gff3))
-    assert abs(f2.score - 0.97) <= 0.00001
+    assert abs(f2.score.value - 0.97) <= 0.00001
     gff3[5] = '0.970'
     assert str(f2) == '\t'.join(gff3)
 
     gff3[5] = '-1.8332'
     f3 = Feature('\t'.join(gff3))
-    assert abs(f3.score + 1.8332) <= 0.00001
+    assert abs(f3.score.value + 1.8332) <= 0.00001
     gff3[5] = '-1.833'
     assert str(f3) == '\t'.join(gff3)
 

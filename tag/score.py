@@ -16,20 +16,20 @@ class Score(object):
     def __init__(self, datastr):
         self._type = None
         if datastr == '.':
-            self.score = None
+            self.value = None
         elif re.search('^-*\d+$', datastr):
-            self.score = int(datastr)
+            self.value = int(datastr)
             self._type = int
         else:
-            self.score = float(datastr)
+            self.value = float(datastr)
             self._type = float
 
     def __str__(self):
-        if self.score is None:
+        if self.value is None:
             return '.'
         elif self._type == int:
-            return '{:d}'.format(self.score)
-        elif abs(self.score) < 1e6 and abs(self.score) > 1e-4:
-            return '{:1.3f}'.format(self.score)
+            return '{:d}'.format(self.value)
+        elif abs(self.value) < 1e6 and abs(self.value) > 1e-4:
+            return '{:1.3f}'.format(self.value)
         else:
-            return '{:1.3E}'.format(self.score)
+            return '{:1.3E}'.format(self.value)
