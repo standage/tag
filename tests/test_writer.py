@@ -46,3 +46,12 @@ def test_write_file():
     with open(output, 'r') as testout:
         testoutput2 = testout.read()
     assert testoutput1 == testoutput2, (testoutput1, testoutput2)
+
+
+def test_write_minimus():
+    reader = GFF3Reader(tag.pkgdata('minimus.gff3'))
+    output = StringIO()
+    writer = GFF3Writer(reader, output)
+    writer.write()
+
+    assert output.getvalue() == tag.pkgdata('minimus.gff3').read()
