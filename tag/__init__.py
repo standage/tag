@@ -19,6 +19,7 @@ from tag.sequence import Sequence
 from tag.range import Range
 from tag.reader import GFF3Reader
 from tag.writer import GFF3Writer
+from tag.score import Score
 from tag import cli
 from tag import select
 from tag import mrna
