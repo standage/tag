@@ -28,7 +28,7 @@ class Feature(object):
     'gene'
     >>> feature.start, feature.end
     (999, 7500)
-    >>> feature.score.value is None
+    >>> feature.score is None
     True
     >>> feature.strand
     '+'
@@ -60,7 +60,7 @@ class Feature(object):
         self._source = fields[1]
         self._type = fields[2]
         self._range = Range(int(fields[3]) - 1, int(fields[4]))
-        self.score = Score(fields[5])
+        self._score = Score(fields[5])
         self._strand = fields[6]
         if fields[7] == '.':
             self.phase = None
@@ -81,7 +81,8 @@ class Feature(object):
             phase = str(self.phase)
         return '\t'.join([
             self.seqid, self.source, self.type, str(self.start + 1),
-            str(self.end), str(self.score), self.strand, phase, self.attributes
+            str(self.end), str(self._score), self.strand, phase,
+            self.attributes
         ])
 
     def __repr__(self):
@@ -230,6 +231,10 @@ class Feature(object):
     @property
     def fid(self):
         return self.get_attribute('ID')
+
+    @property
+    def score(self):
+        return self._score.value
 
     @property
     def slug(self):
