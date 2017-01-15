@@ -33,6 +33,12 @@ Feature
 .. automodule:: tag.feature
    :members:
 
+Index
+-----
+
+.. automodule:: tag.index
+   :members:
+
 Readers
 -------
 

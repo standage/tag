@@ -92,6 +92,12 @@ class Directive(object):
             return self.dirtype
         return None
 
+    @property
+    def slug(self):
+        if self.type == 'sequence-region':
+            return 'sequence {}[{}, {}]'.format(self.seqid, self.range.start+1,
+                                                self.range.end)
+
     def __repr__(self):
         return self._rawdata
 

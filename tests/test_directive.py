@@ -50,6 +50,7 @@ def test_custom_directive():
     assert d2.data == 'abc 1 2 3'
     assert d3.type is None and d3.dirtype == 'Type'
     assert d3.data == 'DNA NC_005213.1'
+    assert d3.slug is None
 
 
 def test_sequence_region():
@@ -67,6 +68,7 @@ def test_sequence_region():
         r3.range == Range(0, 1497228)
     assert r4.type == 'sequence-region' and r4.seqid == '1' and \
         r4.range == Range(0, 1000)
+    assert r4.slug == 'sequence 1[1, 1000]'
 
     with pytest.raises(AssertionError) as ae:
         r5 = Directive('##sequence-region   BoGuScHr 123456 4321')
