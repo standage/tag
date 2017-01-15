@@ -14,6 +14,7 @@ import tag
 mains = {
     'gff3': tag.cli.gff3.main,
     'occ': tag.cli.occ.main,
+    'pmrna': tag.cli.pmrna.main,
 }
 
 

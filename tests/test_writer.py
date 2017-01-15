@@ -14,8 +14,8 @@ except ImportError:
     from io import StringIO
 import pytest
 import tag
-from tag.reader import GFF3Reader
-from tag.writer import GFF3Writer
+from tag import GFF3Reader
+from tag import GFF3Writer
 
 
 def test_write_grape():
@@ -46,3 +46,16 @@ def test_write_file():
     with open(output, 'r') as testout:
         testoutput2 = testout.read()
     assert testoutput1 == testoutput2, (testoutput1, testoutput2)
+
+
+@pytest.mark.parametrize('gff3', [
+    'minimus.gff3',
+    'prokka.gff3',
+])
+def test_write_in_out(gff3):
+    reader = GFF3Reader(tag.pkgdata(gff3))
+    output = StringIO()
+    writer = GFF3Writer(reader, output)
+    writer.write()
+
+    assert output.getvalue().strip() == tag.pkgdata(gff3).read().strip()

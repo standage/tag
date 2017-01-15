@@ -5,6 +5,20 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - An index class for efficient in-memory access of sequence features.
+- Module for mRNA handling, with a function for selecting the primary mRNA from
+  a gene or other feature.
+- New CLI command `tag pmrna`.
+- A new `Score` class for internal handling of feature scores. Not yet included
+  in the API, and may not ever be.
+
+### Changed
+- Modules focused on classes / data structure now support more concise imports
+  (for example, `from tag import Feature` and `tag.Feature` now supported and
+  preferred over `from tag.feature import feature` and `tag.feature.Feature`).
+
+### Fixed
+- Resolved a bug with the GFF3Writer failing to print `##FASTA` directives
+  before writing sequences to output.
 
 ## [0.1.1] - 2016-12-19
 ### Changed

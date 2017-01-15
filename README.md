@@ -13,7 +13,7 @@
 ```python
 # Compute number of exons per gene
 import tag
-reader = tag.reader.GFF3Reader(infilename='/data/genomes/mybug.gff3.gz')
+reader = tag.GFF3Reader(infilename='/data/genomes/mybug.gff3.gz')
 for gene in tag.select.features(reader, type='gene'):
     exons = [feat for feat in gene if feat.type == exon]
     print('num exons:', len(exons))

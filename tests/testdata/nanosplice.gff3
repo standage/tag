@@ -1,0 +1,9 @@
+42	nano	gene	5001	12000	.	-	.	ID=gene1
+42	nano	mRNA	5001	12000	.	-	.	ID=mRNAfirst;Parent=gene1
+42	nano	CDS	5001	6000	.	-	1	ID=CDS1;Parent=mRNAfirst
+42	nano	CDS	7001	8000	.	-	2	ID=CDS1;Parent=mRNAfirst
+42	nano	CDS	11001	12000	.	-	0	ID=CDS1;Parent=mRNAfirst
+42	nano	mRNA	5001	12000	.	-	.	ID=mRNAsecond;Parent=gene1
+42	nano	CDS	5001	6000	.	-	1	ID=CDS2;Parent=mRNAsecond
+42	nano	CDS	9001	10000	.	-	2	ID=CDS2;Parent=mRNAsecond
+42	nano	CDS	11001	12000	.	-	0	ID=CDS2;Parent=mRNAsecond
