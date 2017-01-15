@@ -1,0 +1,6 @@
+##gff-version 3
+##sequence-region minimus 1 10
+minimus	vim	region	4	6	9000	+	.	Note=lolwut
+##FASTA
+>minimus
+GATTACANNN
