@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [0.2.0] - 2017-01-16
 ### Added
 - An index class for efficient in-memory access of sequence features.
 - Module for mRNA handling, with a function for selecting the primary mRNA from
