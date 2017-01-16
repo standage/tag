@@ -1,0 +1,3 @@
+- [ ] Full test coverage? Any additional tests that could easily be added?
+- [ ] API documentation up-to-date? Docstring examples?
+- [ ] Is the CHANGELOG up-to-date?
