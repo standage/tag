@@ -8,8 +8,10 @@ It is developed as a reusable library with a focus on ease of use.
 .. toctree::
    :maxdepth: 1
 
+   conduct
    install
    formats
+   dev
    api
    acknowledgements
 
