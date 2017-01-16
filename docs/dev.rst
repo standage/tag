@@ -1,8 +1,8 @@
-Development documentation
-=========================
+Developer documentation
+=======================
 
-Development environment
------------------------
+Development environment quickstart
+----------------------------------
 
 .. code::
 
@@ -29,7 +29,8 @@ Testing
 Complete coverage from automated tests is a high priority. This doesn't mean the
 software is completely bug free, but it forces us to consider all the branching
 behavior and make sure all code is at least executed. Our testing philosophy is
-"stupidity-driven development":
+`"stupidity-driven development" <http://ivory.idyll.org/blog/2014-research-coding.html>`_.
+
 * Test core features extensively, but don't try to be clever. Simple tests
   are sufficient and on balance are superior to complicated tests.
 * When bugs appear, write regression tests, fix the bugs, and get back to
@@ -55,7 +56,7 @@ is invoked.
 Change log
 ----------
 
-The `CHANGELOG.md` file follows the conventions described at
-http://keepachangelog.com/. Minor changes that affect only the package internals
+The :code:`CHANGELOG.md` file follows the conventions described at
+http://keepachangelog.com. Minor changes that affect only the package internals
 need not be documented. More substantial changes, or any bug fixes or changes to
 the API, should be documented.
