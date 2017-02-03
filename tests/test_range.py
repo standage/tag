@@ -108,6 +108,8 @@ def test_contains_within():
     assert Range(279886, 283581).contains(Range(279986, 283481)) is True
     assert Range(279986, 283481).contains(Range(279886, 283581)) is False
     assert Range(279986, 283481).within(Range(279886, 283581)) is True
+    assert Range(9876, 9999).contains_point(10) is False
+    assert Range(9876, 9999).contains_point(9900) is True
 
 
 def test_transform():

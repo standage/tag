@@ -21,6 +21,10 @@ class Range(object):
     [0, 1000)
     >>> len(rng)
     1000
+    >>> rng.contains(Range(10, 20))
+    True
+    >>> rng.contains_point(2345)
+    False
     >>> rng.start = 500
     >>> rng.start
     500
@@ -136,9 +140,11 @@ class Range(object):
 
     def contains(self, other):
         """Determine whether this range contains another."""
-        if self._start <= other.start and self._end >= other.end:
-            return True
-        return False
+        return self._start <= other.start and self._end >= other.end
+
+    def contains_point(self, point):
+        """Determine whether this range contains the specified point."""
+        return self._start <= point and self._end >= point
 
     def within(self, other):
         """Determine whether this range is contained within another."""
