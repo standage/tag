@@ -152,6 +152,8 @@ def test_region():
     f1 = Feature('\t'.join(gff3))
     assert f1._range == Range(999, 2000)
     assert f1.start == 999 and f1.end == 2000
+    assert f1.contains(Range(1500, 1600))
+    assert f1.contains_point(5) is False
 
     gff3 = ['contig5', 'vim', 'mRNA', '500', '2500', '.', '+', '.',
             'ID=t1;Parent=g1']

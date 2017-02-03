@@ -28,6 +28,8 @@ class Feature(object):
     'gene'
     >>> feature.start, feature.end
     (999, 7500)
+    >>> feature.contains_point(2044)
+    True
     >>> feature.score is None
     True
     >>> feature.strand
@@ -465,3 +467,11 @@ class Feature(object):
             return None
 
         return sum([len(c) for c in self.children if c.type == 'CDS'])
+
+    def contains(self, rng):
+        """Report whether this feature contains the specified range."""
+        return self._range.contains(rng)
+
+    def contains_point(self, point):
+        """Report whether this feature contains the specified point."""
+        return self._range.contains_point(point)

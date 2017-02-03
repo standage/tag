@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.0] - 2017-02-02
+### Added
+- New convenience functions in the `Range` and `Feature` classes for range and
+  point overlap queries.
+
 ## [0.2.0] - 2017-01-18
 ### Added
 - An index class for efficient in-memory access of sequence features.
