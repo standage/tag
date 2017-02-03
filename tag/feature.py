@@ -468,6 +468,10 @@ class Feature(object):
 
         return sum([len(c) for c in self.children if c.type == 'CDS'])
 
+    def overlap(self, rng):
+        """Report whether this feature overlaps with the specified range."""
+        return self._range.overlap(rng)
+
     def contains(self, rng):
         """Report whether this feature contains the specified range."""
         return self._range.contains(rng)

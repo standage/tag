@@ -154,6 +154,8 @@ def test_region():
     assert f1.start == 999 and f1.end == 2000
     assert f1.contains(Range(1500, 1600))
     assert f1.contains_point(5) is False
+    assert f1.overlap(Range(2000, 2001)) is False
+    assert f1.overlap(Range(1999, 2001)) is True
 
     gff3 = ['contig5', 'vim', 'mRNA', '500', '2500', '.', '+', '.',
             'ID=t1;Parent=g1']
