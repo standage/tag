@@ -28,5 +28,16 @@ def exon_dedup(entrystream, parenttype='gene'):
                 if subfeature.type == 'exon':
                     exons_by_location[subfeature._range].append(subfeature)
 
-            # resolve
+            for erange in exons_by_location:
+                exonlist = exons_by_location[erange]
+                if len(exonlist) == 1:
+                    continue
+                exon = exonlist[0]
+                for dupexon in exonlist[1:]:
+                    for parentid in dupexon.get_attribute('Parent',
+                                                          as_list=True):
+                        parent = feature_by_id[parentid]
+                        parent.add_child(exon)
+                        exon.add_attribute('Parent', parentid, append=True)
+                        parent.remove_child(dupexon)
         yield entry

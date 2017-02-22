@@ -224,6 +224,10 @@ class Feature(object):
         self.children.append(child)
         self.children.sort()
 
+    def remove_child(self, child):
+        """Remove the specified child"""
+        self.children = [c for c in self.children if c != child]
+
     @property
     def num_children(self):
         if self.children is None:

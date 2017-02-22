@@ -7,6 +7,10 @@
 # under the BSD 3-clause license: see LICENSE.
 # -----------------------------------------------------------------------------
 
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 import pytest
 import tag
 

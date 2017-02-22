@@ -79,6 +79,9 @@ class Range(object):
         return self == other or self > other
     # End rich comparison operators for Python 3 support
 
+    def __hash__(self):
+        return hash((self._start, self._end))
+
     @property
     def start(self):
         return self._start
