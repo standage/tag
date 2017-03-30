@@ -59,3 +59,16 @@ def test_write_in_out(gff3):
     writer.write()
 
     assert output.getvalue().strip() == tag.pkgdata(gff3).read().strip()
+
+
+def test_sort_multifeat(capsys):
+    reader = GFF3Reader(tag.pkgdata('psyllid-cdnamatch.gff3'))
+    writer = GFF3Writer(reader)
+    writer.write()
+
+    out, err = capsys.readouterr()
+    testout = tag.pkgdata('psyllid-cdnamatch-sorted.gff3').read()
+    with open('one', 'w') as one, open('two', 'w') as two:
+        print(out, file=one)
+        print(testout, file=two)
+    assert out == testout
