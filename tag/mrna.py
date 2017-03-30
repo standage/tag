@@ -11,6 +11,17 @@ import tag
 
 
 def primary(entrystream, parenttype='gene'):
+    """
+    Select a single mRNA as a representative for each protein-coding gene.
+
+    The primary mRNA is the one with the longest translation product. In cases
+    where multiple isoforms have the same translated length, the feature ID is
+    used for sorting.
+
+    >>> reader = tag.reader.GFF3Reader(tag.pkgdata('pdom-withseq.gff3'))
+    >>> for gene in tag.select.features(tag.mrna.primary(reader), type='gene'):
+    ...    assert gene.num_children == 1
+    """
     for entry in entrystream:
         if not isinstance(entry, tag.feature.Feature):
             yield entry
