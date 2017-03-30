@@ -17,7 +17,9 @@ def primary(entrystream, parenttype='gene'):
             continue
 
         for feature in tag.select.features(entry, parenttype, traverse=True):
-            mrnas = [m for m in tag.select.features(feature.children, 'mRNA')]
+            mrnas = [f for f in feature.children if f.type == 'mRNA']
+            if len(mrnas) == 0:
+                continue
             mrnas.sort(key=lambda m: (m.cdslen, m.get_attribute('ID')))
             mrnas.pop()
             feature.children = [c for c in feature.children if c not in mrnas]
