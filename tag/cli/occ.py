@@ -32,7 +32,8 @@ def subparser(subparsers):
 def main(args):
     features = defaultdict(IntervalTree)
     reader = tag.reader.GFF3Reader(infilename=args.gff3, strict=args.strict)
-    for feature in tag.select.features(reader, type=args.type, traverse=True):
+    featfilter = tag.select.features(reader, types=[args.type], traverse=True)
+    for feature in featfilter:
         features[feature.seqid].addi(feature.start, feature.end, feature)
         if feature.is_multi and feature.is_toplevel:
             for sib in feature.siblings:

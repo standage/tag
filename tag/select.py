@@ -10,30 +10,31 @@
 import tag
 
 
-def features(entrystream, type=None, traverse=False):
+def features(entrystream, types=None, traverse=False):
     """
     Pull features out of the specified entry stream.
 
     :param entrystream: a stream of entries
-    :param type: retrieve only features of the specified type; set to
-                 :code:`None` to retrieve all features
+    :param types: list of Sequence Ontology feature types; retrieve only
+                  features of the specified type(s); set to :code:`None` to
+                  retrieve all features
     :param traverse: by default, only top-level features are selected; set
                      to :code:`True` to search each feature graph for the
                      specified feature type
     """
     for feature in entry_type_filter(entrystream, tag.Feature):
         if traverse:
-            if type is None:
-                message = 'cannot traverse without a specific feature type'
+            if types is None:
+                message = 'cannot traverse without specific feature type(s)'
                 raise ValueError(message)
-            if type == feature.type:
+            if feature.type in types:
                 yield feature
             else:
                 for subfeature in feature:
-                    if type == subfeature.type:
+                    if subfeature.type in types:
                         yield subfeature
         else:
-            if not type or type == feature.type:
+            if not types or feature.type in types:
                 yield feature
 
 

@@ -58,7 +58,7 @@ class GFF3Reader():
     <class 'tag.sequence.Sequence'>
     <class 'tag.sequence.Sequence'>
     >>> reader = GFF3Reader(infilename='tests/testdata/pbar-withseq.gff3')
-    >>> for feature in tag.select.features(reader, type='gene'):
+    >>> for feature in tag.select.features(reader, types=['gene']):
     ...     print(feature.slug)
     gene@NW_011929623.1[4557, 5749]
     gene@NW_011929624.1[3725, 4229]

@@ -13,16 +13,16 @@ import tag
 
 def test_primary():
     reader = tag.reader.GFF3Reader(tag.pkgdata('nanosplice.gff3'))
-    gene = next(tag.select.features(tag.mrna.primary(reader), type='gene'))
+    gene = next(tag.select.features(tag.mrna.primary(reader), types=['gene']))
     assert gene.cdslen is None
     assert gene.num_children == 1
     assert gene.children[0].get_attribute('ID') == 'mRNAsecond'
 
     reader = tag.reader.GFF3Reader(tag.pkgdata('pdom-withseq.gff3'))
-    for gene in tag.select.features(tag.mrna.primary(reader), type='gene'):
+    for gene in tag.select.features(tag.mrna.primary(reader), types=['gene']):
         assert gene.num_children == 1
 
     reader = tag.reader.GFF3Reader(tag.pkgdata('psyllid-100k.gff3'))
-    for gene in tag.select.features(tag.mrna.primary(reader), type='gene'):
+    for gene in tag.select.features(tag.mrna.primary(reader), types=['gene']):
         mrnas = [f for f in gene if f.type == 'mRNA']
         assert len(mrnas) <= 1, mrnas

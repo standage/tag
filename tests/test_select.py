@@ -18,13 +18,13 @@ def test_features():
     assert len(features) == 3
 
     reader = GFF3Reader(infilename='tests/testdata/pbar-withseq.gff3')
-    features = [f for f in tag.select.features(reader, type='pseudogene')]
+    features = [f for f in tag.select.features(reader, types=['pseudogene'])]
     assert len(features) == 1
 
     reader = GFF3Reader(infilename='tests/testdata/pbar-withseq.gff3')
     with pytest.raises(ValueError) as ve:
         features = [f for f in tag.select.features(reader, traverse=True)]
-    assert 'cannot traverse without a specific feature type' in str(ve)
+    assert 'cannot traverse without specific feature type(s)' in str(ve)
 
 
 def test_window_contain():

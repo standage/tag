@@ -19,7 +19,8 @@ def primary(entrystream, parenttype='gene'):
     used for sorting.
 
     >>> reader = tag.reader.GFF3Reader(tag.pkgdata('pdom-withseq.gff3'))
-    >>> for gene in tag.select.features(tag.mrna.primary(reader), type='gene'):
+    >>> pmrnafilter = tag.mrna.primary(reader)
+    >>> for gene in tag.select.features(pmrnafilter, types=['gene']):
     ...    assert gene.num_children == 1
     """
     for entry in entrystream:
