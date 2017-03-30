@@ -8,24 +8,20 @@
 # -----------------------------------------------------------------------------
 
 from __future__ import print_function
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
 import pytest
 import tag
 from tag import GFF3Reader
 from tag import GFF3Writer
 
 
-def test_write_grape():
+def test_write_grape(capsys):
     reader = GFF3Reader(infilename='tests/testdata/grape-cpgat.gff3')
-    output = StringIO()
-    writer = GFF3Writer(reader, output)
+    writer = GFF3Writer(reader)
     writer.write()
-    with open('tests/testdata/grape-cpgat-writer.gff3', 'r') as testout:
-        testoutput = testout.read()
-    assert output.getvalue() == testoutput, (output, testoutput)
+
+    out, err = capsys.readouterr()
+    testout = tag.pkgdata('grape-cpgat-writer.gff3').read()
+    assert out.strip() == testout.strip()
 
 
 def test_write_stdout():
@@ -36,29 +32,27 @@ def test_write_stdout():
 
 def test_write_file():
     reader = GFF3Reader(infilename='tests/testdata/grape-cpgat.gff3')
-    output = 'tests/testdata/grape-cpgat-writer-out.gff3'
+    output = tag.pkgdata('grape-cpgat-writer-out.gff3', 'w')
     writer = GFF3Writer(reader, output)
     writer.write()
     del writer
 
-    with open('tests/testdata/grape-cpgat-writer.gff3', 'r') as testout:
-        testoutput1 = testout.read()
-    with open(output, 'r') as testout:
-        testoutput2 = testout.read()
-    assert testoutput1 == testoutput2, (testoutput1, testoutput2)
+    obs_out = tag.pkgdata('grape-cpgat-writer-out.gff3').read()
+    exp_out = tag.pkgdata('grape-cpgat-writer.gff3').read()
+    assert obs_out.strip() == exp_out.strip()
 
 
 @pytest.mark.parametrize('gff3', [
     'minimus.gff3',
     'prokka.gff3',
 ])
-def test_write_in_out(gff3):
+def test_write_in_out(gff3, capsys):
     reader = GFF3Reader(tag.pkgdata(gff3))
-    output = StringIO()
-    writer = GFF3Writer(reader, output)
+    writer = GFF3Writer(reader)
     writer.write()
 
-    assert output.getvalue().strip() == tag.pkgdata(gff3).read().strip()
+    out, err = capsys.readouterr()
+    assert out.strip() == tag.pkgdata(gff3).read().strip()
 
 
 def test_sort_multifeat(capsys):
@@ -68,7 +62,4 @@ def test_sort_multifeat(capsys):
 
     out, err = capsys.readouterr()
     testout = tag.pkgdata('psyllid-cdnamatch-sorted.gff3').read()
-    with open('one', 'w') as one, open('two', 'w') as two:
-        print(out, file=one)
-        print(testout, file=two)
-    assert out == testout
+    assert out.strip() == testout.strip()

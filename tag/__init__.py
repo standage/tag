@@ -40,9 +40,9 @@ def open(filename, mode):
     return openfunc(filename, mode)
 
 
-def pkgdata(filename):
+def pkgdata(filename, mode='r'):
     fullpath = '{dir}/{fn}'.format(dir='tests/testdata/', fn=filename)
-    return open(fullpath, 'r')
+    return open(fullpath, mode)
 
 
 def demo_feature():

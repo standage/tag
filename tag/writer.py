@@ -40,10 +40,10 @@ class GFF3Writer():
         self.outfile = None
         if outfile == '-':
             self.outfile == sys.stdout
-        elif isinstance(outfile, StringIO):
-            self.outfile = outfile
-        else:
+        elif isinstance(outfile, str):
             self.outfile = tag.open(outfile, 'w')
+        else:
+            self.outfile = outfile
         self.retainids = False
         self.feature_counts = defaultdict(int)
         self._seq_written = False
@@ -58,6 +58,8 @@ class GFF3Writer():
             if isinstance(entry, Feature):
                 for feature in entry:
                     if feature.num_children > 0 or feature.is_multi:
+                        if feature.is_multi and feature != feature.multi_rep:
+                            continue
                         self.feature_counts[feature.type] += 1
                         fid = '{}{}'.format(feature.type,
                                             self.feature_counts[feature.type])
