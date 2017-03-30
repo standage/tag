@@ -57,7 +57,7 @@ class GFF3Writer():
         for entry in self._instream:
             if isinstance(entry, Feature):
                 for feature in entry:
-                    if feature.num_children > 0:
+                    if feature.num_children > 0 or feature.is_multi:
                         self.feature_counts[feature.type] += 1
                         fid = '{}{}'.format(feature.type,
                                             self.feature_counts[feature.type])
