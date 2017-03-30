@@ -388,6 +388,10 @@ class Feature(object):
                     child.add_attribute('Parent', attrvalue,
                                         oldvalue=oldid)
             self._attrs[attrkey] = attrvalue
+            if self.is_multi:
+                self.multi_rep._attrs[attrkey] = attrvalue
+                for sibling in self.multi_rep.siblings:
+                    sibling._attrs[attrkey] = attrvalue
             return
 
         # Handle all other attribute types

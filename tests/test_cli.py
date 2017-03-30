@@ -88,15 +88,12 @@ def test_occ(gff3, ftype, expected_output):
     sys.stdout = oldstdout
 
 
-def test_pmrna():
-    oldstdout = sys.stdout
-    sys.stdout = StringIO()
+def test_pmrna(capsys):
     args = type('', (), {})()
     args.gff3 = 'tests/testdata/nanosplice.gff3'
     args.strict = True
     tag.cli.pmrna.main(args)
 
-    testout = tag.pkgdata('nanosplice-primary.gff3').read()
-    assert sys.stdout.getvalue() == testout
-
-    sys.stdout = oldstdout
+    out, err = capsys.readouterr()
+    exp_out = tag.pkgdata('nanosplice-primary.gff3').read()
+    assert out.strip() == exp_out.strip()
