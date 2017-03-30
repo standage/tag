@@ -2,6 +2,9 @@ addons:
     apt:
         packages:
             - cloc
+branches:
+  only:  # don't build "pushes" except on the master branch
+    - master
 language: python
 python:
     - 2.7
