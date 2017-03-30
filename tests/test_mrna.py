@@ -21,3 +21,8 @@ def test_primary():
     reader = tag.reader.GFF3Reader(tag.pkgdata('pdom-withseq.gff3'))
     for gene in tag.select.features(tag.mrna.primary(reader), type='gene'):
         assert gene.num_children == 1
+
+    reader = tag.reader.GFF3Reader(tag.pkgdata('psyllid-100k.gff3'))
+    for gene in tag.select.features(tag.mrna.primary(reader), type='gene'):
+        mrnas = [f for f in gene if f.type == 'mRNA']
+        assert len(mrnas) <= 1, mrnas
