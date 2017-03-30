@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Fixed
+- Bug with non-protein coding genes and the `tag.mrna.primary` selector.
+
 ## [0.3.1] - 2017-02-02
 ### Fixed
 - Range overlap queries accidentally left out of the previous release.

@@ -1,0 +1,36 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build Diaci psyllid genome assembly version 1.1
+#!genome-build-accession NCBI_Assembly:GCF_000475195.1
+##sequence-region   NW_007377440.1 1 100000
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=121845
+NW_007377440.1	Gnomon	gene	61136	62158	.	+	.	ID=gene1;Dbxref=GeneID:103504879;Name=LOC103504879;gbkey=Gene;gene=LOC103504879;gene_biotype=protein_coding
+NW_007377440.1	Gnomon	mRNA	61136	62158	.	+	.	ID=mRNA1;Parent=gene1;Dbxref=GeneID:103504879,Genbank:XM_008469211.1;Name=XM_008469211.1;gbkey=mRNA;gene=LOC103504879;model_evidence=Supporting evidence includes similarity to: 13 Proteins;product=ribokinase-like;transcript_id=XM_008469211.1
+NW_007377440.1	Gnomon	exon	61136	62158	.	+	.	Parent=mRNA1;Dbxref=GeneID:103504879,Genbank:XM_008469211.1;gbkey=mRNA;gene=LOC103504879;product=ribokinase-like;transcript_id=XM_008469211.1
+NW_007377440.1	Gnomon	CDS	61136	62158	.	+	0	Parent=mRNA1;Dbxref=GeneID:103504879,Genbank:XP_008467433.1;Name=XP_008467433.1;gbkey=CDS;gene=LOC103504879;product=ribokinase-like;protein_id=XP_008467433.1
+###
+NW_007377440.1	Gnomon	gene	63775	73670	.	-	.	ID=gene2;Dbxref=GeneID:103504972;Name=LOC103504972;gbkey=Gene;gene=LOC103504972;gene_biotype=protein_coding
+NW_007377440.1	Gnomon	mRNA	63775	73670	.	-	.	ID=mRNA2;Parent=gene2;Dbxref=GeneID:103504972,Genbank:XM_008469312.1;Name=XM_008469312.1;gbkey=mRNA;gene=LOC103504972;model_evidence=Supporting evidence includes similarity to: 93%25 coverage of the annotated genomic feature by RNAseq alignments;product=spondin-1-like;transcript_id=XM_008469312.1
+NW_007377440.1	Gnomon	exon	63775	63825	.	-	.	Parent=mRNA2;Dbxref=GeneID:103504972,Genbank:XM_008469312.1;gbkey=mRNA;gene=LOC103504972;product=spondin-1-like;transcript_id=XM_008469312.1
+NW_007377440.1	Gnomon	CDS	63775	63825	.	-	0	ID=CDS1;Parent=mRNA2;Dbxref=GeneID:103504972,Genbank:XP_008467534.1;Name=XP_008467534.1;gbkey=CDS;gene=LOC103504972;product=spondin-1-like;protein_id=XP_008467534.1
+NW_007377440.1	Gnomon	exon	65690	65783	.	-	.	Parent=mRNA2;Dbxref=GeneID:103504972,Genbank:XM_008469312.1;gbkey=mRNA;gene=LOC103504972;product=spondin-1-like;transcript_id=XM_008469312.1
+NW_007377440.1	Gnomon	CDS	65690	65783	.	-	1	ID=CDS1;Parent=mRNA2;Dbxref=GeneID:103504972,Genbank:XP_008467534.1;Name=XP_008467534.1;gbkey=CDS;gene=LOC103504972;product=spondin-1-like;protein_id=XP_008467534.1
+NW_007377440.1	Gnomon	exon	65944	66056	.	-	.	Parent=mRNA2;Dbxref=GeneID:103504972,Genbank:XM_008469312.1;gbkey=mRNA;gene=LOC103504972;product=spondin-1-like;transcript_id=XM_008469312.1
+NW_007377440.1	Gnomon	CDS	65944	66056	.	-	0	ID=CDS1;Parent=mRNA2;Dbxref=GeneID:103504972,Genbank:XP_008467534.1;Name=XP_008467534.1;gbkey=CDS;gene=LOC103504972;product=spondin-1-like;protein_id=XP_008467534.1
+NW_007377440.1	Gnomon	exon	67977	68118	.	-	.	Parent=mRNA2;Dbxref=GeneID:103504972,Genbank:XM_008469312.1;gbkey=mRNA;gene=LOC103504972;product=spondin-1-like;transcript_id=XM_008469312.1
+NW_007377440.1	Gnomon	CDS	67977	68118	.	-	1	ID=CDS1;Parent=mRNA2;Dbxref=GeneID:103504972,Genbank:XP_008467534.1;Name=XP_008467534.1;gbkey=CDS;gene=LOC103504972;product=spondin-1-like;protein_id=XP_008467534.1
+NW_007377440.1	Gnomon	exon	68321	68597	.	-	.	Parent=mRNA2;Dbxref=GeneID:103504972,Genbank:XM_008469312.1;gbkey=mRNA;gene=LOC103504972;product=spondin-1-like;transcript_id=XM_008469312.1
+NW_007377440.1	Gnomon	CDS	68321	68597	.	-	2	ID=CDS1;Parent=mRNA2;Dbxref=GeneID:103504972,Genbank:XP_008467534.1;Name=XP_008467534.1;gbkey=CDS;gene=LOC103504972;product=spondin-1-like;protein_id=XP_008467534.1
+NW_007377440.1	Gnomon	CDS	70765	70945	.	-	0	ID=CDS1;Parent=mRNA2;Dbxref=GeneID:103504972,Genbank:XP_008467534.1;Name=XP_008467534.1;gbkey=CDS;gene=LOC103504972;product=spondin-1-like;protein_id=XP_008467534.1
+NW_007377440.1	Gnomon	exon	70765	70951	.	-	.	Parent=mRNA2;Dbxref=GeneID:103504972,Genbank:XM_008469312.1;gbkey=mRNA;gene=LOC103504972;product=spondin-1-like;transcript_id=XM_008469312.1
+NW_007377440.1	Gnomon	exon	73521	73670	.	-	.	Parent=mRNA2;Dbxref=GeneID:103504972,Genbank:XM_008469312.1;gbkey=mRNA;gene=LOC103504972;product=spondin-1-like;transcript_id=XM_008469312.1
+###
+NW_007377440.1	tRNAscan-SE	gene	72667	72740	.	+	.	ID=gene3;Dbxref=GeneID:108252292;Name=Trnai-aau;gbkey=Gene;gene=Trnai-aau;gene_biotype=tRNA
+NW_007377440.1	tRNAscan-SE	tRNA	72667	72740	.	+	.	ID=tRNA1;Parent=gene3;Dbxref=GeneID:108252292;Note=transfer RNA isoleucine (anticodon AAU);anticodon=(pos:72701..72703);gbkey=tRNA;gene=Trnai-aau;product=tRNA-Ile
+NW_007377440.1	tRNAscan-SE	exon	72667	72740	.	+	.	Parent=tRNA1;Dbxref=GeneID:108252292;Note=transfer RNA isoleucine (anticodon AAU);anticodon=(pos:72701..72703);gbkey=tRNA;gene=Trnai-aau;product=tRNA-Ile
+###
+NW_007377440.1	tRNAscan-SE	gene	73076	73149	.	-	.	ID=gene4;Dbxref=GeneID:108252318;Name=Trnai-aau;gbkey=Gene;gene=Trnai-aau;gene_biotype=tRNA
+NW_007377440.1	tRNAscan-SE	tRNA	73076	73149	.	-	.	ID=tRNA2;Parent=gene4;Dbxref=GeneID:108252318;Note=transfer RNA isoleucine (anticodon AAU);anticodon=(pos:complement(73113..73115));gbkey=tRNA;gene=Trnai-aau;product=tRNA-Ile
+NW_007377440.1	tRNAscan-SE	exon	73076	73149	.	-	.	Parent=tRNA2;Dbxref=GeneID:108252318;Note=transfer RNA isoleucine (anticodon AAU);anticodon=(pos:complement(73113..73115));gbkey=tRNA;gene=Trnai-aau;product=tRNA-Ile
+###
