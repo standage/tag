@@ -66,7 +66,7 @@ class Feature(object):
         self.children = None
         self.multi_rep = None
         self.siblings = None
-        self.pseudo = False
+        self._pseudo = False
 
         if data is not None:
             self.populate(data)
@@ -95,7 +95,7 @@ class Feature(object):
 
     def __str__(self):
         """String representation of the feature, sans children."""
-        if self.pseudo:
+        if self.is_pseudo:
             return ''
 
         phase = '.'
@@ -185,7 +185,7 @@ class Feature(object):
         """Generator iterates through a feature and all its subfeatures."""
         sorted_features = list()
         root = self
-        if self.pseudo:
+        if self.is_pseudo:
             root = self.children[0]
         root._visit(L=sorted_features, marked={}, tempmarked={})
         for feat in sorted_features:
@@ -247,6 +247,10 @@ class Feature(object):
         self.children.append(child)
         self.children.sort()
 
+    @property
+    def is_pseudo(self):
+        return self._pseudo is True
+
     def pseudoify(self):
         """
         Derive a pseudo-feature parent from the given multi-feature.
@@ -265,7 +269,7 @@ class Feature(object):
         end = max([s.end for s in rep.siblings + [rep]])
 
         parent = Feature(None)
-        parent.pseudo = True
+        parent._pseudo = True
         parent._seqid = self._seqid
         parent.set_coord(start, end)
         parent._strand = self._strand
@@ -305,7 +309,7 @@ class Feature(object):
 
     @property
     def is_toplevel(self):
-        if self.pseudo:
+        if self.is_pseudo:
             return True
         return self.get_attribute('Parent') is None
 
@@ -328,7 +332,7 @@ class Feature(object):
         Invoking this method will designate the calling feature as the
         multi-feature representative and add the argument as a sibling.
         """
-        assert self.pseudo is False
+        assert self.is_pseudo is False
         if self.siblings is None:
             self.siblings = list()
             self.multi_rep = self
@@ -359,7 +363,7 @@ class Feature(object):
 
     @property
     def type(self):
-        if self.pseudo:
+        if self.is_pseudo:
             return self.children[0].type
         return self._type
 
