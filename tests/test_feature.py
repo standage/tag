@@ -58,7 +58,8 @@ def test_basic():
     """Test basic constructor."""
     with pytest.raises(TypeError) as te:
         f0 = Feature()
-    assert 'missing 1 required positional argument' in str(te)
+    assert 'missing 1 required positional argument' in str(te) or \
+        'takes exactly 2 arguements' in str(te)
 
     f0 = Feature(None)
     assert f0.seqid is None
