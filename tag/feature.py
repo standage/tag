@@ -52,11 +52,27 @@ class Feature(object):
     """
 
     def __init__(self, data):
-        fields = data.split('\t')
-        assert len(fields) == 9
+        # Core values
+        self._seqid = None
+        self._source = None
+        self._type = None
+        self._range = None
+        self._score = None
+        self._strand = None
+        self._phase = None
+        self._attributes = None
+
+        # Ancillary data
         self.children = None
         self.multi_rep = None
         self.siblings = None
+
+        if data is not None:
+            self.populate(data)
+
+    def populate(self, data):
+        fields = data.split('\t')
+        assert len(fields) == 9
 
         self._seqid = fields[0]
         self._source = fields[1]

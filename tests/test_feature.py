@@ -56,6 +56,15 @@ def eden():
 
 def test_basic():
     """Test basic constructor."""
+    with pytest.raises(TypeError) as te:
+        f0 = Feature()
+    assert 'missing 1 required positional argument' in str(te)
+
+    f0 = Feature(None)
+    assert f0.seqid is None
+    assert f0.source is None
+    assert f0.type is None
+
     gff3 = ['chr', 'vim', 'gene', '1000', '2000', '.', '+', '.', '.']
     f1 = Feature('\t'.join(gff3))
     assert '%s' % f1 == '\t'.join(gff3)
