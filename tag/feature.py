@@ -60,12 +60,13 @@ class Feature(object):
         self._score = None
         self._strand = None
         self._phase = None
-        self._attributes = None
+        self._attrs = dict()
 
         # Ancillary data
         self.children = None
         self.multi_rep = None
         self.siblings = None
+        self.pseudo = False
 
         if data is not None:
             self.populate(data)
@@ -94,6 +95,9 @@ class Feature(object):
 
     def __str__(self):
         """String representation of the feature, sans children."""
+        if self.pseudo:
+            return ''
+
         phase = '.'
         if self.phase is not None:
             phase = str(self.phase)
@@ -180,7 +184,10 @@ class Feature(object):
     def __iter__(self):
         """Generator iterates through a feature and all its subfeatures."""
         sorted_features = list()
-        self._visit(L=sorted_features, marked={}, tempmarked={})
+        root = self
+        if self.pseudo:
+            root = self.children[0]
+        root._visit(L=sorted_features, marked={}, tempmarked={})
         for feat in sorted_features:
             yield feat
 
@@ -240,6 +247,33 @@ class Feature(object):
         self.children.append(child)
         self.children.sort()
 
+    def pseudoify(self):
+        """
+        Derive a pseudo-feature parent from the given multi-feature.
+
+        The provided multi-feature does not need to be the representative. The
+        newly created pseudo-feature has the same seqid as the provided multi-
+        feature, and spans its entire range. Otherwise, the pseudo-feature is
+        empty. It is used only for convenience in sorting.
+        """
+        assert self.is_toplevel
+        assert self.is_multi
+        assert len(self.multi_rep.siblings) > 0
+        rep = self.multi_rep
+
+        start = min([s.start for s in rep.siblings + [rep]])
+        end = max([s.end for s in rep.siblings + [rep]])
+
+        parent = Feature(None)
+        parent.pseudo = True
+        parent._seqid = self._seqid
+        parent.set_coord(start, end)
+        parent._strand = self._strand
+        for sibling in rep.siblings + [rep]:
+            parent.add_child(sibling, rangecheck=True)
+
+        return parent
+
     @property
     def num_children(self):
         if self.children is None:
@@ -271,6 +305,8 @@ class Feature(object):
 
     @property
     def is_toplevel(self):
+        if self.pseudo:
+            return True
         return self.get_attribute('Parent') is None
 
     def add_sibling(self, sibling):
@@ -292,6 +328,7 @@ class Feature(object):
         Invoking this method will designate the calling feature as the
         multi-feature representative and add the argument as a sibling.
         """
+        assert self.pseudo is False
         if self.siblings is None:
             self.siblings = list()
             self.multi_rep = self
@@ -322,6 +359,8 @@ class Feature(object):
 
     @property
     def type(self):
+        if self.pseudo:
+            return self.children[0].type
         return self._type
 
     @type.setter
@@ -458,7 +497,7 @@ class Feature(object):
         Given a string with semicolon-separated key-value pairs, populate a
         dictionary with the given attributes.
         """
-        if attrstring == '.':
+        if attrstring in [None, '', '.']:
             return dict()
 
         attributes = dict()
