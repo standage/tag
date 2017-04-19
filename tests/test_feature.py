@@ -455,3 +455,35 @@ def test_pseudo_1():
     assert parent.slug == 'cDNA_match@chr[1000, 6000]'
     assert repr(parent) == repr(feat_x)
     assert repr(parent) == repr(feat_z.pseudoify())
+
+
+def test_ncbi_geneid():
+    gff3 = ('NW_007377440.1	Gnomon	gene	63775	73670	.	-	.	'
+            'ID=gene2;Name=LOC103504972;Dbxref=GeneID:103504972;gbkey=Gene;'
+            'gene=LOC103504972;gene_biotype=protein_coding')
+    gene = Feature(gff3)
+    assert gene.ncbi_geneid == '103504972'
+
+    gff3 = ('NW_007378253.1	Gnomon	mRNA	103380	167368	.	-	.	'
+            'ID=mRNA10000;Parent=gene9300;Name=XM_008477076.2;'
+            'Dbxref=Genbank:XM_008477076.2,GeneID:103512317;gbkey=mRNA;'
+            'gene=LOC103512317;model_evidence=Supporting evidence includes '
+            'similarity to: 5 Proteins%2C and 84%25 coverage of the annotated '
+            'genomic feature by RNAseq alignments;'
+            'product=glutamine--fructose-6-phosphate aminotransferase '
+            '[isomerizing] 2-like;transcript_id=XM_008477076.2')
+    mrna = Feature(gff3)
+    assert mrna.ncbi_geneid == '103512317'
+
+    gff3 = ('NW_007377513.1	RefSeq	cDNA_match	271974	274535	.	+	.	'
+            'ID=cDNA_match42;Gap=M2086 D2 M474;Target=XM_008486908.2 1 2560 +;'
+            'for_remapping=2;gap_count=1;num_ident=2840;num_mismatch=0;'
+            'pct_coverage=100;pct_coverage_hiqual=100;'
+            'pct_identity_gap=99.9296;pct_identity_ungap=100;rank=1')
+    match = Feature(gff3)
+    assert match.ncbi_geneid is None
+
+    gff3 = ('chr	atom	region	1000	2000	.	.	.	'
+            'Dbxref=MyDB:ID12345')
+    region = Feature(gff3)
+    assert region.ncbi_geneid is None
