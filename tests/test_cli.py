@@ -55,6 +55,7 @@ def test_gff3_strict():
     args.out = StringIO()
     args.gff3 = 'tests/testdata/mito-trna.gff3'
     args.strict = True
+    args.sorted = False
 
     with pytest.raises(AssertionError) as ae:
         tag.cli.gff3.main(args)

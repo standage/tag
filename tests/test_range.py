@@ -132,5 +132,7 @@ def test_amel():
     reader = GFF3Reader(infilename='tests/testdata/amel-cdna-multi.gff3')
     records = [r for r in reader]
     assert len(records) == 4
-    assert records[2]._range == Range(263429, 264299)
+    assert records[2]._range == Range(263429, 325784)
+    assert records[2].type == 'gene'
     assert records[3]._range == Range(263429, 325784)
+    assert records[3].type == 'cDNA_match'

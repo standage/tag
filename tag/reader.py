@@ -103,7 +103,10 @@ class GFF3Reader():
                     for obj in self._resolve_features():
                         if self._prevrecord and self._prevrecord > obj:
                             msg = 'sorting error: '
-                            msg += '{} > {}'.format(self._prevrecord, obj)
+                            msg += '{} > {}'.format(
+                                self._prevrecord.slug,
+                                obj.slug,
+                            )
                             raise ValueError(msg)
                         self._prevrecord = obj
                         self._counter += 1
@@ -143,16 +146,17 @@ class GFF3Reader():
                 self.inferred_regions[feature.seqid].start = min(rstr, fstr)
                 self.inferred_regions[feature.seqid].end = max(rend, fend)
 
+                featureid = feature.get_attribute('ID')
                 parentid = feature.get_attribute('Parent')
                 if parentid is None:
-                    # All components of a multi-feature are added here...
-                    self.records.append(feature)
+                    # Only add one entry from each multi-feature
+                    if featureid is None or featureid not in self.featsbyid:
+                        self.records.append(feature)
                 else:
                     if parentid not in self.featsbyparent:
                         self.featsbyparent[parentid] = list()
                     self.featsbyparent[parentid].append(feature)
 
-                featureid = feature.get_attribute('ID')
                 if featureid is not None:
                     if featureid in self.featsbyid:
                         # Validate multi-features
@@ -165,12 +169,6 @@ class GFF3Reader():
                         self.featsbyid[featureid] = feature
 
         for obj in self._resolve_features():
-            if isinstance(obj, Feature):
-                if obj.is_multi and obj.multi_rep != obj:
-                    # ...so we must filter multi-features here and only yield
-                    # the multi-feature representative
-                    continue
-
             if self._counter == 0:
                 isv = isinstance(obj, Directive) and obj.type == 'gff-version'
                 if not isv:
@@ -189,6 +187,23 @@ class GFF3Reader():
             parent = self.featsbyid[parentid]
             for child in self.featsbyparent[parentid]:
                 parent.add_child(child, rangecheck=self.strict)
+
+        # Replace top-level multi-feature reps with a pseudo-feature
+        for n, record in enumerate(self.records):
+            if not isinstance(record, Feature):
+                continue
+            if not record.is_multi:
+                continue
+            assert record.multi_rep == record
+            newrep = sorted(record.siblings + [record])[0]
+            if newrep != record:
+                for sib in sorted(record.siblings + [record]):
+                    sib.multi_rep = newrep
+                    if sib != newrep:
+                        newrep.add_sibling(sib)
+                record.siblings = None
+            parent = newrep.pseudoify()
+            self.records[n] = parent
 
         if not self.assumesorted:
             for seqid in self.inferred_regions:

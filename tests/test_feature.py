@@ -56,6 +56,16 @@ def eden():
 
 def test_basic():
     """Test basic constructor."""
+    with pytest.raises(TypeError) as te:
+        f0 = Feature()
+    assert 'missing 1 required positional argument' in str(te) or \
+        'takes exactly 2 arguments' in str(te)
+
+    f0 = Feature(None)
+    assert f0.seqid is None
+    assert f0.source is None
+    assert f0.type is None
+
     gff3 = ['chr', 'vim', 'gene', '1000', '2000', '.', '+', '.', '.']
     f1 = Feature('\t'.join(gff3))
     assert '%s' % f1 == '\t'.join(gff3)
@@ -425,3 +435,23 @@ def test_cyclic():
         gff3string = repr(gene)
     except Exception:
         pass
+
+
+def test_pseudo_1():
+    gff_x = 'chr\tatom\tcDNA_match\t1000\t2000\t.\t+\t.\tID=alignment1'
+    gff_y = 'chr\tatom\tcDNA_match\t3000\t4000\t.\t+\t.\tID=alignment1'
+    gff_z = 'chr\tatom\tcDNA_match\t5000\t6000\t.\t+\t.\tID=alignment1'
+
+    feat_x = Feature(gff_x)
+    feat_y = Feature(gff_y)
+    feat_z = Feature(gff_z)
+
+    feat_x.add_sibling(feat_y)
+    feat_x.add_sibling(feat_z)
+
+    parent = feat_x.pseudoify()
+    assert str(parent) == ''
+    assert parent.is_toplevel is True
+    assert parent.slug == 'cDNA_match@chr[1000, 6000]'
+    assert repr(parent) == repr(feat_x)
+    assert repr(parent) == repr(feat_z.pseudoify())

@@ -52,11 +52,28 @@ class Feature(object):
     """
 
     def __init__(self, data):
-        fields = data.split('\t')
-        assert len(fields) == 9
+        # Core values
+        self._seqid = None
+        self._source = None
+        self._type = None
+        self._range = None
+        self._score = None
+        self._strand = None
+        self._phase = None
+        self._attrs = dict()
+
+        # Ancillary data
         self.children = None
         self.multi_rep = None
         self.siblings = None
+        self._pseudo = False
+
+        if data is not None:
+            self.populate(data)
+
+    def populate(self, data):
+        fields = data.split('\t')
+        assert len(fields) == 9
 
         self._seqid = fields[0]
         self._source = fields[1]
@@ -78,6 +95,9 @@ class Feature(object):
 
     def __str__(self):
         """String representation of the feature, sans children."""
+        if self.is_pseudo:
+            return ''
+
         phase = '.'
         if self.phase is not None:
             phase = str(self.phase)
@@ -164,7 +184,10 @@ class Feature(object):
     def __iter__(self):
         """Generator iterates through a feature and all its subfeatures."""
         sorted_features = list()
-        self._visit(L=sorted_features, marked={}, tempmarked={})
+        root = self
+        if self.is_pseudo:
+            root = self.children[0].multi_rep
+        root._visit(L=sorted_features, marked={}, tempmarked={})
         for feat in sorted_features:
             yield feat
 
@@ -187,6 +210,7 @@ class Feature(object):
         reversed order (in this functions' inner-most loop) seems to be the key
         to sorting with respect to genome coordinates.
         """
+        assert not self.is_pseudo
         if self in tempmarked:
             raise Exception('feature graph is cyclic')
         if self not in marked:
@@ -225,6 +249,39 @@ class Feature(object):
         self.children.sort()
 
     @property
+    def is_pseudo(self):
+        return self._pseudo is True
+
+    def pseudoify(self):
+        """
+        Derive a pseudo-feature parent from the given multi-feature.
+
+        The provided multi-feature does not need to be the representative. The
+        newly created pseudo-feature has the same seqid as the provided multi-
+        feature, and spans its entire range. Otherwise, the pseudo-feature is
+        empty. It is used only for convenience in sorting.
+        """
+        assert self.is_toplevel
+        assert self.is_multi
+        assert len(self.multi_rep.siblings) > 0
+        rep = self.multi_rep
+
+        start = min([s.start for s in rep.siblings + [rep]])
+        end = max([s.end for s in rep.siblings + [rep]])
+
+        parent = Feature(None)
+        parent._pseudo = True
+        parent._seqid = self._seqid
+        parent.set_coord(start, end)
+        parent._strand = self._strand
+        for sibling in rep.siblings + [rep]:
+            parent.add_child(sibling, rangecheck=True)
+        parent.children = sorted(parent.children)
+        rep.siblings = sorted(rep.siblings)
+
+        return parent
+
+    @property
     def num_children(self):
         if self.children is None:
             return 0
@@ -255,6 +312,8 @@ class Feature(object):
 
     @property
     def is_toplevel(self):
+        if self.is_pseudo:
+            return True
         return self.get_attribute('Parent') is None
 
     def add_sibling(self, sibling):
@@ -276,6 +335,7 @@ class Feature(object):
         Invoking this method will designate the calling feature as the
         multi-feature representative and add the argument as a sibling.
         """
+        assert self.is_pseudo is False
         if self.siblings is None:
             self.siblings = list()
             self.multi_rep = self
@@ -306,6 +366,8 @@ class Feature(object):
 
     @property
     def type(self):
+        if self.is_pseudo:
+            return self.children[0].type
         return self._type
 
     @type.setter
@@ -442,7 +504,7 @@ class Feature(object):
         Given a string with semicolon-separated key-value pairs, populate a
         dictionary with the given attributes.
         """
-        if attrstring == '.':
+        if attrstring in [None, '', '.']:
             return dict()
 
         attributes = dict()

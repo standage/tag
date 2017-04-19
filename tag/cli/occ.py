@@ -33,10 +33,11 @@ def main(args):
     features = defaultdict(IntervalTree)
     reader = tag.reader.GFF3Reader(infilename=args.gff3, strict=args.strict)
     for feature in tag.select.features(reader, type=args.type, traverse=True):
-        features[feature.seqid].addi(feature.start, feature.end, feature)
-        if feature.is_multi and feature.is_toplevel:
-            for sib in feature.siblings:
-                features[sib.seqid].addi(sib.start, sib.end, sib)
+        if feature.is_pseudo:
+            for sub in feature:
+                features[sub.seqid].addi(sub.start, sub.end, sub)
+        else:
+            features[feature.seqid].addi(feature.start, feature.end, feature)
 
     total_occ = 0
     ints_acct_for = defaultdict(IntervalTree)
