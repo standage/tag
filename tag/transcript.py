@@ -51,6 +51,11 @@ def primary_mrna(entrystream, parenttype='gene'):
     where multiple isoforms have the same translated length, the feature ID is
     used for sorting.
 
+    This function **does not** return only mRNA features, it returns all GFF3
+    entry types (pragmas, features, sequences, etc). The function **does**
+    modify the gene features that pass through to ensure that they have at most
+    a single mRNA feature.
+
     >>> reader = tag.GFF3Reader(tag.pkgdata('pdom-withseq.gff3'))
     >>> filter = tag.transcript.primary_mrna(reader)
     >>> for gene in tag.select.features(filter, type='gene'):
@@ -102,6 +107,23 @@ def primary_transcript(entrystream, parenttype='gene', logstream=stderr):
     length. For all other transcript types, the length of the transcript
     feature itself is used. I'd be eager to hear suggestions for alternative
     selection criteria.
+
+    Like the `primary_mrna` function, this function **does not** return only
+    transcript features. It **does** modify gene features to ensure that each
+    has at most one transcript feature.
+
+    >>> reader = tag.GFF3Reader(tag.pkgdata('psyllid-mixed-gene.gff3.gz'))
+    >>> gene_filter = tag.select.features(reader, type='gene')
+    >>> trans_filter = tag.transcript.primary_transcript(gene_filter)
+    >>> for gene in trans_filter:
+    ...     assert gene.num_children == 1
+
+    In cases where the direct children of a gene feature have heterogenous
+    types, the `primary_mrna` function will only discard mRNA features. This
+    function, however, will discard all direct children of the gene that are
+    not the primary transcript, including non-transcript children. This is a
+    retty subtle distinction, and anecdotal experience suggests that cases in
+    which the distinction actually matters are extremely rare.
     """
     for entry in entrystream:
         if not isinstance(entry, tag.Feature):
