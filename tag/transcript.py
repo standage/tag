@@ -10,7 +10,7 @@
 import tag
 
 
-def primary(entrystream, parenttype='gene'):
+def primary_mrna(entrystream, parenttype='gene'):
     """
     Select a single mRNA as a representative for each protein-coding gene.
 
@@ -19,7 +19,8 @@ def primary(entrystream, parenttype='gene'):
     used for sorting.
 
     >>> reader = tag.reader.GFF3Reader(tag.pkgdata('pdom-withseq.gff3'))
-    >>> for gene in tag.select.features(tag.mrna.primary(reader), type='gene'):
+    >>> filter = tag.transcript.primary_mrna(reader)
+    >>> for gene in tag.select.features(filter, type='gene'):
     ...    assert gene.num_children == 1
     """
     for entry in entrystream:

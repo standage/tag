@@ -23,5 +23,5 @@ def subparser(subparsers):
 
 def main(args):
     reader = tag.GFF3Reader(infilename=args.gff3, strict=args.strict)
-    writer = tag.GFF3Writer(tag.mrna.primary(reader))
+    writer = tag.GFF3Writer(tag.transcript.primary_mrna(reader))
     writer.write()
