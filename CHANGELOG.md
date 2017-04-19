@@ -7,6 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Pseudo-features for better handling and sorting of top-level multi-features.
 - A new `primary_transcript` filter as a generalization of the `primary_mrna`
   function.
+- A new function to query features for NCBI `GeneID` values.
+- A new function to traverse a feature and all of its children to collect all
+  attribute values associate with a given key.
 
 ### Fixed
 - Bug with non-protein coding genes and the `tag.mrna.primary` filter (now
