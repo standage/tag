@@ -195,16 +195,14 @@ class GFF3Reader():
             if not record.is_multi:
                 continue
             assert record.multi_rep == record
-            # newrep = sorted(record.siblings + [record])[0]
-            # if newrep != record:
-            #     for sib in sorted(record.siblings + [record]):
-            #         print('DEBUG', sib.slug)
-            #         sib.multi_rep = newrep
-            #         if sib != newrep:
-            #             newrep.add_sibling(sib)
-            #     record.siblings = None
-            # parent = newrep.pseudoify()
-            parent = record.pseudoify()
+            newrep = sorted(record.siblings + [record])[0]
+            if newrep != record:
+                for sib in sorted(record.siblings + [record]):
+                    sib.multi_rep = newrep
+                    if sib != newrep:
+                        newrep.add_sibling(sib)
+                record.siblings = None
+            parent = newrep.pseudoify()
             self.records[n] = parent
 
         if not self.assumesorted:

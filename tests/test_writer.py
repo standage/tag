@@ -63,3 +63,13 @@ def test_sort_multifeat(capsys):
     out, err = capsys.readouterr()
     testout = tag.pkgdata('psyllid-cdnamatch-sorted.gff3').read()
     assert out.strip() == testout.strip()
+
+
+def test_sort_multifeat_reverse(capsys):
+    reader = GFF3Reader(tag.pkgdata('psyllid-cdnamatch-reverse.gff3'))
+    writer = GFF3Writer(reader)
+    writer.write()
+
+    out, err = capsys.readouterr()
+    testout = tag.pkgdata('psyllid-cdnamatch-reverse-sorted.gff3').read()
+    assert out.strip() == testout.strip()

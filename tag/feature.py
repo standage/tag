@@ -210,6 +210,7 @@ class Feature(object):
         reversed order (in this functions' inner-most loop) seems to be the key
         to sorting with respect to genome coordinates.
         """
+        assert not self.is_pseudo
         if self in tempmarked:
             raise Exception('feature graph is cyclic')
         if self not in marked:
