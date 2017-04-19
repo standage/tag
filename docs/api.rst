@@ -57,6 +57,12 @@ but may include others in the future.
 .. automodule:: tag.writer
    :members:
 
+Transcript
+----------
+
+.. automodule:: tag.transcript
+   :members:
+
 Selectors
 ---------
 
