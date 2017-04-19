@@ -1,0 +1,5 @@
+chr	nano	gene	10000	20000	.	-	.	ID=gene1;Name=bogus
+chr	nano	lnc_RNA	10000	20000	.	-	.	ID=rna1;Parent=gene1
+chr	nano	exon	10000	20000	.	-	.	Parent=rna1
+chr	nano	transcript	10000	15000	.	-	.	ID=rna2;Parent=gene1
+chr	nano	exon	10000	15000	.	-	.	Parent=rna2
