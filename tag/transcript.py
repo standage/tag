@@ -7,6 +7,7 @@
 # under the BSD 3-clause license: see LICENSE.
 # -----------------------------------------------------------------------------
 
+from __future__ import print_function
 from collections import defaultdict
 from sys import stderr
 import tag
