@@ -487,3 +487,15 @@ def test_ncbi_geneid():
             'Dbxref=MyDB:ID12345')
     region = Feature(gff3)
     assert region.ncbi_geneid is None
+
+
+def test_attribute_crawl():
+    from tag import GFF3Reader
+    from tag import select
+    from tag import pkgdata
+
+    reader = GFF3Reader(pkgdata('pbar-withseq.gff3'))
+    features = select.features(reader)
+    gene = next(features)
+    names = ['XP_011630649.1', 'LOC105422795', 'XM_011632347.1']
+    assert gene.attribute_crawl('Name') == set(names)

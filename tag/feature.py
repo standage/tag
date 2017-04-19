@@ -522,8 +522,42 @@ class Feature(object):
             attributes[key] = valdict
         return attributes
 
+    def attribute_crawl(self, key):
+        """
+        Grab all attribute values associated with the given feature.
+
+        Traverse the given feature (and all of its descendants) to find all
+        values associated with the given attribute key.
+
+        >>> import tag
+        >>> reader = tag.GFF3Reader(tag.pkgdata('otau-no-seqreg.gff3'))
+        >>> features = tag.select.features(reader)
+        >>> for feature in features:
+        ...     names = feature.attribute_crawl('Name')
+        ...     print(sorted(list(names)))
+        ['Ot01g00060', 'XM_003074019.1', 'XP_003074065.1']
+        ['Ot01g00070', 'XM_003074020.1', 'XP_003074066.1']
+        ['Ot01g00080', 'XM_003074021.1', 'XP_003074067.1']
+        ['Ot01g00090', 'XM_003074022.1', 'XP_003074068.1']
+        ['Ot01g00100', 'XM_003074023.1', 'XP_003074069.1']
+        ['Ot01g00110', 'XM_003074024.1', 'XP_003074070.1']
+        """
+        union = set()
+        for feature in self:
+            values = feature.get_attribute(key, as_list=True)
+            if values is not None:
+                union.update(set(values))
+        return union
+
     @property
     def ncbi_geneid(self):
+        """
+        Retrieve this feature's NCBI GeneID if it's present.
+
+        NCBI GFF3 files contain gene IDs encoded in **Dbxref** attributes
+        (example: `Dbxref=GeneID:103504972`). This function locates and returns
+        the GeneID if present, or returns `None` otherwise.
+        """
         values = self.get_attribute('Dbxref', as_list=True)
         if values is None:
             return None
