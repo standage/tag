@@ -186,7 +186,7 @@ class Feature(object):
         sorted_features = list()
         root = self
         if self.is_pseudo:
-            root = self.children[0]
+            root = self.children[0].multi_rep
         root._visit(L=sorted_features, marked={}, tempmarked={})
         for feat in sorted_features:
             yield feat
@@ -275,6 +275,8 @@ class Feature(object):
         parent._strand = self._strand
         for sibling in rep.siblings + [rep]:
             parent.add_child(sibling, rangecheck=True)
+        parent.children = sorted(parent.children)
+        rep.siblings = sorted(rep.siblings)
 
         return parent
 

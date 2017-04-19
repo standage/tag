@@ -103,7 +103,10 @@ class GFF3Reader():
                     for obj in self._resolve_features():
                         if self._prevrecord and self._prevrecord > obj:
                             msg = 'sorting error: '
-                            msg += '{} > {}'.format(self._prevrecord, obj)
+                            msg += '{} > {}'.format(
+                                self._prevrecord.slug,
+                                obj.slug,
+                            )
                             raise ValueError(msg)
                         self._prevrecord = obj
                         self._counter += 1
@@ -147,7 +150,7 @@ class GFF3Reader():
                 parentid = feature.get_attribute('Parent')
                 if parentid is None:
                     # Only add one entry from each multi-feature
-                    if featureid not in self.featsbyid:
+                    if featureid is None or featureid not in self.featsbyid:
                         self.records.append(feature)
                 else:
                     if parentid not in self.featsbyparent:
@@ -192,6 +195,15 @@ class GFF3Reader():
             if not record.is_multi:
                 continue
             assert record.multi_rep == record
+            # newrep = sorted(record.siblings + [record])[0]
+            # if newrep != record:
+            #     for sib in sorted(record.siblings + [record]):
+            #         print('DEBUG', sib.slug)
+            #         sib.multi_rep = newrep
+            #         if sib != newrep:
+            #             newrep.add_sibling(sib)
+            #     record.siblings = None
+            # parent = newrep.pseudoify()
             parent = record.pseudoify()
             self.records[n] = parent
 

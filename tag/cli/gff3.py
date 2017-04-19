@@ -18,10 +18,13 @@ def subparser(subparsers):
                            'specified file; default is terminal (stdout)')
     subparser.add_argument('-r', '--relax', action='store_false', default=True,
                            dest='strict', help='relax parsing stringency')
+    subparser.add_argument('-s', '--sorted', action='store_true',
+                           help='assume the input data is sorted')
     subparser.add_argument('gff3', help='input file in GFF3 format')
 
 
 def main(args):
-    reader = tag.reader.GFF3Reader(infilename=args.gff3, strict=args.strict)
+    reader = tag.reader.GFF3Reader(infilename=args.gff3, strict=args.strict,
+                                   assumesorted=args.sorted)
     writer = tag.writer.GFF3Writer(reader, args.out)
     writer.write()
