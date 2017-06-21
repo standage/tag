@@ -1,0 +1,12 @@
+Summary for file "tests/testdata/GCF_001639295.1_ASM163929v1_genomic.gff.gz":
+    - 232 annotated sequences for a total length of 2414608 bp
+    - 4298 annotated features (or feature entries)
+        - 1973 entries of type CDS, maximum length: 12025 bp
+        - 1 entries of type RNase_P_RNA, maximum length: 274 bp
+        - 1 entries of type SRP_RNA, maximum length: 316 bp
+        - 40 entries of type exon, maximum length: 2857 bp
+        - 2012 entries of type gene, maximum length: 12025 bp
+        - 4 entries of type rRNA, maximum length: 2857 bp
+        - 232 entries of type region, maximum length: 74332 bp
+        - 2 entries of type repeat_region, maximum length: 3602 bp
+        - 33 entries of type tRNA, maximum length: 107 bp
