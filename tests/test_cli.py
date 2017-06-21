@@ -98,3 +98,12 @@ def test_pmrna(capsys):
     out, err = capsys.readouterr()
     exp_out = tag.pkgdata('nanosplice-primary.gff3').read()
     assert out.strip() == exp_out.strip()
+
+
+def test_sum(capsys):
+    infile = 'tests/testdata/GCF_001639295.1_ASM163929v1_genomic.gff.gz'
+    args = tag.cli.parser().parse_args(['sum', infile])
+    tag.cli.sum.main(args)
+
+    out, err = capsys.readouterr()
+    assert out.strip() == tag.pkgdata('sum-test-out.txt').read().strip()
