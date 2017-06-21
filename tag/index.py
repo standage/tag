@@ -22,8 +22,10 @@ class Index(defaultdict):
     >>> import tag
     >>> index = tag.index.Index()
     >>> index.consume_file('tests/testdata/pcan-123.gff3.gz')
-    >>> sorted(index.keys())
+    >>> list(index.seqids)
     ['scaffold_123', 'scaffold_124', 'scaffold_125']
+    >>> index.extent('scaffold_124')
+    (6020, 444332)
     >>> for feature in index.query('scaffold_123', 5000, 6000):
     ...     print(feature.slug)
     gene@scaffold_123[5583, 5894]
@@ -118,3 +120,15 @@ class Index(defaultdict):
         return sorted([
             intvl.data for intvl in self[seqid].search(start, end, strict)
         ])
+
+    @property
+    def seqids(self):
+        for seqid in sorted(self.keys()):
+            yield seqid
+
+    def extent(self, seqid):
+        regions = self.inferred_regions
+        if not self.yield_inferred:
+            regions = self.declared_regions
+        sr = regions[seqid]
+        return sr.start, sr.end
