@@ -74,3 +74,11 @@ def test_consume():
     index.consume_feature(entries[3])
     index.consume_file('tests/testdata/pcan-123.gff3.gz')
     assert len(index) == 4
+
+
+def test_extent():
+    index = tag.index.Index()
+    index.consume_file('tests/testdata/pcan-123.gff3.gz')
+    assert index.extent('scaffold_124') == (6020, 444332)
+    index.yield_inferred = False
+    assert index.extent('scaffold_125') == (0, 449039)
