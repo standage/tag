@@ -44,14 +44,14 @@ class Directive(object):
         assert data.startswith('##')
         self._rawdata = data
 
-        formatmatch = re.match('##gff-version\s+(\d+)', data)
+        formatmatch = re.match(r'##gff-version\s+(\d+)', data)
         if formatmatch:
             self.dirtype = 'gff-version'
             self.version = formatmatch.group(1)
             assert self.version == '3', 'Only GFF version 3 is supported'
             return
 
-        formatmatch = re.match('##sequence-region\s+(\S+) (\d+) (\d+)', data)
+        formatmatch = re.match(r'##sequence-region\s+(\S+) (\d+) (\d+)', data)
         if formatmatch:
             self.dirtype = 'sequence-region'
             self.seqid = formatmatch.group(1)
@@ -59,27 +59,28 @@ class Directive(object):
                                int(formatmatch.group(3)))
             return
 
-        formatmatch = re.match('##((feature|attribute|source)-ontology)'
-                               '\s+(\S+)', data)
+        formatmatch = re.match(
+            r'##((feature|attribute|source)-ontology)\s+(\S+)', data
+        )
         if formatmatch:
             self.dirtype = formatmatch.group(1)
             self.uri = formatmatch.group(3)
             return
 
-        formatmatch = re.match('##species\s+(\S+)', data)
+        formatmatch = re.match(r'##species\s+(\S+)', data)
         if formatmatch:
             self.dirtype = 'species'
             self.uri = formatmatch.group(1)
             return
 
-        formatmatch = re.match('##genome-build\s+(\S+)\s+(\S+)', data)
+        formatmatch = re.match(r'##genome-build\s+(\S+)\s+(\S+)', data)
         if formatmatch:
             self.dirtype = 'genome-build'
             self.source = formatmatch.group(1)
             self.build_name = formatmatch.group(2)
             return
 
-        formatmatch = re.match('##(\S+)(\s+(.+))*', data)
+        formatmatch = re.match(r'##(\S+)(\s+(.+))*', data)
         assert formatmatch
         self.dirtype = formatmatch.group(1)
         self.data = formatmatch.group(3)

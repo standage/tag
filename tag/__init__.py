@@ -10,7 +10,7 @@
 
 try:
     import __builtin__ as builtins
-except:  # pragma: no cover
+except ImportError:  # pragma: no cover
     import builtins
 from tag.comment import Comment
 from tag.directive import Directive

@@ -107,7 +107,7 @@ class Index(defaultdict):
             for interval in sorted(self[seqid]):
                 yield interval.data
 
-    def query(self, seqid, start, end, strict=True):
+    def query(self, seqid, start, end=None, strict=True):
         """
         Query the index for features in the specified range.
 
@@ -117,9 +117,16 @@ class Index(defaultdict):
         :param strict: indicates whether query is strict containment or overlap
                        (:code:`True` and :code:`False`, respectively)
         """
-        return sorted([
-            intvl.data for intvl in self[seqid].search(start, end, strict)
-        ])
+        if end and strict:
+            query = self[seqid].envelop
+            args = (start, end)
+        elif end and not strict:
+            query = self[seqid].overlap
+            args = (start, end)
+        else:
+            query = self[seqid].at
+            args = [start]
+        return sorted([intvl.data for intvl in query(*args)])
 
     @property
     def seqids(self):

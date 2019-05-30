@@ -8,7 +8,7 @@
 SHELL=/bin/bash -o pipefail
 
 test:
-	py.test -v --cov=tag --doctest-modules tag/*.py tests/*.py
+	py.test --cov=tag --doctest-modules $(shell ls tag/*.py | grep -v __init__) tests/*.py
 
 doc:
 	cd docs && make html
@@ -17,10 +17,10 @@ install:
 	pip install .
 
 devenv:
-	pip install pytest pytest-cov pep8 sphinx
+	pip install 'pytest>=3.6' pytest-cov pycodestyle sphinx
 
 style:
-	pep8 tag/*.py tests/*.py tag/cli/*.py
+	pycodestyle tag/*.py tests/*.py tag/cli/*.py
 
 loc:
 	cloc --exclude-list-file=<(echo tag/_version.py) tag/*.py

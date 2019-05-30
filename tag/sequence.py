@@ -86,15 +86,15 @@ class Sequence(object):
         """
         accession = None
         if self.defline.startswith('>gi|'):
-            match = re.match('>gi\|\d+\|[^\|]+\|([^\|\n ]+)', self.defline)
+            match = re.match(r'>gi\|\d+\|[^\|]+\|([^\|\n ]+)', self.defline)
             if match:
                 accession = match.group(1)
         elif self.defline.startswith('>gnl|'):
-            match = re.match('>gnl\|[^\|]+\|([^\|\n ]+)', self.defline)
+            match = re.match(r'>gnl\|[^\|]+\|([^\|\n ]+)', self.defline)
             if match:
                 accession = match.group(1)
         elif self.defline.startswith('>lcl|'):
-            match = re.match('>lcl\|([^\|\n ]+)', self.defline)
+            match = re.match(r'>lcl\|([^\|\n ]+)', self.defline)
             if match:
                 accession = match.group(1)
         return accession

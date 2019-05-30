@@ -82,3 +82,12 @@ def test_extent():
     assert index.extent('scaffold_124') == (6020, 444332)
     index.yield_inferred = False
     assert index.extent('scaffold_125') == (0, 449039)
+
+
+def test_query():
+    index = tag.index.Index()
+    index.consume_file('tests/testdata/osat-twoscaf.gff3.gz')
+    assert len(index.query('NW_015379189.1', 5000)) == 2
+    assert len(index.query('NW_015379189.1', 5000, 15000)) == 1
+    assert len(index.query('NW_015379189.1', 5000, 15000, strict=True)) == 1
+    assert len(index.query('NW_015379189.1', 5000, 15000, strict=False)) == 4

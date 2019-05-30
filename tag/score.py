@@ -17,7 +17,7 @@ class Score(object):
         self._type = None
         if datastr == '.':
             self.value = None
-        elif re.search('^-*\d+$', datastr):
+        elif re.search(r'^-*\d+$', datastr):
             self.value = int(datastr)
             self._type = int
         else:
