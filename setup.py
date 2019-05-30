@@ -23,7 +23,7 @@ setup(name='tag',
       license='BSD-3',
       packages=['tag', 'tag.cli'],
       entry_points={'console_scripts': ['tag = tag.__main__:main']},
-      install_requires=['intervaltree'],
+      install_requires=['intervaltree>=3.0'],
       classifiers=[
           'Development Status :: 4 - Beta',
           'Environment :: Console',
@@ -31,6 +31,7 @@ setup(name='tag',
           'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3.4',
           'Programming Language :: Python :: 3.5',
+          'Programming Language :: Python :: 3.6',
           'Topic :: Scientific/Engineering :: Bio-Informatics'
       ],
       zip_safe=True)
