@@ -9,12 +9,8 @@
 
 import pytest
 import tag
-from tag import Range
-from tag import Comment
-from tag import Directive
-from tag import Feature
-from tag import GFF3Reader
-from tag import Sequence
+from tag import Range, Comment, Directive, Feature, Sequence, GFF3Reader
+from tag.reader import DuplicatedRegionError, FeatureTypeDisagreementError
 
 
 def test_grape():
@@ -198,9 +194,9 @@ def test_seqreg_dup():
     """Duplicated sequence-region pragma."""
     infile = tag.pkgdata('vcar-seqreg-dup.gff3.gz')
     reader = GFF3Reader(instream=infile)
-    with pytest.raises(ValueError) as ve:
+    with pytest.raises(DuplicatedRegionError) as dre:
         records = [r for r in reader]
-    assert 'declared in multiple ##sequence-region entries' in str(ve)
+    assert 'NW_003307554.1' in str(dre)
 
 
 def test_seqreg_outoforder():
@@ -222,3 +218,24 @@ def test_gzip_input():
     assert len(records) == 5
     genes = [r for r in records if hasattr(r, 'type') and r.type == 'gene']
     assert len(genes) == 3
+
+
+def test_multi_feat_type_mismatch():
+    reader = GFF3Reader(infilename='tests/testdata/eden-mismatch.gff3')
+    with pytest.raises(FeatureTypeDisagreementError) as ftde:
+        records = [r for r in reader]
+    assert ' CDS vs exon' in str(ftde) or 'exon vs CDS' in str(ftde)
+
+
+@pytest.mark.parametrize('infile,check,positions', [
+    ('grape-cpgat-unsorted.gff3', True, [72, 10538, 22053]),
+    ('grape-cpgat-unsorted.gff3', False, [10538, 72, 22053]),
+    ('grape-cpgat-shuffled.gff3', True, [72, 10538, 22053]),
+    ('grape-cpgat-shuffled.gff3', False, [72, 10538, 22053]),
+])
+def test_no_sort(infile, check, positions):
+    ifn = 'tests/testdata/' + infile
+    reader = GFF3Reader(infilename=ifn, checkorder=check)
+    genes = tag.select.features(reader, type='gene')
+    testpos = [gene.start + 1 for gene in genes]
+    assert testpos == positions

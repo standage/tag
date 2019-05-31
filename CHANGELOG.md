@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Changed
+- Minor updates to compensate for a couple years' worth of neglect (see #64).
+- Refactored the GFF3 reader to better support processing of unsorted GFF3 data (see #64).
+
+
 ## [0.3.3] - 2017-06-21
 ### Fixed
 - Missing `extent` query from the index implementation.

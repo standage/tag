@@ -386,6 +386,10 @@ class Feature(object):
     def end(self):
         return self._range.end
 
+    @property
+    def range(self):
+        return Range(self._range.start, self._range.end)
+
     def set_coord(self, start, end):
         """Manually reset the feature's coordinates."""
         self._range = Range(start, end)

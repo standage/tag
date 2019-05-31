@@ -7,6 +7,7 @@
 # under the BSD 3-clause license: see LICENSE.
 # -----------------------------------------------------------------------------
 
+from collections import defaultdict
 import sys
 import tag
 from tag import Range
@@ -14,6 +15,29 @@ from tag import Comment
 from tag import Directive
 from tag import Feature
 from tag import Sequence
+
+
+class DuplicatedRegionError(ValueError):
+    pass
+
+
+class AnnotationSortingError(ValueError):
+    pass
+
+
+class AnnotationOutOfBoundsError(ValueError):
+    pass
+
+
+class FeatureTypeDisagreementError(ValueError):
+    pass
+
+
+def clean_lines(instream):
+    for line in instream:
+        line = line.strip()
+        if line != '':
+            yield line
 
 
 def parse_fasta(data):  # pragma: no cover
@@ -35,6 +59,29 @@ def parse_fasta(data):  # pragma: no cover
             seq.append(line)
     if name:
         yield Sequence(name, ''.join(seq))
+
+
+class RegionSet(object):
+    def __init__(self):
+        self.declared = dict()
+        self.inferred = dict()
+
+    def add_region(self, region):
+        if region.seqid in self.declared:
+            raise DuplicatedRegionError(region.seqid)
+        self.declared[region.seqid] = region
+
+    def add_feature(self, feature):
+        if feature.seqid not in self.inferred:
+            self.inferred[feature.seqid] = feature.range
+        else:
+            newrange = self.inferred[feature.seqid].merge(feature.range)
+            self.inferred[feature.seqid] = newrange
+        if feature.seqid in self.declared:
+            seqregion = self.declared[feature.seqid]
+            if not feature._range.within(seqregion.range):
+                msg = 'feature {} out-of-bounds'.format(feature.slug)
+                raise AnnotationOutOfBoundsError(msg)
 
 
 class GFF3Reader():
@@ -74,99 +121,37 @@ class GFF3Reader():
     in some exceptional cases may need to be relaxed.
     """
 
-    def __init__(self, instream=None, infilename=None,
-                 assumesorted=False, strict=True):
-        assert (not instream) != (not infilename), ('provide either an '
-                                                    'instream or an infile '
-                                                    'name, not both')
+    def __init__(self, instream=None, infilename=None, assumesorted=False,
+                 strict=True, checkorder=True):
+        assert (not instream) != (not infilename), (
+            'provide either an instream or an infile name, not both'
+        )
         self.instream = instream
         if infilename:
             self.infilename = infilename
             self.instream = tag.open(infilename, 'r')
         self.assumesorted = assumesorted
         self.strict = strict
-        self.declared_regions = dict()
-        self.inferred_regions = dict()
+        self.checkorder = checkorder
+        self.regions = RegionSet()
         self._counter = 0
         self._prevrecord = None
 
     def __iter__(self):
         """Generator function returns GFF3 entries."""
         self._reset()
-
-        for line in self.instream:
-            line = line.rstrip()
-            if line == '':
-                continue
-            elif line == '###':
-                if self.assumesorted:
-                    for obj in self._resolve_features():
-                        if self._prevrecord and self._prevrecord > obj:
-                            msg = 'sorting error: '
-                            msg += '{} > {}'.format(
-                                self._prevrecord.slug,
-                                obj.slug,
-                            )
-                            raise ValueError(msg)
-                        self._prevrecord = obj
-                        self._counter += 1
-                        yield obj
+        for line in clean_lines(self.instream):
+            if line == '###':
+                for obj in self._handle_intermediate():
+                    yield obj
+            elif line == '##FASTA':
+                for sequence in parse_fasta(self.instream):
+                    self.records.append(sequence)
+                break
             elif line.startswith('#'):
-                if line == '##FASTA':
-                    for sequence in parse_fasta(self.instream):
-                        self.records.append(sequence)
-                    break
-                elif line.startswith('##') and line[2] != '#':
-                    record = Directive(line)
-                    if record.type == 'sequence-region':
-                        if record.seqid in self.declared_regions:
-                            m = ('sequence {} declared in multiple ##sequence'
-                                 '-region entries'.format(record.seqid))
-                            raise ValueError(m)
-                        self.declared_regions[record.seqid] = record
-                else:
-                    record = Comment(line)
-                self.records.append(record)
+                self._handle_special(line)
             else:
-                feature = Feature(line)
-
-                if feature.seqid in self.declared_regions:
-                    seqregion = self.declared_regions[feature.seqid]
-                    if not feature._range.within(seqregion.range):
-                        msg = 'feature {} out-of-bounds'.format(feature.slug)
-                        raise ValueError(msg)
-
-                if feature.seqid not in self.inferred_regions:
-                    self.inferred_regions[feature.seqid] = Range(feature.start,
-                                                                 feature.end)
-                rstr = self.inferred_regions[feature.seqid].start
-                rend = self.inferred_regions[feature.seqid].end
-                fstr = feature.start
-                fend = feature.end
-                self.inferred_regions[feature.seqid].start = min(rstr, fstr)
-                self.inferred_regions[feature.seqid].end = max(rend, fend)
-
-                featureid = feature.get_attribute('ID')
-                parentid = feature.get_attribute('Parent')
-                if parentid is None:
-                    # Only add one entry from each multi-feature
-                    if featureid is None or featureid not in self.featsbyid:
-                        self.records.append(feature)
-                else:
-                    if parentid not in self.featsbyparent:
-                        self.featsbyparent[parentid] = list()
-                    self.featsbyparent[parentid].append(feature)
-
-                if featureid is not None:
-                    if featureid in self.featsbyid:
-                        # Validate multi-features
-                        other = self.featsbyid[featureid]
-                        assert feature.type == other.type, \
-                            'feature type disagreement for ID="%s": %s vs %s' \
-                            % (featureid, feature.type, other.type)
-                        other.add_sibling(feature)
-                    else:
-                        self.featsbyid[featureid] = feature
+                self._handle_feature(line)
 
         for obj in self._resolve_features():
             if self._counter == 0:
@@ -179,6 +164,55 @@ class GFF3Reader():
             self._prevrecord = obj
             self._counter += 1
             yield obj
+
+    def _handle_intermediate(self):
+        if self.assumesorted or not self.checkorder:
+            for obj in self._resolve_features():
+                if self.checkorder:
+                    if self._prevrecord and self._prevrecord > obj:
+                        msg = 'sorting error: {} > {}'.format(
+                            self._prevrecord.slug, obj.slug,
+                        )
+                        raise AnnotationSortingError(msg)
+                self._prevrecord = obj
+                self._counter += 1
+                yield obj
+
+    def _handle_special(self, line):
+        if line.startswith('##'):
+            record = Directive(line)
+            if record.type == 'sequence-region':
+                self.regions.add_region(record)
+        else:
+            record = Comment(line)
+        self.records.append(record)
+
+    def _handle_feature(self, line):
+        feature = Feature(line)
+        self.regions.add_feature(feature)
+        featureid = feature.get_attribute('ID')
+        parentid = feature.get_attribute('Parent')
+        if parentid is None:
+            # Only add one entry from each multi-feature
+            if featureid is None or featureid not in self.featsbyid:
+                self.records.append(feature)
+        else:
+            parentids = parentid if isinstance(parentid, list) else [parentid]
+            for pid in parentids:
+                self.featsbyparent[pid].append(feature)
+        if featureid is not None:
+            if featureid in self.featsbyid:
+                # Validate multi-features
+                other = self.featsbyid[featureid]
+                if feature.type != other.type:
+                    msg = 'feature type disagreement'
+                    msg += ' for ID="{}": {} vs {}'.format(
+                        featureid, feature.type, other.type
+                    )
+                    raise FeatureTypeDisagreementError(msg)
+                other.add_sibling(feature)
+            else:
+                self.featsbyid[featureid] = feature
 
     def _resolve_features(self):
         """Resolve Parent/ID relationships and yield all top-level features."""
@@ -206,9 +240,9 @@ class GFF3Reader():
             self.records[n] = parent
 
         if not self.assumesorted:
-            for seqid in self.inferred_regions:
-                if seqid not in self.declared_regions:
-                    seqrange = self.inferred_regions[seqid]
+            for seqid in self.regions.inferred:
+                if seqid not in self.regions.declared:
+                    seqrange = self.regions.inferred[seqid]
                     srstring = '##sequence-region {:s} {:d} {:d}'.format(
                         seqid, seqrange.start + 1, seqrange.end
                     )
@@ -223,5 +257,5 @@ class GFF3Reader():
         """Clear internal data structure."""
         self.records = list()
         self.featsbyid = dict()
-        self.featsbyparent = dict()
+        self.featsbyparent = defaultdict(list)
         self.countsbytype = dict()
