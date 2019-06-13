@@ -22,6 +22,7 @@ from tag.writer import GFF3Writer
 from tag.score import Score
 from tag import cli
 from tag import index
+from tag import locus
 from tag import select
 from tag import transcript
 from gzip import open as gzopen
