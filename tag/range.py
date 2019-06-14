@@ -64,6 +64,9 @@ class Range(object):
         """
         return self._start == other.start and self._end == other.end
 
+    def __hash__(self):
+        return hash((self.start, self.end))
+
     def __lt__(self, other):
         return self._start < other.start or (self._start == other.start and
                                              self._end < other.end)

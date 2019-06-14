@@ -130,25 +130,21 @@ class Feature(object):
             return False
         return True
 
+    def __hash__(self):
+        return hash((self.seqid, self.range, self.type, self.source))
+
     def __lt__(self, other):
         if isinstance(other, Directive) or isinstance(other, Comment):
             return False
         elif isinstance(other, Sequence):
             return True
         assert isinstance(other, Feature)
-
-        if self.seqid < other.seqid:
-            return True
-        elif self.seqid > other.seqid:
-            return False
-        elif self._range < other._range:
-            return True
-        elif self._range > other._range:
-            return False
-        elif self.type < other.type:
-            return False
-        elif self.type > other.type:
-            return True
+        if self.seqid != other.seqid:
+            return self.seqid < other.seqid
+        elif self.range != other.range:
+            return self.range < other.range
+        elif self.type != other.type:
+            return self.type > other.type
         return self.source < other.source
 
     def __le__(self, other):
@@ -157,19 +153,12 @@ class Feature(object):
         elif isinstance(other, Sequence):
             return True
         assert isinstance(other, Feature)
-
-        if self.seqid < other.seqid:
-            return True
-        elif self.seqid > other.seqid:
-            return False
-        elif self._range < other._range:
-            return True
-        elif self._range > other._range:
-            return False
-        elif self.type < other.type:
-            return False
-        elif self.type > other.type:
-            return True
+        if self.seqid != other.seqid:
+            return self.seqid < other.seqid
+        elif self.range != other.range:
+            return self.range < other.range
+        elif self.type != other.type:
+            return self.type > other.type
         return self.source <= other.source
 
     def __gt__(self, other):
