@@ -30,7 +30,8 @@ class LocusBuffer(object):
         self.range = self.range.merge(feature.range)
 
 
-def loci(*sorted_streams, featuretype=None):
+def loci(*sorted_streams, **kwargs):
+    featuretype = kwargs['featuretype'] if 'featuretype' in kwargs else None
     locus = None
     merger = tag.select.merge(*sorted_streams)
     features = tag.select.features(merger, type=featuretype)
