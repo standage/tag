@@ -55,14 +55,13 @@ class Range(object):
 
     # Begin rich comparison operators for Python 3 support
     def __eq__(self, other):
-        """
-        Rich comparison operator for Python 3 support.
+        return self._start == other._start and self._end == other._end
 
-        Any object that defines a custom `__eq__()` operator without also
-        defining a custom `__hash__()` operator is unhashable. At least for
-        now, I don't see this being a problem.
-        """
-        return self._start == other.start and self._end == other.end
+    def __ne__(self, other):
+        return self._start != other._start or self._end != other._end
+
+    def __hash__(self):
+        return hash((self.start, self.end))
 
     def __lt__(self, other):
         return self._start < other.start or (self._start == other.start and

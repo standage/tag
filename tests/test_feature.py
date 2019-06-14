@@ -376,6 +376,7 @@ def test_compare():
     g3 = Feature('\t'.join(gff3))
 
     assert g1 < g2
+    assert g2 > g1
     assert g1 <= g3
     assert g3 >= g1
     assert not g1 > g3
@@ -387,6 +388,8 @@ def test_compare():
     g4 = Feature('\t'.join(gff3))
     gff3 = ['chr2', 'vim', 'gene', '2000', '2500', '.', '-', '.', '.']
     g5 = Feature('\t'.join(gff3))
+    gff3 = ['chr2', 'vim', 'exon', '2000', '2500', '.', '-', '.', '.']
+    g6 = Feature('\t'.join(gff3))
 
     assert g2 <= g4
     assert not g4 <= g2
@@ -398,6 +401,8 @@ def test_compare():
     assert not g1 >= g5
     assert g5 >= g5
     assert g5 <= g5
+    assert g5 < g6
+    assert g6 >= g5
     assert sorted([g3, g5, g1, g4, g2]) == [g1, g2, g3, g4, g5]
 
     d = Directive('##gff-version')

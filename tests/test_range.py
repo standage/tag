@@ -51,6 +51,9 @@ def test_cmp_sort():
     assert r3.__gt__(r4)
     assert r3.__ge__(r4)
 
+    assert hash(r3) == hash(Range(528, 901))
+    assert hash(r3) != hash(r4)
+
     assert sorted([r1, r2, r3, r4]) == [r1, r4, r3, r2]
 
 
