@@ -10,6 +10,7 @@ NC_000913.3	Prodigal:2.6	CDS	8238	9191	.	+	0	eC_number=2.2.1.2;gene=talB;inferen
 NC_000913.3	Prodigal:2.6	CDS	9306	9893	.	+	0	eC_number=2.7.7.75;gene=mog;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P0AF03;locus_tag=PROKKA_00008;product=Molybdopterin adenylyltransferase
 NC_000913.3	Prodigal:2.6	CDS	9928	10494	.	-	0	gene=yaaH;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P0AC98;locus_tag=PROKKA_00009;product=Inner membrane protein YaaH
 NC_000913.3	Prodigal:2.6	CDS	10643	11356	.	-	0	inference=ab initio prediction:Prodigal:2.6,protein motif:CLUSTERS:PRK10236;locus_tag=PROKKA_00010;product=hypothetical protein
+###
 NC_000913.3	Prodigal:2.6	CDS	11382	11786	.	-	0	inference=ab initio prediction:Prodigal:2.6,protein motif:CLUSTERS:PRK10154;locus_tag=PROKKA_00011;product=hypothetical protein
 NC_000913.3	Prodigal:2.6	CDS	12163	14079	.	+	0	gene=dnaK_1;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P0A6Y8;locus_tag=PROKKA_00012;product=Chaperone protein DnaK
 NC_000913.3	Prodigal:2.6	CDS	14168	15298	.	+	0	gene=dnaJ;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P08622;locus_tag=PROKKA_00013;product=Chaperone protein DnaJ
@@ -20,6 +21,7 @@ NC_000913.3	Prodigal:2.6	CDS	17489	18655	.	+	0	gene=nhaA;inference=ab initio pre
 NC_000913.3	Prodigal:2.6	CDS	18721	19620	.	+	0	gene=nhaR;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P0A9G2;locus_tag=PROKKA_00018;product=Transcriptional activator protein NhaR
 NC_000913.3	Prodigal:2.6	CDS	19811	20188	.	-	0	inference=ab initio prediction:Prodigal:2.6,protein motif:Pfam:PF03400.7;locus_tag=PROKKA_00019;product=IS1 transposase
 NC_000913.3	Prodigal:2.6	CDS	20233	20508	.	-	0	inference=ab initio prediction:Prodigal:2.6,protein motif:Pfam:PF12759.1;locus_tag=PROKKA_00020;note=InsA C-terminal domain;product=hypothetical protein
+###
 NC_000913.3	Prodigal:2.6	CDS	20815	21078	.	-	0	gene=rpsT;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P0A7U7;locus_tag=PROKKA_00021;product=30S ribosomal protein S20
 NC_000913.3	Prodigal:2.6	CDS	21407	22348	.	+	0	gene=ribF;inference=ab initio prediction:Prodigal:2.6,similar to AA sequence:UniProtKB:P0AG40;locus_tag=PROKKA_00022;product=Riboflavin biosynthesis protein RibF
 ##FASTA
@@ -382,3 +384,5 @@ CCTGGCAGACAGTGAAGCGATGAACGATGCGTTCTGGGACGAGCTGTTGAAAGTGCGTGGCGAAGTGAAC
 AAAGTCATTGAGCAAGCGCGTGCCGACAAGAAAGTGGGTGGCTCGCTGGAAGCGGCAGTAACCTTGTATG
 CAGAACCGGAACTGTCGGCGAAACTGACCGCGCTGGGCGATGAATTACGATTTGTCCTGTTGACCTCCGG
 CGCTACCGTT
+
+

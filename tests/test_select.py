@@ -7,6 +7,7 @@
 # under the BSD 3-clause license: see LICENSE.
 # -----------------------------------------------------------------------------
 
+from __future__ import print_function
 import pytest
 import tag
 from tag import GFF3Reader
@@ -71,3 +72,18 @@ def test_sequences():
     seqs = [s for s in tag.select.sequences(reader)]
     assert len(seqs) == 2
     assert sorted([s.seq[0:5] for s in seqs]) == ['GCTAA', 'TAGAC']
+
+
+def test_merge():
+    merger = tag.select.merge(
+        GFF3Reader(infilename='tests/testdata/ex-red-1.gff3'),
+        GFF3Reader(infilename='tests/testdata/ex-red-2.gff3'),
+        GFF3Reader(infilename='tests/testdata/ex-red-3.gff3'),
+    )
+    merge_stream = tag.select.features(merger)
+    test_stream = tag.select.features(
+        GFF3Reader(infilename='tests/testdata/ex-red-merged.gff3')
+    )
+    for mergefeat, testfeat in zip(merge_stream, test_stream):
+        print(mergefeat, testfeat, sep='\n', end='\n\n')
+        assert mergefeat.like(testfeat)

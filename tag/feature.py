@@ -114,12 +114,22 @@ class Feature(object):
             if string != '':
                 string += '\n'
             string += str(feature)
-        if self.children is not None or self.is_multi:
+        if self.is_complex:
             string += '\n###'
         return string
 
     def __len__(self):
         return len(self._range)
+
+    def like(self, other):
+        if not isinstance(other, Feature):
+            return False
+        elif self.seqid != other.seqid or self._range != other._range:
+            return False
+        elif self.type != other.type or self.source != other.source:
+            return False
+        else:
+            return True
 
     def __lt__(self, other):
         if isinstance(other, Directive) or isinstance(other, Comment):
@@ -283,6 +293,10 @@ class Feature(object):
     @property
     def is_multi(self):
         return self.multi_rep is not None
+
+    @property
+    def is_complex(self):
+        return self.children is not None or self.is_multi
 
     @property
     def is_toplevel(self):

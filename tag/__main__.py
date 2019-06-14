@@ -13,6 +13,7 @@ import tag
 
 mains = {
     'gff3': tag.cli.gff3.main,
+    'merge': tag.cli.merge.main,
     'occ': tag.cli.occ.main,
     'pmrna': tag.cli.pmrna.main,
     'sum': tag.cli.sum.main,

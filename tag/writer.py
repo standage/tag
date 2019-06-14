@@ -15,9 +15,7 @@ except ImportError:  # pragma: no cover
     from io import StringIO
 import sys
 import tag
-from tag import Feature
-from tag import Sequence
-from tag import GFF3Reader
+from tag import Directive, Feature, Sequence, GFF3Reader
 
 
 class GFF3Writer():
@@ -47,6 +45,7 @@ class GFF3Writer():
         self.retainids = False
         self.feature_counts = defaultdict(int)
         self._seq_written = False
+        self._block_count = 0
 
     def __del__(self):
         if self.outfilename != '-' and not isinstance(self.outfile, StringIO):
@@ -54,7 +53,10 @@ class GFF3Writer():
 
     def write(self):
         """Pull features from the instream and write them to the output."""
+        print(repr(Directive('##gff-version 3')), file=self.outfile)
         for entry in self._instream:
+            if isinstance(entry, Directive) and entry.type == 'gff-version':
+                continue
             if isinstance(entry, Feature):
                 for feature in entry:
                     if feature.num_children > 0 or feature.is_multi:
@@ -66,7 +68,14 @@ class GFF3Writer():
                         feature.add_attribute('ID', fid)
                     else:
                         feature.drop_attribute('ID')
+                    if entry.is_complex:
+                        self._block_count = 0
+                    else:
+                        self._block_count += 1
             if isinstance(entry, Sequence) and not self._seq_written:
                 print('##FASTA', file=self.outfile)
                 self._seq_written = True
             print(repr(entry), file=self.outfile)
+            if self._block_count >= 10 and not self._seq_written:
+                print('###', file=self.outfile)
+                self._block_count = 0

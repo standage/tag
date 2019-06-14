@@ -8,12 +8,14 @@
 # -----------------------------------------------------------------------------
 
 from __future__ import print_function
+import glob
 try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
 import pytest
 import tag
+import tag.__main__
 import sys
 
 
@@ -50,23 +52,19 @@ def test_cli_args():
         tag.__main__.main()
 
 
-def test_gff3_strict():
-    args = type('', (), {})()
-    args.out = StringIO()
-    args.gff3 = 'tests/testdata/mito-trna.gff3'
-    args.strict = True
-    args.sorted = False
-    args.no_sort = False
-
+def test_gff3_strict(capfd):
+    arglist = ['gff3', 'tests/testdata/mito-trna.gff3']
+    args = tag.cli.parser().parse_args(arglist)
     with pytest.raises(AssertionError) as ae:
         tag.cli.gff3.main(args)
     assert 'not contained within its span' in str(ae)
+    terminal = capfd.readouterr()
 
-    args.out == StringIO()
     args.strict = False
     tag.cli.gff3.main(args)
+    terminal = capfd.readouterr()
     testout = tag.pkgdata('mito-trna-out.gff3').read()
-    assert args.out.getvalue() == testout
+    assert terminal.out == testout
 
 
 @pytest.mark.parametrize('gff3,ftype,expected_output', [
@@ -108,3 +106,13 @@ def test_sum(capsys):
 
     out, err = capsys.readouterr()
     assert out.strip() == tag.pkgdata('sum-test-out.txt').read().strip()
+
+
+def test_merge(capfd):
+    infiles = glob.glob('tests/testdata/ex-red-?.gff3')
+    arglist = ['merge'] + infiles
+    args = tag.cli.parser().parse_args(arglist)
+    tag.cli.merge.main(args)
+
+    out, err = capfd.readouterr()
+    assert out.strip() == tag.pkgdata('ex-red-merged.gff3').read().strip()

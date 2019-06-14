@@ -504,3 +504,22 @@ def test_attribute_crawl():
     gene = next(features)
     names = ['XP_011630649.1', 'LOC105422795', 'XM_011632347.1']
     assert gene.attribute_crawl('Name') == set(names)
+
+
+def test_feature_like():
+    gff3 = ['chr1', 'vim', 'mRNA', '1000', '2000', '.', '+', '.', 'ID=mRNA1']
+    f1 = Feature('\t'.join(gff3))
+    gff3 = ['chr2', 'emacs', 'tRNA', '3000', '4000', '.', '+', '.', 'ID=tRNA1']
+    f2 = Feature('\t'.join(gff3))
+    gff3 = ['chr1', 'emacs', 'tRNA', '3000', '4000', '.', '+', '.', 'ID=tRNA1']
+    f3 = Feature('\t'.join(gff3))
+    gff3 = ['chr1', 'emacs', 'mRNA', '1000', '2000', '.', '+', '.', 'ID=mRNA1']
+    f4 = Feature('\t'.join(gff3))
+    gff3 = ['chr1', 'vim', 'mRNA', '1000', '2000', '.', '+', '.', 'ID=mRNA1']
+    f5 = Feature('\t'.join(gff3))
+    d1 = Directive('##gff-version   3')
+    assert f1.like(f2) is False
+    assert f1.like(f3) is False
+    assert f1.like(f4) is False
+    assert f1.like(f5) is True
+    assert f1.like(d1) is False

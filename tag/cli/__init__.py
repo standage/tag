@@ -11,6 +11,7 @@ import argparse
 import sys
 import tag
 from . import gff3
+from . import merge
 from . import occ
 from . import pmrna
 from . import sum
@@ -23,8 +24,9 @@ def parser():
     parser.add_argument('-l', '--logfile', metavar='FILE', default=sys.stderr,
                         type=argparse.FileType('w'))
     subparsers = parser.add_subparsers(dest='cmd', metavar='cmd',
-                                       help='gff3 | occ | pmrna | sum')
+                                       help='gff3 | merge | occ | pmrna | sum')
     tag.cli.gff3.subparser(subparsers)
+    tag.cli.merge.subparser(subparsers)
     tag.cli.occ.subparser(subparsers)
     tag.cli.pmrna.subparser(subparsers)
     tag.cli.sum.subparser(subparsers)

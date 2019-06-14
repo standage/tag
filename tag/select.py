@@ -7,6 +7,8 @@
 # under the BSD 3-clause license: see LICENSE.
 # -----------------------------------------------------------------------------
 
+import heapq
+from itertools import chain
 import tag
 
 
@@ -99,3 +101,12 @@ def entry_type_filter(entrystream, entryclass):
     for entry in entrystream:
         if isinstance(entry, entryclass):
             yield entry
+
+
+def merge(*sorted_streams):
+    """Efficiently merge sorted annotation streams."""
+    heap = list()
+    heapq.heapify(heap)
+    streams = chain(sorted_streams)
+    for record in heapq.merge(heap, *streams):
+        yield record
