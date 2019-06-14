@@ -71,3 +71,22 @@ def test_sequences():
     seqs = [s for s in tag.select.sequences(reader)]
     assert len(seqs) == 2
     assert sorted([s.seq[0:5] for s in seqs]) == ['GCTAA', 'TAGAC']
+
+
+def test_merge():
+    stream1 = GFF3Reader(infilename='tests/testdata/Ye.all.gff3.gz')
+    readers = [
+        GFF3Reader(infilename='tests/testdata/Ye.callgenes.gff3.gz'),
+        GFF3Reader(infilename='tests/testdata/Ye.glimmer.gff3.gz'),
+        GFF3Reader(infilename='tests/testdata/Ye.prodigal.gff3.gz'),
+    ]
+    stream2 = tag.select.merge(readers)
+    selector = zip(
+        tag.select.features(stream1),
+        tag.select.features(stream2),
+    )
+    for feat1, feat2 in selector:
+        if feat1 != feat2:
+            print('DEBUG', feat1)
+            print('DEBUG', feat2)
+        assert feat1 == feat2, (feat1, feat2)

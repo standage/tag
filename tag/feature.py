@@ -121,6 +121,15 @@ class Feature(object):
     def __len__(self):
         return len(self._range)
 
+    def __eq__(self, other):
+        if not isinstance(other, Feature):
+            return False
+        if self.seqid != other.seqid or self._range != other._range:
+            return False
+        if self.type != other.type or self.source != other.source:
+            return False
+        return True
+
     def __lt__(self, other):
         if isinstance(other, Directive) or isinstance(other, Comment):
             return False
@@ -132,9 +141,15 @@ class Feature(object):
             return True
         elif self.seqid > other.seqid:
             return False
-        elif self._range == other._range:
-            return self.type > other.type
-        return self._range < other._range
+        elif self._range < other._range:
+            return True
+        elif self._range > other._range:
+            return False
+        elif self.type < other.type:
+            return False
+        elif self.type > other.type:
+            return True
+        return self.source < other.source
 
     def __le__(self, other):
         if isinstance(other, Directive) or isinstance(other, Comment):
@@ -147,39 +162,21 @@ class Feature(object):
             return True
         elif self.seqid > other.seqid:
             return False
-        elif self._range == other._range:
-            return self.type >= other.type
-        return self._range <= other._range
+        elif self._range < other._range:
+            return True
+        elif self._range > other._range:
+            return False
+        elif self.type < other.type:
+            return False
+        elif self.type > other.type:
+            return True
+        return self.source <= other.source
 
     def __gt__(self, other):
-        if isinstance(other, Directive) or isinstance(other, Comment):
-            return True
-        elif isinstance(other, Sequence):
-            return False
-        assert isinstance(other, Feature)
-
-        if self.seqid > other.seqid:
-            return True
-        elif self.seqid < other.seqid:
-            return False
-        elif self._range == other._range:
-            return self.type < other.type
-        return self._range > other._range
+        return not self.__le__(other)
 
     def __ge__(self, other):
-        if isinstance(other, Directive) or isinstance(other, Comment):
-            return True
-        elif isinstance(other, Sequence):
-            return False
-        assert isinstance(other, Feature)
-
-        if self.seqid > other.seqid:
-            return True
-        elif self.seqid < other.seqid:
-            return False
-        elif self._range == other._range:
-            return self.type <= other.type
-        return self._range >= other._range
+        return not self.__lt__(other)
 
     def __iter__(self):
         """Generator iterates through a feature and all its subfeatures."""
