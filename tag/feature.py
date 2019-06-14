@@ -114,7 +114,7 @@ class Feature(object):
             if string != '':
                 string += '\n'
             string += str(feature)
-        if self.children is not None or self.is_multi:
+        if self.is_complex:
             string += '\n###'
         return string
 
@@ -309,6 +309,10 @@ class Feature(object):
     @property
     def is_multi(self):
         return self.multi_rep is not None
+
+    @property
+    def is_complex(self):
+        return self.children is not None or self.is_multi
 
     @property
     def is_toplevel(self):

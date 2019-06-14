@@ -47,6 +47,7 @@ class GFF3Writer():
         self.retainids = False
         self.feature_counts = defaultdict(int)
         self._seq_written = False
+        self._block_count = 0
 
     def __del__(self):
         if self.outfilename != '-' and not isinstance(self.outfile, StringIO):
@@ -66,7 +67,14 @@ class GFF3Writer():
                         feature.add_attribute('ID', fid)
                     else:
                         feature.drop_attribute('ID')
+                    if entry.is_complex:
+                        self._block_count = 0
+                    else:
+                        self._block_count += 1
             if isinstance(entry, Sequence) and not self._seq_written:
                 print('##FASTA', file=self.outfile)
                 self._seq_written = True
             print(repr(entry), file=self.outfile)
+            if self._block_count >= 10:
+                print('###', file=self.outfile)
+                self._block_count = 0
