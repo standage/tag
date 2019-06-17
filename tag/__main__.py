@@ -11,15 +11,6 @@ from __future__ import print_function
 import tag
 
 
-mains = {
-    'gff3': tag.cli.gff3.main,
-    'merge': tag.cli.merge.main,
-    'occ': tag.cli.occ.main,
-    'pmrna': tag.cli.pmrna.main,
-    'sum': tag.cli.sum.main,
-}
-
-
 def main(args=None):
     """
     Entry point for the tag CLI.
@@ -32,6 +23,6 @@ def main(args=None):
     if args is None:
         args = tag.cli.parser().parse_args()
 
-    assert args.cmd in mains
-    mainmethod = mains[args.cmd]
+    assert args.cmd in tag.cli.mains
+    mainmethod = tag.cli.mains[args.cmd]
     mainmethod(args)

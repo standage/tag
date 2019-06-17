@@ -16,19 +16,30 @@ from . import occ
 from . import pmrna
 from . import sum
 
+subparser_funcs = {
+    'gff3': gff3.subparser,
+    'merge': merge.subparser,
+    'occ': occ.subparser,
+    'pmrna': pmrna.subparser,
+    'sum': sum.subparser,
+}
+
+mains = {
+    'gff3': gff3.main,
+    'merge': merge.main,
+    'occ': occ.main,
+    'pmrna': pmrna.main,
+    'sum': sum.main,
+}
+
 
 def parser():
+    subcmdstr = ', '.join(mains)
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--version', action='version',
                         version='tag v{}'.format(tag.__version__))
-    parser.add_argument('-l', '--logfile', metavar='FILE', default=sys.stderr,
-                        type=argparse.FileType('w'))
     subparsers = parser.add_subparsers(dest='cmd', metavar='cmd',
-                                       help='gff3 | merge | occ | pmrna | sum')
-    tag.cli.gff3.subparser(subparsers)
-    tag.cli.merge.subparser(subparsers)
-    tag.cli.occ.subparser(subparsers)
-    tag.cli.pmrna.subparser(subparsers)
-    tag.cli.sum.subparser(subparsers)
-
+                                       help=subcmdstr)
+    for subcmd, parserfunc in subparser_funcs.items():
+        parserfunc(subparsers)
     return parser
