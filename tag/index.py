@@ -19,9 +19,8 @@ class Index(defaultdict):
     Implemented as a dictionary, with sequence IDs as keys to interval trees
     of features for the corresponding scaffold or contig sequence.
 
-    >>> import tag
     >>> index = tag.index.Index()
-    >>> index.consume_file('tests/testdata/pcan-123.gff3.gz')
+    >>> index.consume_file(tag.tests.data_file('pcan-123.gff3.gz'))
     >>> list(index.seqids)
     ['scaffold_123', 'scaffold_124', 'scaffold_125']
     >>> index.extent('scaffold_124')
@@ -34,7 +33,9 @@ class Index(defaultdict):
     gene@scaffold_125[18994, 19335]
     gene@scaffold_125[57450, 57680]
     gene@scaffold_125[86995, 87151]
-    >>> reader = tag.reader.GFF3Reader(tag.pkgdata('grape-cpgat.gff3'))
+    >>> reader = tag.reader.GFF3Reader(
+    ...     tag.tests.data_stream('grape-cpgat.gff3')
+    ... )
     >>> index = tag.index.Index()
     >>> index.consume(reader)
     >>> index.yield_inferred = False

@@ -10,6 +10,7 @@
 import pytest
 from tag import Range
 from tag.reader import GFF3Reader
+from tag.tests import data_file, data_stream
 
 
 def test_repr():
@@ -132,7 +133,7 @@ def test_transform():
 
 
 def test_amel():
-    reader = GFF3Reader(infilename='tests/testdata/amel-cdna-multi.gff3')
+    reader = GFF3Reader(infilename=data_file('amel-cdna-multi.gff3'))
     records = [r for r in reader]
     assert len(records) == 4
     assert records[2]._range == Range(263429, 325784)

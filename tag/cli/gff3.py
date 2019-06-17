@@ -18,8 +18,8 @@ def subparser(subparsers):
         'of output data'
     )
     subparser.add_argument(
-        '-o', '--out', metavar='FILE', default='/dev/stdout',
-        help='write output to the specified file; default is terminal (stdout)'
+        '-o', '--out', metavar='FILE', help='write output in GFF3 format to '
+        'FILE; default is terminal (stdout)'
     )
     subparser.add_argument(
         '-r', '--relax', action='store_false', default=True, dest='strict',

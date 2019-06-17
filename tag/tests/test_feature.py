@@ -13,16 +13,16 @@ from tag import Directive
 from tag import Feature
 from tag import Range
 from tag import Sequence
+from tag.tests import data_file, data_stream
 
 
 def eden():
-    """
-    Data fixture for unit tests.
+    """Data fixture for unit tests.
 
     This function is not a good example of how to parse arbitrary GFF3 files,
     it's quick and dirty for this particular case.
     """
-    edenfile = open('tests/testdata/eden.gff3', 'r')
+    edenfile = open(data_file('eden.gff3'), 'r')
     edengff3 = edenfile.readlines()
     gene = None
     mRNAs = list()
@@ -312,7 +312,7 @@ def test_attributes():
             feature.add_attribute('ID', 'mRNA3')
 
     assert repr(gene) == \
-        open('tests/testdata/eden-mod.gff3', 'r').read().rstrip()
+        open(data_file('eden-mod.gff3'), 'r').read().rstrip()
 
     gene.add_attribute('Note', 'I need to test access of other attributes')
     assert gene.attributes == ('ID=g1;Name=Aragorn,Gandalf;Note='
@@ -337,8 +337,7 @@ def test_attributes():
 
 
 def test_multi():
-    """
-    Test handling of multi-features.
+    """Test handling of multi-features.
 
     In GFF3 discontiguous sequence features are often encoded using multi-
     features: that is, a single feature described across mulitple entries
@@ -497,9 +496,8 @@ def test_ncbi_geneid():
 def test_attribute_crawl():
     from tag import GFF3Reader
     from tag import select
-    from tag import pkgdata
 
-    reader = GFF3Reader(pkgdata('pbar-withseq.gff3'))
+    reader = GFF3Reader(data_stream('pbar-withseq.gff3'))
     features = select.features(reader)
     gene = next(features)
     names = ['XP_011630649.1', 'LOC105422795', 'XM_011632347.1']

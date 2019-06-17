@@ -27,7 +27,7 @@ class GFF3Writer():
     to stdout.
 
     >>> # Sort and tidy GFF3 file in 3 lines!
-    >>> reader = GFF3Reader(infilename='tests/testdata/grape-cpgat.gff3')
+    >>> reader = GFF3Reader(infilename=tag.tests.data_file('grape-cpgat.gff3'))
     >>> writer = GFF3Writer(instream=reader, outfile='/dev/null')
     >>> writer.write()
     """
@@ -36,9 +36,7 @@ class GFF3Writer():
         self._instream = instream
         self.outfilename = outfile
         self.outfile = None
-        if outfile == '-':
-            self.outfile == sys.stdout
-        elif isinstance(outfile, str):
+        if isinstance(outfile, str):
             self.outfile = tag.open(outfile, 'w')
         else:
             self.outfile = outfile

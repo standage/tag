@@ -9,28 +9,29 @@
 
 import pytest
 import tag
+from tag.tests import data_file, data_stream
 from tag.transcript import primary_mrna, primary_transcript
 
 
 def test_primary_mrna():
-    reader = tag.GFF3Reader(tag.pkgdata('nanosplice.gff3'))
+    reader = tag.GFF3Reader(data_stream('nanosplice.gff3'))
     gene = next(tag.select.features(primary_mrna(reader), type='gene'))
     assert gene.cdslen is None
     assert gene.num_children == 1
     assert gene.children[0].get_attribute('ID') == 'mRNAsecond'
 
-    reader = tag.GFF3Reader(tag.pkgdata('pdom-withseq.gff3'))
+    reader = tag.GFF3Reader(data_stream('pdom-withseq.gff3'))
     for gene in tag.select.features(primary_mrna(reader), type='gene'):
         assert gene.num_children == 1
 
-    reader = tag.GFF3Reader(tag.pkgdata('psyllid-100k.gff3'))
+    reader = tag.GFF3Reader(data_stream('psyllid-100k.gff3'))
     for gene in tag.select.features(primary_mrna(reader), type='gene'):
         mrnas = [f for f in gene if f.type == 'mRNA']
         assert len(mrnas) <= 1, mrnas
 
 
 def test_primary_transcript_mixed():
-    reader = tag.GFF3Reader(tag.pkgdata('psyllid-mixed-gene.gff3.gz'))
+    reader = tag.GFF3Reader(data_stream('psyllid-mixed-gene.gff3.gz'))
     trans_filter = primary_transcript(reader)
     gene_filter = tag.select.features(trans_filter, type='gene')
     gene = next(gene_filter)
@@ -40,17 +41,16 @@ def test_primary_transcript_mixed():
 
 
 def test_primary_transcript_mixed_unresolvable():
-    reader = tag.GFF3Reader(tag.pkgdata('unresolvable-mixed.gff3'))
+    reader = tag.GFF3Reader(data_stream('unresolvable-mixed.gff3'))
     trans_filter = primary_transcript(reader)
     gene_filter = tag.select.features(trans_filter, type='gene')
     with pytest.raises(Exception) as e:
-        for gene in gene_filter:
-            pass
+        genes = list(gene_filter)
     assert 'cannot resolve multiple transcript types' in str(e)
 
 
 def test_primary_transcript_multi():
-    reader = tag.GFF3Reader(tag.pkgdata('psyllid-multi-trans.gff3.gz'))
+    reader = tag.GFF3Reader(data_stream('psyllid-multi-trans.gff3.gz'))
     trans_filter = primary_transcript(reader)
     gene_filter = tag.select.features(trans_filter, type='gene')
     gene = next(gene_filter)
@@ -61,7 +61,7 @@ def test_primary_transcript_multi():
 
 
 def test_primary_transcript_boring_genes():
-    reader = tag.GFF3Reader(tag.pkgdata('boring-genes.gff3'))
+    reader = tag.GFF3Reader(data_stream('boring-genes.gff3'))
     trans_filter = primary_transcript(reader)
     gene_filter = tag.select.features(trans_filter, type='gene')
     for gene in gene_filter:
@@ -69,7 +69,7 @@ def test_primary_transcript_boring_genes():
 
 
 def test_primary_transcript_boring_exons():
-    reader = tag.GFF3Reader(tag.pkgdata('boring-exons.gff3'))
+    reader = tag.GFF3Reader(data_stream('boring-exons.gff3'))
     trans_filter = primary_transcript(reader)
     gene_filter = tag.select.features(trans_filter, type='gene')
     for gene in gene_filter:

@@ -21,7 +21,7 @@ setup(name='tag',
       author='Daniel Standage',
       author_email='daniel.standage@gmail.com',
       license='BSD-3',
-      packages=['tag', 'tag.cli'],
+      packages=['tag', 'tag.cli', 'tag.tests'],
       entry_points={'console_scripts': ['tag = tag.__main__:main']},
       install_requires=['intervaltree>=3.0'],
       classifiers=[

@@ -56,7 +56,7 @@ def primary_mrna(entrystream, parenttype='gene'):
     modify the gene features that pass through to ensure that they have at most
     a single mRNA feature.
 
-    >>> reader = tag.GFF3Reader(tag.pkgdata('pdom-withseq.gff3'))
+    >>> reader = tag.GFF3Reader(tag.tests.data_stream('pdom-withseq.gff3'))
     >>> filter = tag.transcript.primary_mrna(reader)
     >>> for gene in tag.select.features(filter, type='gene'):
     ...    assert gene.num_children == 1
@@ -112,7 +112,9 @@ def primary_transcript(entrystream, parenttype='gene', logstream=stderr):
     transcript features. It **does** modify gene features to ensure that each
     has at most one transcript feature.
 
-    >>> reader = tag.GFF3Reader(tag.pkgdata('psyllid-mixed-gene.gff3.gz'))
+    >>> reader = tag.GFF3Reader(
+    ...     tag.tests.data_stream('psyllid-mixed-gene.gff3.gz')
+    ... )
     >>> gene_filter = tag.select.features(reader, type='gene')
     >>> trans_filter = tag.transcript.primary_transcript(gene_filter)
     >>> for gene in trans_filter:

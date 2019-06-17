@@ -25,6 +25,7 @@ from tag import index
 from tag import select
 from tag import transcript
 from gzip import open as gzopen
+import sys
 
 from ._version import get_versions
 __version__ = get_versions()['version']
@@ -34,16 +35,14 @@ del get_versions
 def open(filename, mode):
     if mode not in ['r', 'w']:
         raise ValueError('invalid mode "{}"'.format(mode))
+    if filename in ['-', None]:  # pragma: no cover
+        filehandle = sys.stdin if mode == 'r' else sys.stdout
+        return filehandle
     openfunc = builtins.open
     if filename.endswith('.gz'):
         openfunc = gzopen
         mode += 't'
     return openfunc(filename, mode)
-
-
-def pkgdata(filename, mode='r'):
-    fullpath = '{dir}/{fn}'.format(dir='tests/testdata/', fn=filename)
-    return open(fullpath, mode)
 
 
 def demo_feature():

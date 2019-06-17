@@ -16,7 +16,7 @@ def test_repr():
     """Test string representation of sequences."""
     try:
         from StringIO import StringIO
-    except ImportError:
+    except ImportError:  # pragma: no cover
         from io import StringIO
 
     s1 = Sequence('>seq1', 'ACGT')

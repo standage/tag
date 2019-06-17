@@ -15,10 +15,14 @@ from tag import Feature
 
 def test_init():
     """Test constructor."""
-    c1 = Comment('# A strange game. The only winning move is not to play. '
-                 'How about a nice game of chess?')
-    assert c1._rawdata == ('# A strange game. The only winning move is not to '
-                           'play. How about a nice game of chess?')
+    c1 = Comment(
+        '# A strange game. The only winning move is not to play. '
+        'How about a nice game of chess?'
+    )
+    assert c1._rawdata == (
+        '# A strange game. The only winning move is not to play. '
+        'How about a nice game of chess?'
+    )
     with pytest.raises(AssertionError):
         c2 = Comment('This is not a valid comment')
 

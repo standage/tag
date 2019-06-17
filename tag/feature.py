@@ -521,8 +521,9 @@ class Feature(object):
         Traverse the given feature (and all of its descendants) to find all
         values associated with the given attribute key.
 
-        >>> import tag
-        >>> reader = tag.GFF3Reader(tag.pkgdata('otau-no-seqreg.gff3'))
+        >>> reader = tag.GFF3Reader(
+        ...     tag.tests.data_stream('otau-no-seqreg.gff3')
+        ... )
         >>> features = tag.select.features(reader)
         >>> for feature in features:
         ...     names = feature.attribute_crawl('Name')

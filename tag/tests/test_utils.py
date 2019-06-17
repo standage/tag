@@ -8,7 +8,9 @@
 # -----------------------------------------------------------------------------
 
 import pytest
+import sys
 import tag
+from tag.tests import data_file, data_stream
 
 
 def test_tag_open_read():
@@ -19,7 +21,7 @@ def test_tag_open_read():
     with pytest.raises(IOError):
         fh = tag.open('tag/bogus.py', 'r')
 
-    fh = tag.pkgdata('gzipdata.gff3.gz')
+    fh = data_stream('gzipdata.gff3.gz')
     line = next(fh)
     assert line == '##gff-version 3\n'
 

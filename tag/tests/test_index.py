@@ -9,15 +9,11 @@
 
 import pytest
 import tag
-
-
-@pytest.fixture
-def pcan():
-    return index
+from tag.tests import data_file, data_stream
 
 
 def test_rice():
-    reader = tag.reader.GFF3Reader(tag.pkgdata('osat-twoscaf.gff3.gz'))
+    reader = tag.reader.GFF3Reader(data_stream('osat-twoscaf.gff3.gz'))
     index = tag.index.Index()
     index.consume(reader)
     assert sorted(list(index.keys())) == ['NW_015379189.1', 'NW_015379208.1']
@@ -39,7 +35,7 @@ def test_volvox():
     (False, 1, 1, 1, 463498, 452451, 449039)
 ])
 def test_declared(infer, s1, s2, s3, e1, e2, e3):
-    reader = tag.reader.GFF3Reader(tag.pkgdata('pcan-123.gff3.gz'))
+    reader = tag.reader.GFF3Reader(data_stream('pcan-123.gff3.gz'))
     index = tag.index.Index()
     index.consume(reader)
 
@@ -53,7 +49,7 @@ def test_declared(infer, s1, s2, s3, e1, e2, e3):
 
 
 def test_consume():
-    reader = tag.reader.GFF3Reader(tag.pkgdata('pdom-withseq.gff3'))
+    reader = tag.reader.GFF3Reader(data_stream('pdom-withseq.gff3'))
     entries = [e for e in reader]
     assert len(entries) == 6
     index = tag.index.Index()
@@ -72,13 +68,13 @@ def test_consume():
 
     index.consume_seqreg(entries[1])
     index.consume_feature(entries[3])
-    index.consume_file('tests/testdata/pcan-123.gff3.gz')
+    index.consume_file(data_file('pcan-123.gff3.gz'))
     assert len(index) == 4
 
 
 def test_extent():
     index = tag.index.Index()
-    index.consume_file('tests/testdata/pcan-123.gff3.gz')
+    index.consume_file(data_file('pcan-123.gff3.gz'))
     assert index.extent('scaffold_124') == (6020, 444332)
     index.yield_inferred = False
     assert index.extent('scaffold_125') == (0, 449039)
@@ -86,7 +82,7 @@ def test_extent():
 
 def test_query():
     index = tag.index.Index()
-    index.consume_file('tests/testdata/osat-twoscaf.gff3.gz')
+    index.consume_file(data_file('osat-twoscaf.gff3.gz'))
     assert len(index.query('NW_015379189.1', 5000)) == 2
     assert len(index.query('NW_015379189.1', 5000, 15000)) == 1
     assert len(index.query('NW_015379189.1', 5000, 15000, strict=True)) == 1

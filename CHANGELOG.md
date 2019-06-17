@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Minor updates to compensate for a couple years' worth of neglect (see #64).
 - Refactored `GFF3Reader` to better support processing of unsorted GFF3 data (see #65).
 - Modified `GFF3Writer` to intermittently output separator directives (`###`) in large stretches of simple (childless) features (see #68).
+- Reorganized test suite code and data (see #70).
 
 
 

@@ -92,7 +92,8 @@ class GFF3Reader():
     object. See the :code:`tag.select` module for available filtering
     functions.
 
-    >>> reader = GFF3Reader(infilename='tests/testdata/pbar-withseq.gff3')
+    >>> infile = tag.tests.data_file('pbar-withseq.gff3')
+    >>> reader = GFF3Reader(infilename=infile)
     >>> for entry in reader:
     ...     print(type(entry))
     <class 'tag.directive.Directive'>
@@ -104,7 +105,7 @@ class GFF3Reader():
     <class 'tag.feature.Feature'>
     <class 'tag.sequence.Sequence'>
     <class 'tag.sequence.Sequence'>
-    >>> reader = GFF3Reader(infilename='tests/testdata/pbar-withseq.gff3')
+    >>> reader = GFF3Reader(infilename=infile)
     >>> for feature in tag.select.features(reader, type='gene'):
     ...     print(feature.slug)
     gene@NW_011929623.1[4557, 5749]

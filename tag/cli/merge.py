@@ -15,8 +15,8 @@ from tag import GFF3Reader, GFF3Writer
 def subparser(subparsers):
     subparser = subparsers.add_parser('merge')
     subparser.add_argument(
-        '-o', '--out', metavar='FILE', default='/dev/stdout',
-        help='write output to the specified file; default is terminal (stdout)'
+        '-o', '--out', metavar='FILE', help='write output in GFF3 to FILE; '
+        'default is terminal (stdout)'
     )
     subparser.add_argument(
         '-r', '--relax', action='store_false', default=True, dest='strict',
