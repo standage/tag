@@ -9,3 +9,5 @@ env/
 env3/
 *.swp
 .cache/
+.pytest_cache/
+scratch/

@@ -102,6 +102,27 @@ def test_overlap():
     assert Range(279886, 283581).overlap(Range(280065, 297216)) is True
 
 
+def test_overlap_extent():
+    assert Range(0, 100).overlap_extent(Range(200, 300)) == 0
+    assert Range(0, 100).overlap_extent(Range(90, 200)) == 10
+    assert Range(20, 40).overlap_extent(Range(0, 100)) == 20
+
+
+def test_overlap_atleast():
+    with pytest.raises(AssertionError) as ae:
+        Range(0, 100).overlap_atleast(Range(200, 300), minbp=0)
+    assert 'must require at least 1bp overlap' in str(ae)
+    assert Range(0, 100).overlap_atleast(Range(200, 300), minbp=1) is False
+    assert Range(0, 100).overlap_atleast(Range(90, 200), minbp=1) is True
+    assert Range(0, 100).overlap_atleast(Range(90, 200), minbp=10) is True
+    assert Range(0, 100).overlap_atleast(Range(90, 200), minbp=11) is False
+    assert Range(0, 100).overlap_atleast(Range(20, 120), minperc=0.5) is True
+    assert Range(0, 100).overlap_atleast(Range(20, 120), minperc=0.95) is False
+    assert Range(850, 1000).overlap_atleast(
+        Range(900, 2000), minperc=0.25
+    ) is False
+
+
 def test_contains_within():
     """Containment tests."""
     assert Range(0, 10).contains(Range(0, 10)) is True

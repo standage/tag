@@ -11,6 +11,7 @@ import argparse
 import sys
 import tag
 from . import gff3
+from . import locuspocus
 from . import merge
 from . import occ
 from . import pmrna
@@ -18,6 +19,7 @@ from . import sum
 
 subparser_funcs = {
     'gff3': gff3.subparser,
+    'locuspocus': locuspocus.subparser,
     'merge': merge.subparser,
     'occ': occ.subparser,
     'pmrna': pmrna.subparser,
@@ -26,6 +28,7 @@ subparser_funcs = {
 
 mains = {
     'gff3': gff3.main,
+    'locuspocus': locuspocus.main,
     'merge': merge.main,
     'occ': occ.main,
     'pmrna': pmrna.main,

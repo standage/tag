@@ -7,6 +7,8 @@
 # under the BSD 3-clause license: see LICENSE.
 # -----------------------------------------------------------------------------
 
+from __future__ import division
+
 
 class Range(object):
     """
@@ -118,8 +120,7 @@ class Range(object):
         return Range(newstart, newend)
 
     def intersect(self, other):
-        """
-        Determine the interval of overlap between this range and another.
+        """Determine the interval of overlap between this range and another.
 
         :returns: a new Range object representing the overlapping interval,
                   or `None` if the ranges do not overlap.
@@ -136,6 +137,29 @@ class Range(object):
         if self._start < other.end and self._end > other.start:
             return True
         return False
+
+    def overlap_extent(self, other):
+        """Compute number of nucleotides of overlap between two ranges."""
+        if not self.overlap(other):
+            return 0
+        coords = sorted((self._start, other._start, self._end, other._end))
+        return coords[2] - coords[1]
+
+    def overlap_atleast(self, other, minbp=1, minperc=0.0):
+        """Determine whether two ranges overlap by at least some threshold.
+
+        The thresholds can be specified using a minimum number of bases, or a
+        minimum percentage of the length of the ranges, or both.
+        """
+        assert minbp >= 1, 'must require at least 1bp overlap'
+        bpoverlap = self.overlap_extent(other)
+        if minbp and bpoverlap < minbp:
+            return False
+        if minperc and bpoverlap / len(self) < minperc:
+            return False
+        if minperc and bpoverlap / len(other) < minperc:
+            return False
+        return True
 
     def contains(self, other):
         """Determine whether this range contains another."""

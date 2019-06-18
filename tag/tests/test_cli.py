@@ -7,6 +7,7 @@
 # under the BSD 3-clause license: see LICENSE.
 # -----------------------------------------------------------------------------
 
+import glob
 import pytest
 import tag
 import tag.__main__
@@ -86,11 +87,20 @@ def test_sum(capsys):
 
 
 def test_merge(capsys):
-    import glob
     infiles = glob.glob(data_file('ex-red-?.gff3'))
     arglist = ['merge'] + infiles
     args = tag.cli.parser().parse_args(arglist)
     tag.cli.merge.main(args)
     terminal = capsys.readouterr()
     exp_out = data_stream('ex-red-merged.gff3').read()
+    assert terminal.out.strip() == exp_out.strip()
+
+
+def test_locuspocus(capsys):
+    infiles = glob.glob(data_file('Ye.*.min.gff3.gz'))
+    arglist = ['locuspocus'] + infiles
+    args = tag.cli.parser().parse_args(arglist)
+    tag.cli.locuspocus.main(args)
+    terminal = capsys.readouterr()
+    exp_out = data_stream('Ye.loci.gff3').read()
     assert terminal.out.strip() == exp_out.strip()

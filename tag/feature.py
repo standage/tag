@@ -51,6 +51,16 @@ class Feature(object):
     'gene@contig1[1000, 7500]'
     """
 
+    @staticmethod
+    def create(seqid, ftype, start, end, source='tag', score='.', strand='.',
+               phase='.'):
+        fields = [
+            seqid, source, ftype, str(int(start) + 1), str(end), score, strand,
+            phase, '.'
+        ]
+        gff3 = '\t'.join(fields)
+        return Feature(gff3)
+
     def __init__(self, data):
         # Core values
         self._seqid = None
