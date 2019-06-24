@@ -50,7 +50,7 @@ def test_write_file():
 def test_write_in_out(gff3, capsys):
     reader = GFF3Reader(data_stream(gff3))
     writer = GFF3Writer(reader)
-    writer.write()
+    writer.write(blockitvl=10)
     terminal = capsys.readouterr()
     assert terminal.out.strip() == data_stream(gff3).read().strip()
 

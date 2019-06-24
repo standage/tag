@@ -37,7 +37,7 @@ class Sequence(object):
     def __init__(self, defline, seq):
         assert defline.startswith('>') and defline[1] != ' '
         self.defline = defline
-        self.seq = seq
+        self.seq = seq.strip()
 
     def __str__(self):
         return self.defline + '\n' + self.format_seq()

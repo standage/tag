@@ -69,3 +69,4 @@ def pocus(*sorted_streams, **kwargs):
         yield locus
         for feature in features:
             yield feature
+        yield tag.Directive('###')

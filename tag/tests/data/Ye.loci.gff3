@@ -3,19 +3,22 @@ NC_008791.1	tag::locus::pocus	experimental_feature	592	1287	.	.	.	Note=Interval 
 NC_008791.1	Glimmer3	CDS	592	1287	2.830	+	.	Name=orf00001
 NC_008791.1	BBTools	CDS	628	1287	223	+	0	frame=0;innerScr=0.228;start=ATG;startScr=0.741;stop=TAA;stopScr=-0.187
 NC_008791.1	Prodigal_v2.6.3	CDS	628	1287	52.800	+	0	conf=100.00;cscore=34.87;gc_cont=0.477;partial=00;rbs_motif=AGGAG;rbs_spacer=5-10bp;rscore=15.04;score=52.85;sscore=17.97;start_type=ATG;tscore=4.30;uscore=-1.37
+###
 NC_008791.1	tag::locus::pocus	experimental_feature	1284	1550	.	.	.	Note=Interval locus
 NC_008791.1	Glimmer3	CDS	1284	1472	7.280	-	.	Name=orf00002
 NC_008791.1	BBTools	CDS	1284	1550	181	-	0	frame=0;innerScr=0.533;start=ATG;startScr=0.805;stop=TAA;stopScr=0.002
 NC_008791.1	Prodigal_v2.6.3	CDS	1284	1550	42.800	-	0	conf=99.99;cscore=24.16;gc_cont=0.464;partial=00;rbs_motif=AGGAG;rbs_spacer=5-10bp;rscore=15.04;score=42.80;sscore=18.65;start_type=ATG;tscore=4.30;uscore=-0.04
+###
 NC_008791.1	tag::locus::pocus	experimental_feature	1599	2147	.	.	.	Note=Interval locus
 NC_008791.1	Prodigal_v2.6.3	CDS	1599	2108	17	+	0	conf=98.02;cscore=23.83;gc_cont=0.514;partial=00;rbs_motif=GGA/GAG/AGG;rbs_spacer=11-12bp;rscore=0.40;score=16.97;sscore=-6.86;start_type=GTG;tscore=-6.02;uscore=-1.25
-###
 NC_008791.1	Glimmer3	CDS	1710	2108	4.530	+	.	Name=orf00003
 NC_008791.1	BBTools	CDS	1974	2147	41.500	-	0	frame=0;innerScr=0.256;start=ATG;startScr=0.122;stop=TGA;stopScr=0.404
+###
 NC_008791.1	tag::locus::pocus	experimental_feature	2291	2839	.	.	.	Note=Interval locus
 NC_008791.1	BBTools	CDS	2291	2839	221	-	0	frame=1;innerScr=0.267;start=ATG;startScr=0.968;stop=TGA;stopScr=-0.053
 NC_008791.1	Glimmer3	CDS	2291	2839	0.540	-	.	Name=orf00004
 NC_008791.1	Prodigal_v2.6.3	CDS	2291	2839	53.900	-	0	conf=100.00;cscore=34.65;gc_cont=0.333;partial=00;rbs_motif=GGAG/GAGG;rbs_spacer=5-10bp;rscore=11.39;score=53.93;sscore=19.27;start_type=ATG;tscore=4.30;uscore=4.24
+###
 NC_008791.1	tag::locus::pocus	experimental_feature	3352	4320	.	.	.	Note=Interval locus
 NC_008791.1	BBTools	CDS	3352	4320	307	+	0	frame=0;innerScr=0.199;start=ATG;startScr=0.429;stop=TAA;stopScr=0.246
 NC_008791.1	Glimmer3	CDS	3352	4320	2.950	+	.	Name=orf00006
@@ -25,19 +28,22 @@ NC_008800.1	tag::locus::pocus	experimental_feature	270	710	.	.	.	Note=Interval l
 NC_008800.1	BBTools	CDS	270	710	199	-	0	frame=1;innerScr=0.366;start=ATG;startScr=0.441;stop=TAA;stopScr=-0.047
 NC_008800.1	Glimmer3	CDS	270	710	7.780	-	.	Name=orf00001
 NC_008800.1	Prodigal_v2.6.3	CDS	270	710	48.200	-	0	conf=100.00;cscore=51.55;gc_cont=0.449;partial=00;rbs_motif=None;rbs_spacer=None;rscore=-8.53;score=48.15;sscore=-3.40;start_type=ATG;tscore=4.30;uscore=0.83
+###
 NC_008800.1	tag::locus::pocus	experimental_feature	802	1263	.	.	.	Note=Interval locus
 NC_008800.1	BBTools	CDS	802	1263	356	-	0	frame=0;innerScr=0.439;start=ATG;startScr=1.167;stop=TGA;stopScr=0.264
 NC_008800.1	Glimmer3	CDS	802	1263	8	-	.	Name=orf00002
 NC_008800.1	Prodigal_v2.6.3	CDS	802	1263	56.600	-	0	conf=100.00;cscore=42.80;gc_cont=0.413;partial=00;rbs_motif=AGxAGG/AGGxGG;rbs_spacer=5-10bp;rscore=5.45;score=56.55;sscore=13.76;start_type=ATG;tscore=4.30;uscore=4.65
+###
 NC_008800.1	tag::locus::pocus	experimental_feature	1449	2441	.	.	.	Note=Interval locus
 NC_008800.1	BBTools	CDS	1449	2441	552	+	0	frame=2;innerScr=0.336;start=ATG;startScr=0.696;stop=TAA;stopScr=-0.096
-###
 NC_008800.1	Glimmer3	CDS	1449	2441	10.200	+	.	Name=orf00003
 NC_008800.1	Prodigal_v2.6.3	CDS	1449	2441	152	+	0	conf=100.00;cscore=142.75;gc_cont=0.455;partial=00;rbs_motif=GGA/GAG/AGG;rbs_spacer=5-10bp;rscore=3.77;score=151.83;sscore=9.08;start_type=ATG;tscore=4.30;uscore=1.01
+###
 NC_008800.1	tag::locus::pocus	experimental_feature	2595	3266	.	.	.	Note=Interval locus
 NC_008800.1	BBTools	CDS	2595	3266	70.200	+	0	frame=2;innerScr=0.083;start=ATG;startScr=0.380;stop=TAG;stopScr=0.092
 NC_008800.1	Prodigal_v2.6.3	CDS	2595	3266	48.800	+	0	conf=100.00;cscore=40.13;gc_cont=0.418;partial=00;rbs_motif=GGA/GAG/AGG;rbs_spacer=11-12bp;rscore=0.40;score=48.81;sscore=8.68;start_type=ATG;tscore=4.30;uscore=3.97
 NC_008800.1	Glimmer3	CDS	2685	3266	4.590	+	.	Name=orf00004
+###
 NC_008800.1	tag::locus::pocus	experimental_feature	3276	4742	.	.	.	Note=Interval locus
 NC_008800.1	BBTools	CDS	3276	4742	640	-	0	frame=1;innerScr=0.289;start=ATG;startScr=0.235;stop=TAA;stopScr=0.168
 NC_008800.1	Glimmer3	CDS	3276	4742	10.100	-	.	Name=orf00005

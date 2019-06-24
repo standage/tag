@@ -45,15 +45,32 @@ class GFF3Writer():
         self._seq_written = False
         self._block_count = 0
 
+    def _write_separator(self, blockitvl):
+        if not blockitvl:
+            return
+        if self._block_count < blockitvl:
+            return
+        print('###', file=self.outfile)
+        self._block_count = 0
+
     def __del__(self):
         if self.outfilename != '-' and not isinstance(self.outfile, StringIO):
             self.outfile.close()
 
-    def write(self):
-        """Pull features from the instream and write them to the output."""
+    def write(self, blockitvl=0):
+        """Pull features from the instream and write them to the output.
+
+        By default, separator tags are added at the end of complex features. To
+        intersperse separators throughout blocks of simple features, specify a
+        desired block size with `blockitvl`.
+        """
         print(repr(Directive('##gff-version 3')), file=self.outfile)
         for entry in self._instream:
-            if isinstance(entry, Directive) and entry.type == 'gff-version':
+            if isinstance(entry, Directive):
+                if entry.type == 'gff-version':
+                    pass
+                else:
+                    print(repr(entry), file=self.outfile)
                 continue
             if isinstance(entry, Feature):
                 for feature in entry:
@@ -74,6 +91,4 @@ class GFF3Writer():
                 print('##FASTA', file=self.outfile)
                 self._seq_written = True
             print(repr(entry), file=self.outfile)
-            if self._block_count >= 10 and not self._seq_written:
-                print('###', file=self.outfile)
-                self._block_count = 0
+            self._write_separator(blockitvl)
