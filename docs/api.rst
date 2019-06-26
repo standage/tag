@@ -68,3 +68,15 @@ Selectors
 
 .. automodule:: tag.select
    :members:
+
+Locus partitioning
+------------------
+
+.. automodule:: tag.locus
+   :members:
+
+Bacterial annotation evaluation
+-------------------------------
+
+.. automodule:: tag.bae
+   :members:

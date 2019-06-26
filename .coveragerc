@@ -5,3 +5,4 @@ show_missing = True
 branch = True
 omit =
     tag/_version.py
+    tag/tests/*.py

@@ -1,0 +1,17 @@
+##gff-version 3
+NC_008800.1	tblastn	translated_nucleotide_match	360724	361521	0	+	.	Target=YP_001004686.1 1 265
+NC_008800.1	tblastn	translated_nucleotide_match	360724	361521	0	+	.	Target=YP_001005528.1 1 265
+NC_008800.1	tblastn	translated_nucleotide_match	360724	361521	0	+	.	Target=YP_001006019.1 1 265
+NC_008800.1	tblastn	translated_nucleotide_match	360724	361521	0	+	.	Target=YP_001007349.1 1 265
+NC_008800.1	tblastn	translated_nucleotide_match	360724	361521	0	+	.	Target=YP_001007466.1 1 265
+NC_008800.1	BBTools	CDS	360724	361521	158	+	0	end_confirmed=8;end_shared=1.0000;frame=0;innerScr=0.203;locus_orfs=4;orf_confirmed=8;orf_shared=1.0000;protein_coverage=1.0000;start=ATG;startScr=0.038;start_confirmed=8;start_shared=1.0000;stop=TAA;stopScr=0.096
+NC_008800.1	GeneMark.hmm	CDS	360724	361521	.	+	.	class=1;end_confirmed=8;end_shared=1.0000;locus_orfs=4;orf_confirmed=8;orf_shared=1.0000;protein_coverage=1.0000;serial=304;start_confirmed=8;start_shared=1.0000
+NC_008800.1	Glimmer3	CDS	360724	361521	12.100	+	.	Name=orf00402;end_confirmed=8;end_shared=1.0000;locus_orfs=4;orf_confirmed=8;orf_shared=1.0000;protein_coverage=1.0000;start_confirmed=8;start_shared=1.0000
+NC_008800.1	Prodigal_v2.6.3	CDS	360724	361521	33.900	+	0	conf=99.96;cscore=38.68;end_confirmed=8;end_shared=1.0000;gc_cont=0.513;locus_orfs=4;orf_confirmed=8;orf_shared=1.0000;partial=00;protein_coverage=1.0000;rbs_motif=None;rbs_spacer=None;rscore=-8.53;score=33.86;sscore=-4.82;start_confirmed=8;start_shared=1.0000;start_type=ATG;tscore=4.30;uscore=-1.68
+###
+NC_008800.1	tblastn	translated_nucleotide_match	361779	362948	0	+	.	Target=YP_001004687.1 1 389
+NC_008800.1	BBTools	CDS	361779	362948	357	+	0	end_confirmed=4;end_shared=1.0000;frame=2;innerScr=0.198;locus_orfs=4;orf_confirmed=2;orf_shared=0.6000;protein_coverage=1.0000;start=ATG;startScr=0.418;start_confirmed=2;start_shared=0.6000;stop=TAA;stopScr=0.153
+NC_008800.1	Prodigal_v2.6.3	CDS	361779	362948	103	+	0	conf=100.00;cscore=85.95;end_confirmed=4;end_shared=1.0000;gc_cont=0.448;locus_orfs=4;orf_confirmed=2;orf_shared=0.6000;partial=00;protein_coverage=1.0000;rbs_motif=GGAG/GAGG;rbs_spacer=5-10bp;rscore=11.39;score=103.18;sscore=17.23;start_confirmed=2;start_shared=0.6000;start_type=ATG;tscore=4.30;uscore=2.20
+NC_008800.1	GeneMark.hmm	CDS	361863	362948	.	+	.	class=1;end_confirmed=4;end_shared=1.0000;locus_orfs=4;orf_confirmed=1;orf_shared=0.4000;protein_coverage=1.0000;serial=305;start_confirmed=1;start_shared=0.4000
+NC_008800.1	Glimmer3	CDS	361863	362948	7.060	+	.	Name=orf00403;end_confirmed=4;end_shared=1.0000;locus_orfs=4;orf_confirmed=1;orf_shared=0.4000;protein_coverage=1.0000;start_confirmed=1;start_shared=0.4000
+###

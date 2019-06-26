@@ -8,6 +8,8 @@
 # -----------------------------------------------------------------------------
 
 from __future__ import division
+from itertools import combinations
+from networkx import Graph, connected_components
 
 
 class Range(object):
@@ -33,6 +35,30 @@ class Range(object):
     >>> rng.end
     1000
     """
+
+    @staticmethod
+    def merge_overlapping(ranges):
+        if len(ranges) < 2:
+            for rng in ranges:
+                yield rng
+        elif len(ranges) == 2 and ranges[0].overlap(ranges[1]):
+            newstart = min([r.start for r in ranges])
+            newend = max([r.end for r in ranges])
+            yield Range(newstart, newend)
+        elif len(ranges) == 2 and not ranges[0].overlap(ranges[1]):
+            for rng in ranges:
+                yield rng
+        else:
+            graph = Graph()
+            for rng in ranges:
+                graph.add_node(rng)
+            for r1, r2 in combinations(ranges, 2):
+                if r1.overlap_extent(r2) > 0:
+                    graph.add_edge(r1, r2)
+            for cc in connected_components(graph):
+                newstart = min([r.start for r in cc])
+                newend = max([r.end for r in cc])
+                yield Range(newstart, newend)
 
     def __init__(self, start, end):
         assert start >= 0, ('start coordinate {} invalid, must be an '

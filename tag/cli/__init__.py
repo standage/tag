@@ -10,6 +10,7 @@
 import argparse
 import sys
 import tag
+from . import bae
 from . import gff3
 from . import locuspocus
 from . import merge
@@ -18,6 +19,7 @@ from . import pmrna
 from . import sum
 
 subparser_funcs = {
+    'bae': bae.subparser,
     'gff3': gff3.subparser,
     'locuspocus': locuspocus.subparser,
     'merge': merge.subparser,
@@ -27,6 +29,7 @@ subparser_funcs = {
 }
 
 mains = {
+    'bae': bae.main,
     'gff3': gff3.main,
     'locuspocus': locuspocus.main,
     'merge': merge.main,

@@ -11,3 +11,4 @@ env3/
 .cache/
 .pytest_cache/
 scratch/
+.ipynb_checkpoints/

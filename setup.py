@@ -23,7 +23,7 @@ setup(name='tag',
       license='BSD-3',
       packages=['tag', 'tag.cli', 'tag.tests'],
       entry_points={'console_scripts': ['tag = tag.__main__:main']},
-      install_requires=['intervaltree>=3.0'],
+      install_requires=['intervaltree>=3.0', 'networkx>=2.0'],
       classifiers=[
           'Development Status :: 4 - Beta',
           'Environment :: Console',

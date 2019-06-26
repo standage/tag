@@ -1,0 +1,16 @@
+##gff-version 3
+##sequence-region   NC_008800.1 360724 362948
+NC_008800.1	BBTools	CDS	360724	361521	158	+	0	frame=0;startScr=0.038;stopScr=0.096;innerScr=0.203;start=ATG;stop=TAA
+NC_008800.1	GeneMark.hmm	CDS	360724	361521	.	+	.	serial=304;class=1
+NC_008800.1	Glimmer3	CDS	360724	361521	12.1	+	.	Name=orf00402
+NC_008800.1	Prodigal_v2.6.3	CDS	360724	361521	33.9	+	0	partial=00;start_type=ATG;rbs_motif=None;rbs_spacer=None;gc_cont=0.513;conf=99.96;score=33.86;cscore=38.68;sscore=-4.82;rscore=-8.53;uscore=-1.68;tscore=4.30
+NC_008800.1	tblastn	translated_nucleotide_match	360724	361521	0	+	.	Target=YP_001004686.1 1 265
+NC_008800.1	tblastn	translated_nucleotide_match	360724	361521	0	+	.	Target=YP_001005528.1 1 265
+NC_008800.1	tblastn	translated_nucleotide_match	360724	361521	0	+	.	Target=YP_001006019.1 1 265
+NC_008800.1	tblastn	translated_nucleotide_match	360724	361521	0	+	.	Target=YP_001007349.1 1 265
+NC_008800.1	tblastn	translated_nucleotide_match	360724	361521	0	+	.	Target=YP_001007466.1 1 265
+NC_008800.1	BBTools	CDS	361779	362948	357	+	0	frame=2;startScr=0.418;stopScr=0.153;innerScr=0.198;start=ATG;stop=TAA
+NC_008800.1	Prodigal_v2.6.3	CDS	361779	362948	103	+	0	partial=00;start_type=ATG;rbs_motif=GGAG/GAGG;rbs_spacer=5-10bp;gc_cont=0.448;conf=100.00;score=103.18;cscore=85.95;sscore=17.23;rscore=11.39;uscore=2.20;tscore=4.30
+NC_008800.1	tblastn	translated_nucleotide_match	361779	362948	0	+	.	Target=YP_001004687.1 1 389
+NC_008800.1	GeneMark.hmm	CDS	361863	362948	.	+	.	serial=305;class=1
+NC_008800.1	Glimmer3	CDS	361863	362948	7.06	+	.	Name=orf00403

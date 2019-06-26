@@ -161,3 +161,26 @@ def test_amel():
     assert records[2].type == 'gene'
     assert records[3]._range == Range(263429, 325784)
     assert records[3].type == 'cDNA_match'
+
+
+def test_merge_overlapping():
+    assert list(Range.merge_overlapping([])) == []
+    assert list(Range.merge_overlapping([Range(0, 10)])) == [Range(0, 10)]
+
+    r1 = [Range(1000, 2000), Range(3000, 4000)]
+    assert list(Range.merge_overlapping(r1)) == r1
+    r2 = [Range(1000, 2000), Range(1900, 2500)]
+    assert list(Range.merge_overlapping(r2)) == [Range(1000, 2500)]
+    r3 = [Range(10000, 20000), Range(15000, 16000)]
+    assert list(Range.merge_overlapping(r3)) == [Range(10000, 20000)]
+
+    r4 = [Range(20, 40), Range(50, 70), Range(80, 95)]
+    assert sorted(Range.merge_overlapping(r4)) == r4
+    r5 = [Range(5, 50), Range(40, 60), Range(80, 95)]
+    assert sorted(Range.merge_overlapping(r5)) == [Range(5, 60), Range(80, 95)]
+    r6 = [
+        Range(16000, 18000), Range(17050, 19000), Range(18000, 18500),
+        Range(20100, 21000), Range(22000, 24000), Range(23750, 29000),
+    ]
+    r6result = [Range(16000, 19000), Range(20100, 21000), Range(22000, 29000)]
+    assert sorted(Range.merge_overlapping(r6)) == r6result

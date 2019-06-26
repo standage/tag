@@ -1,0 +1,8 @@
+##gff-version 3
+##sequence-region   NC_008800.1 172798 174591
+NC_008800.1	BBTools	CDS	172798	174321	582	-	0	frame=0;startScr=0.501;stopScr=-0.015;innerScr=0.228;start=ATG;stop=TAA
+NC_008800.1	GeneMark.hmm	CDS	172798	174321	.	-	.	serial=147;class=1
+NC_008800.1	Glimmer3	CDS	172798	174321	6.62	-	.	Name=orf00193
+NC_008800.1	Prodigal_v2.6.3	CDS	172798	174321	129	-	0	partial=00;start_type=ATG;rbs_motif=AGGA;rbs_spacer=5-10bp;gc_cont=0.501;conf=100.00;score=128.57;cscore=115.51;sscore=13.06;rscore=11.06;uscore=-1.65;tscore=4.30
+NC_008800.1	tblastn	translated_nucleotide_match	172798	174321	0	-	.	Target=YP_001004539.1 1 507
+NC_008800.1	Glimmer3	CDS	174451	174591	0.61	-	.	Name=orf00195

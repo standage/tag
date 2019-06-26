@@ -421,7 +421,10 @@ class Feature(object):
             if attrkey in ['ID', 'Parent', 'Name']:
                 continue
             value = self.get_attribute(attrkey, as_string=True)
-            attrs.append('{}={}'.format(attrkey, value))
+            if isinstance(value, float):
+                attrs.append('{}={:.4f}'.format(attrkey, value))
+            else:
+                attrs.append('{}={}'.format(attrkey, value))
         return ';'.join(attrs)
 
     def add_attribute(self, attrkey, attrvalue, append=False, oldvalue=None):

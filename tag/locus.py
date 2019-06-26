@@ -59,6 +59,12 @@ def loci(*sorted_streams, **kwargs):
 
 
 def pocus(*sorted_streams, **kwargs):
+    """Feature stream for locus parsing.
+
+    From two or more sorted annotation streams, create a new stream that yields
+    the features from the original streams, additional `locus` features, and
+    separator directives (`###`) between loci.
+    """
     delta = kwargs['delta'] if 'delta' in kwargs else 0
     for seqid, rng, features in loci(*sorted_streams, **kwargs):
         locus = tag.Feature.create(

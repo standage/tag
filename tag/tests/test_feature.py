@@ -76,6 +76,10 @@ def test_basic():
     gff3[8] = 'ID=gene1;Name=EDEN'
     f2 = Feature('\t'.join(gff3))
     assert '%s' % f2 == '\t'.join(gff3)
+    f2.add_attribute('perc', 0.75)
+    assert str(f2) == (
+        'chr\tvim\tgene\t1000\t2000\t.\t+\t.\tID=gene1;Name=EDEN;perc=0.7500'
+    )
 
     gff3[5] = '0.28466'
     f3 = Feature('\t'.join(gff3))
