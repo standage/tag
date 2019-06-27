@@ -41,6 +41,7 @@ class GFF3Writer():
         else:
             self.outfile = outfile
         self.retainids = False
+        self.complex_separators = True
         self.feature_counts = defaultdict(int)
         self._seq_written = False
         self._block_count = 0
@@ -83,12 +84,15 @@ class GFF3Writer():
                         feature.add_attribute('ID', fid)
                     else:
                         feature.drop_attribute('ID')
-                    if entry.is_complex:
-                        self._block_count = 0
-                    else:
-                        self._block_count += 1
             if isinstance(entry, Sequence) and not self._seq_written:
                 print('##FASTA', file=self.outfile)
                 self._seq_written = True
             print(repr(entry), file=self.outfile)
+            if isinstance(entry, Feature):
+                if entry.is_complex:
+                    self._block_count = 0
+                    if self.complex_separators:
+                        print('###', file=self.outfile)
+                else:
+                    self._block_count += 1
             self._write_separator(blockitvl)

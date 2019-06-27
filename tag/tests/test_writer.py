@@ -43,6 +43,18 @@ def test_write_file():
     assert obs_out.strip() == exp_out.strip()
 
 
+def test_no_complex_separators():
+    reader = GFF3Reader(infilename=data_file('grape-cpgat.gff3'))
+    with NamedTemporaryFile(suffix='.gff3', mode='w+t') as outfile:
+        writer = GFF3Writer(reader, outfile)
+        writer.complex_separators = False
+        writer.write()
+        outfile.seek(0)
+        obs_out = outfile.read()
+    exp_out = data_stream('grape-cpgat-no-sep.gff3').read()
+    assert obs_out.strip() == exp_out.strip()
+
+
 @pytest.mark.parametrize('gff3', [
     'minimus.gff3',
     'prokka.gff3',

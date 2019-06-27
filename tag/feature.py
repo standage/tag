@@ -103,8 +103,6 @@ class Feature(object):
             if string != '':
                 string += '\n'
             string += str(feature)
-        if self.is_complex:
-            string += '\n###'
         return string
 
     def __len__(self):

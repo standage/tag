@@ -20,7 +20,9 @@ def test_grape():
         reader = GFF3Reader(instream=infile)
         output = ''
         for record in reader:
-            output += '%r\n' % record
+            output += repr(record) + '\n'
+            if isinstance(record, Feature) and record.is_complex:
+                output += '###\n'
         assert output == open(data_file('grape-cpgat-sorted.gff3')).read()
 
 

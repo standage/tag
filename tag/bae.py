@@ -26,9 +26,14 @@ def eval_locus(features):
     intervals = defaultdict(int)
     coverage = defaultdict(int)
 
-    numorfs = len(list(tag.select.features(features, type='CDS')))
-
-    for feature in features:
+    numorfs = len(list(
+        tag.select.features(features, type='CDS', traverse=True)
+    ))
+    selector = tag.select.features(
+        features, type=set(['CDS', 'translated_nucleotide_match']),
+        traverse=True,
+    )
+    for feature in selector:
         starts[feature.start] += 1
         ends[feature.end] += 1
         intervals[feature.range] += 1
@@ -36,11 +41,11 @@ def eval_locus(features):
     aligns = tag.select.features(features, type='translated_nucleotide_match')
     ranges = [a.range for a in aligns]
     for block in tag.Range.merge_overlapping(ranges):
-        for feature in tag.select.features(features, type='CDS'):
-            bpoverlap = feature.range.overlap_extent(block)
-            coverage[feature] += bpoverlap
+        for feat in tag.select.features(features, type='CDS', traverse=True):
+            bpoverlap = feat.range.overlap_extent(block)
+            coverage[feat] += bpoverlap
 
-    for feature in tag.select.features(features, type='CDS'):
+    for feature in tag.select.features(features, type='CDS', traverse=True):
         start_confirmed = starts[feature.start] - 1
         start_shared = starts[feature.start] / sum(starts.values())
         end_confirmed = ends[feature.end] - 1

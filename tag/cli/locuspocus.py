@@ -58,4 +58,5 @@ def main(args):
         minperc=args.min_perc
     )
     writer = tag.writer.GFF3Writer(locusstream, args.out)
+    writer.complex_separators = False
     writer.write()

@@ -53,4 +53,5 @@ def main(args):
     )
     evalstream = tag.bae.eval_stream(locusstream)
     writer = tag.writer.GFF3Writer(evalstream, args.out)
+    writer.complex_separators = False
     writer.write()

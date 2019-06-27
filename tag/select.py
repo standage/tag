@@ -23,19 +23,24 @@ def features(entrystream, type=None, traverse=False):
                      to :code:`True` to search each feature graph for the
                      specified feature type
     """
+    def _typecheck(feat):
+        if isinstance(type, str):
+            return feat.type == type
+        return feat.type in type
+
     for feature in entry_type_filter(entrystream, tag.Feature):
         if traverse:
             if type is None:
                 message = 'cannot traverse without a specific feature type'
                 raise ValueError(message)
-            if type == feature.type:
+            if _typecheck(feature):
                 yield feature
             else:
                 for subfeature in feature:
-                    if type == subfeature.type:
+                    if _typecheck(subfeature):
                         yield subfeature
         else:
-            if not type or type == feature.type:
+            if not type or _typecheck(feature):
                 yield feature
 
 
