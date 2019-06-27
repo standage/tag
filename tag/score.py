@@ -12,17 +12,23 @@ import re
 
 
 class Score(object):
-
-    def __init__(self, datastr):
-        self._type = None
+    @staticmethod
+    def from_str(datastr):
         if datastr == '.':
-            self.value = None
+            return Score(None)
         elif re.search(r'^-*\d+$', datastr):
-            self.value = int(datastr)
-            self._type = int
+            return Score(int(datastr))
         else:
-            self.value = float(datastr)
-            self._type = float
+            return Score(float(datastr))
+
+    def __init__(self, data):
+        if isinstance(data, str):
+            raise TypeError(
+                'please convert score to a numeric type or instantiate the '
+                'object from the `tag.Score.from_str` function'
+            )
+        self.value = data
+        self._type = type(data)
 
     def __str__(self):
         if self.value is None:

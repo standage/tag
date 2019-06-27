@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Refactored `GFF3Reader` to better support processing of unsorted GFF3 data (see #65).
 - Modified `GFF3Writer` to intermittently output separator directives (`###`) in large stretches of simple (childless) features (see #68).
 - Reorganized test suite code and data (see #70).
+- Refactored the `Feature` and `Score` APIs with more sane default and static constructors (see #74).
 
 
 

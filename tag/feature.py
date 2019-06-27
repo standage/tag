@@ -16,92 +16,71 @@ from tag.score import Score
 
 
 class Feature(object):
-    """
-    Represents a feature entry from a GFF3 file.
+    """Represents a feature entry from a GFF3 file.
 
-    >>> feature = tag.demo_feature()
-    >>> feature.seqid
+    >>> gene = Feature('contig1', 'gene', 999, 7500, source='snap', strand='+',
+    ...                attrstr='ID=gene1')
+    >>> gene.seqid
     'contig1'
-    >>> feature.source
+    >>> gene.source
     'snap'
-    >>> feature.type
+    >>> gene.type
     'gene'
-    >>> feature.start, feature.end
-    (999, 7500)
-    >>> feature.contains_point(2044)
+    >>> gene.range
+    [999, 7500)
+    >>> gene.score is None
     True
-    >>> feature.score is None
-    True
-    >>> feature.strand
+    >>> gene.strand
     '+'
-    >>> feature.phase is None
+    >>> gene.phase is None
     True
-    >>> feature.attributes
-    'ID=gene1'
-    >>> feature.num_children
-    1
-    >>> feature.is_multi
-    False
-    >>> feature.is_toplevel
-    True
-    >>> for child in feature:
-    ...     if child.type == 'CDS':
-    ...         assert child.get_attribute('ID') == 'cds1'
-    >>> feature.slug
+    >>> gene.get_attribute('ID')
+    'gene1'
+    >>> gene.get_attribute('NotARegisteredAttribute')
+    >>> gene.slug
     'gene@contig1[1000, 7500]'
     """
 
     @staticmethod
-    def create(seqid, ftype, start, end, source='tag', score='.', strand='.',
-               phase='.'):
-        fields = [
-            seqid, source, ftype, str(int(start) + 1), str(end), score, strand,
-            phase, '.'
-        ]
-        gff3 = '\t'.join(fields)
-        return Feature(gff3)
+    def from_gff3(data):
+        fields = data.split('\t')
+        assert len(fields) == 9
+        if fields[6] not in ['+', '-', '.']:
+            raise ValueError('invalid strand "{}"'.format(fields[6]))
+        if fields[7] not in ['0', '1', '2', '.']:
+            raise ValueError('invalid phase "{}"'.format(fields[7]))
+        phase = None if fields[7] == '.' else int(fields[7])
 
-    def __init__(self, data):
-        # Core values
-        self._seqid = None
-        self._source = None
-        self._type = None
-        self._range = None
-        self._score = None
-        self._strand = None
-        self._phase = None
+        feat = Feature(
+            fields[0], fields[2], int(fields[3]) - 1, int(fields[4]),
+            source=fields[1], score=Score.from_str(fields[5]),
+            strand=fields[6], phase=phase, attrstr=fields[8]
+        )
+        return feat
+
+    def __init__(self, seqid, ftype, start, end, source='tag', score=None,
+                 strand=None, phase=None, attrstr=None):
+        # Core data
+        self._seqid = seqid
+        self._source = source
+        self._type = ftype
+        self._range = Range(start, end)
+        self._score = score if isinstance(score, Score) else Score(score)
+        self._strand = strand
+        if strand not in ['-', '+', '.', None]:
+            raise ValueError('invalid strand "{}"'.format(strand))
+        self._phase = phase
+        if phase not in [0, 1, 2, None]:
+            raise ValueError('invalid phase "{}"'.format(phase))
         self._attrs = dict()
+        if attrstr:
+            self._attrs = self.parse_attributes(attrstr)
 
         # Ancillary data
         self.children = None
         self.multi_rep = None
         self.siblings = None
         self._pseudo = False
-
-        if data is not None:
-            self.populate(data)
-
-    def populate(self, data):
-        fields = data.split('\t')
-        assert len(fields) == 9
-
-        self._seqid = fields[0]
-        self._source = fields[1]
-        self._type = fields[2]
-        self._range = Range(int(fields[3]) - 1, int(fields[4]))
-        self._score = Score(fields[5])
-        self._strand = fields[6]
-        if fields[7] == '.':
-            self.phase = None
-        else:
-            self.phase = int(fields[7])
-        self._attrs = self.parse_attributes(fields[8])
-
-        assert self._strand in ['+', '-', '.'], \
-            'invalid strand "{}"'.format(self._strand)
-        if self.phase is not None:
-            assert self.phase in [0, 1, 2], \
-                'invalid phase "{}"'.format(self.phase)
 
     def __str__(self):
         """String representation of the feature, sans children."""
@@ -206,7 +185,7 @@ class Feature(object):
         """
         assert not self.is_pseudo
         if self in tempmarked:
-            raise Exception('feature graph is cyclic')
+            raise ValueError('feature graph is cyclic')
         if self not in marked:
             tempmarked[self] = True
             features = list()
@@ -263,11 +242,8 @@ class Feature(object):
         start = min([s.start for s in rep.siblings + [rep]])
         end = max([s.end for s in rep.siblings + [rep]])
 
-        parent = Feature(None)
+        parent = Feature(self._seqid, None, start, end, strand=self._strand)
         parent._pseudo = True
-        parent._seqid = self._seqid
-        parent.set_coord(start, end)
-        parent._strand = self._strand
         for sibling in rep.siblings + [rep]:
             parent.add_child(sibling, rangecheck=True)
         parent.children = sorted(parent.children)
@@ -284,10 +260,6 @@ class Feature(object):
     @property
     def fid(self):
         return self.get_attribute('ID')
-
-    @property
-    def score(self):
-        return self._score.value
 
     @property
     def slug(self):
@@ -400,8 +372,26 @@ class Feature(object):
                 feature.seqid = newseqid
 
     @property
+    def score(self):
+        return self._score.value
+
+    @score.setter
+    def score(self, newscore):
+        self._score = Score(newscore)
+
+    @property
     def strand(self):
-        return self._strand
+        return '.' if self._strand is None else self._strand
+
+    @strand.setter
+    def strand(self, newstrand):
+        if newstrand not in ['-', '+', '.', None]:
+            raise ValueError('invalid strand "{}"'.format(newstrand))
+        self._strand = newstrand if newstrand in ['-', '+'] else None
+
+    @property
+    def phase(self):
+        return self._phase
 
     @property
     def attributes(self):

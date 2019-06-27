@@ -189,7 +189,7 @@ class GFF3Reader():
         self.records.append(record)
 
     def _handle_feature(self, line):
-        feature = Feature(line)
+        feature = Feature.from_gff3(line)
         self.regions.add_feature(feature)
         featureid = feature.get_attribute('ID')
         parentid = feature.get_attribute('Parent')

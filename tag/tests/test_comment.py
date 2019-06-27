@@ -50,8 +50,7 @@ def test_sort():
     c1 = Comment('# This gene model is a fragment')
     c2 = Comment('############## Ignore below this point.')
     d = Directive('##sequence-region chr 1 1000')
-    gff3 = ['chr', 'vim', 'mRNA', '1001', '1420', '.', '+', '.', 'ID=t1']
-    f = Feature('\t'.join(gff3))
+    f = Feature('chr', 'mRNA', 1000, 1420, strand='+')
 
     assert c1 > d
     assert not c1 < d

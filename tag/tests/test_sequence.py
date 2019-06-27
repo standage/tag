@@ -61,9 +61,7 @@ def test_compare():
     s1 = Sequence('>chr1', 'ACGT')
     s2 = Sequence('>contig2', 'AAAAACCCCCGGGGGNNNNNTTTTT')
     s3 = Sequence('>gnl|aeneas|ABC123 [Bogus vulgaris]', 'ACGT')
-
-    gff3 = ['chr', 'vim', 'gene', '1000', '2000', '.', '+', '.', 'ID=g1']
-    f1 = Feature('\t'.join(gff3))
+    f1 = Feature('chr', 'gene', 1000, 2000, strand='+')
 
     assert s1 < s2
     assert s2 > s1

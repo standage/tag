@@ -67,7 +67,7 @@ def pocus(*sorted_streams, **kwargs):
     """
     delta = kwargs['delta'] if 'delta' in kwargs else 0
     for seqid, rng, features in loci(*sorted_streams, **kwargs):
-        locus = tag.Feature.create(
+        locus = tag.Feature(
             seqid, 'experimental_feature', rng.start - delta, rng.end + delta,
             source='tag::locus::pocus',
         )

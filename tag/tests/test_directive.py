@@ -130,8 +130,7 @@ def test_sorting():
     d1 = Directive('##bonus-directive   abc 1 2 3')
     s1 = Directive('##species http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/'
                    'wwwtax.cgi?id=7460')
-    gff3 = ['chr', 'vim', 'mRNA', '1001', '1420', '.', '+', '.', 'ID=t1']
-    f1 = Feature('\t'.join(gff3))
+    f1 = Feature('chr', 'mRNA', 1000, 1420, strand='+')
     c1 = Comment('# The quick brown fox jumps over the lazy dog.')
 
     for record in [sr1, d1, s1, f1, c1]:
