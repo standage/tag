@@ -1,0 +1,27 @@
+##gff-version 3
+##sequence-region   NC_008800.1 1489914 4184774
+NC_008800.1	BBTools	CDS	1489914	1490210	84.2	-	0	frame=1;startScr=0.361;stopScr=0.085;innerScr=0.270;start=ATG;stop=TGA
+NC_008800.1	AUGUSTUS	CDS	1489966	1491849	1	+	0	.
+NC_008800.1	tblastn	translated_nucleotide_match	1489966	1491849	0	+	.	Target=YP_001005656.1 1 627
+NC_008800.1	MetaGeneAnnotator	gene	1490002	1491849	.	+	.	ID=gene1
+NC_008800.1	MetaGeneAnnotator	RBS	1490002	1490007	2.78	+	.	Parent=gene1
+NC_008800.1	MetaGeneAnnotator	CDS	1490014	1491849	192	+	0	Parent=gene1;model=self;start_codon_included=True;stop_codon_included=True
+NC_008800.1	GeneMark.hmm	CDS	1490014	1491849	.	+	.	serial=1340;class=1
+NC_008800.1	Prodigal_v2.6.3	CDS	1490014	1491849	224	+	0	partial=00;start_type=TTG;rbs_motif=GGAG/GAGG;rbs_spacer=5-10bp;gc_cont=0.504;conf=99.99;score=223.63;cscore=224.48;sscore=-0.85;rscore=11.39;uscore=2.36;tscore=-14.60
+NC_008800.1	Glimmer3	CDS	1490035	1491849	11.3	+	.	Name=orf01852
+NC_008800.1	BBTools	CDS	1490338	1491849	945	+	0	frame=0;startScr=0.555;stopScr=0.035;innerScr=0.356;start=ATG;stop=TAA
+NC_008800.1	GeneMark.hmm	CDS	3080223	3081794	.	-	.	serial=2831;class=1
+NC_008800.1	Glimmer3	CDS	3080223	3081794	11.1	-	.	Name=orf03953
+NC_008800.1	AUGUSTUS	CDS	3080223	3081818	1	-	0	.
+NC_008800.1	tblastn	translated_nucleotide_match	3080223	3081818	0	-	.	Target=YP_001007020.1 1 531
+NC_008800.1	MetaGeneAnnotator	gene	3080223	3081832	.	-	.	ID=gene2
+NC_008800.1	MetaGeneAnnotator	CDS	3080223	3081818	223	-	0	Parent=gene2;model=self;start_codon_included=True;stop_codon_included=True
+NC_008800.1	MetaGeneAnnotator	RBS	3081827	3081832	0.302	-	.	Parent=gene2
+NC_008800.1	Prodigal_v2.6.3	CDS	3080223	3081929	251	-	0	partial=00;start_type=ATG;rbs_motif=GGA/GAG/AGG;rbs_spacer=5-10bp;gc_cont=0.463;conf=99.99;score=250.63;cscore=242.80;sscore=7.83;rscore=3.77;uscore=-0.24;tscore=4.30
+NC_008800.1	BBTools	CDS	3080223	3081929	1.28e+03	-	0	frame=1;startScr=0.388;stopScr=-0.053;innerScr=0.439;start=ATG;stop=TAA
+NC_008800.1	GeneMark.hmm	CDS	4183848	4184774	.	+	.	serial=3862;class=1
+NC_008800.1	BBTools	CDS	4183848	4184774	627	+	0	frame=2;startScr=0.702;stopScr=0.206;innerScr=0.383;start=ATG;stop=TGA
+NC_008800.1	Prodigal_v2.6.3	CDS	4183848	4184774	110	+	0	partial=00;start_type=ATG;rbs_motif=AGGA;rbs_spacer=5-10bp;gc_cont=0.526;conf=100.00;score=109.78;cscore=95.50;sscore=14.28;rscore=11.06;uscore=-1.08;tscore=4.30
+NC_008800.1	Glimmer3	CDS	4183848	4184774	9.99	+	.	Name=orf05395
+NC_008800.1	AUGUSTUS	CDS	4183848	4184774	1	+	0	.
+NC_008800.1	tblastn	translated_nucleotide_match	4183848	4184774	0	+	.	Target=YP_001007986.1 1 308

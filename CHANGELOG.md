@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - New `tag.select.merge` function to efficiently merge sorted feature streams (see #68).
 - New `tag.locus` module for efficient parsing locus coordinates from multiple annotation streams (see #71).
-- New `tag.bae` module for bacterial annotation evaluation (see #73).
+- New `tag.bae` module for bacterial annotation evaluation (see #73, #76).
 
 ### Changed
 - Minor updates to compensate for a couple years' worth of neglect (see #64).

@@ -1,0 +1,17 @@
+##gff-version 3
+NC_008800.1	tag::bae	CDS	1489914	1490210	1	-	.	support_from=BBTools
+###
+NC_008800.1	tblastn	translated_nucleotide_match	1489966	1491849	0	+	.	Target=YP_001005656.1 1 627
+NC_008800.1	tag::bae	CDS	1489966	1491849	1	+	.	support_from=AUGUSTUS
+NC_008800.1	tag::bae	CDS	1490014	1491849	3	+	.	support_from=GeneMark.hmm,MetaGeneAnnotator,Prodigal_v2.6.3
+NC_008800.1	tag::bae	CDS	1490035	1491849	1	+	.	support_from=Glimmer3
+NC_008800.1	tag::bae	CDS	1490338	1491849	1	+	.	support_from=BBTools
+###
+NC_008800.1	tag::bae	CDS	3080223	3081794	2	-	.	support_from=GeneMark.hmm,Glimmer3
+NC_008800.1	tblastn	translated_nucleotide_match	3080223	3081818	0	-	.	Target=YP_001007020.1 1 531
+NC_008800.1	tag::bae	CDS	3080223	3081818	2	-	.	support_from=AUGUSTUS,MetaGeneAnnotator
+NC_008800.1	tag::bae	CDS	3080223	3081929	2	-	.	support_from=BBTools,Prodigal_v2.6.3
+###
+NC_008800.1	tblastn	translated_nucleotide_match	4183848	4184774	0	+	.	Target=YP_001007986.1 1 308
+NC_008800.1	tag::bae	CDS	4183848	4184774	5	+	.	support_from=AUGUSTUS,BBTools,GeneMark.hmm,Glimmer3,Prodigal_v2.6.3
+###

@@ -12,6 +12,51 @@ from collections import defaultdict
 import tag
 
 
+def encodes_cds(feature):
+    for subfeature in feature:
+        if subfeature.type == 'CDS':
+            return True
+    return False
+
+
+def collapse_locus(features):
+    """Collapse redundant annotation information.
+
+    Given a locus, collapse any gene predictions with identical coordinates
+    into a single prediction, noting the annotation sources that support the
+    collapsed gene model.
+    """
+    features_to_keep = list()
+    cds_by_coord = defaultdict(list)
+    for cds in tag.select.features(features, type='CDS', traverse=True):
+        cds_by_coord[cds.range].append(cds)
+
+    for coord in sorted(cds_by_coord):
+        cdss = cds_by_coord[coord]
+        support = ','.join([c.source for c in cdss])
+        newcds = tag.Feature(
+            cdss[0].seqid, 'CDS', coord.start, coord.end, source='tag::bae',
+            score=len(cdss), strand=cdss[0].strand,
+            attrstr='support_from=' + support
+        )
+        features_to_keep.append(newcds)
+
+    for feature in features:
+        if not encodes_cds(feature):
+            features_to_keep.append(feature)
+
+    for feature in sorted(features_to_keep):
+        yield feature
+
+
+def collapse_stream(locusstream):
+    """Feature stream for collapsing bacterial annotation data."""
+    for seqid, interval, locus in locusstream:
+        for feature in collapse_locus(locus):
+            yield feature
+        yield tag.Directive('###')
+
+
 def eval_locus(features):
     """Evaluate congruence between gene predictions from different sources.
 

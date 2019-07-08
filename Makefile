@@ -17,7 +17,7 @@ install:
 	pip install .
 
 devenv:
-	pip install 'pytest>=3.6' pytest-cov pycodestyle sphinx
+	pip install 'pytest>=3.6,<5.0' pytest-cov pycodestyle sphinx
 
 style:
 	pycodestyle tag/*.py tag/tests/*.py tag/cli/*.py
