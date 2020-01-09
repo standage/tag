@@ -35,6 +35,8 @@ class Score(object):
             return '.'
         elif self._type == int:
             return '{:d}'.format(self.value)
+        elif self.value == 0.0:
+            return '0.0'
         elif abs(self.value) < 1e6 and abs(self.value) > 1e-4:
             return '{:1.3f}'.format(self.value)
         else:

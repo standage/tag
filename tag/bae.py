@@ -57,7 +57,7 @@ def collapse_stream(locusstream):
         yield tag.Directive('###')
 
 
-def eval_locus(features):
+def eval_locus(features, weights=[0.1, 0.5, 0.05, 0.05, 0.3]):
     """Evaluate congruence between gene predictions from different sources.
 
     Gene predictions are assumed to be microbial protein-coding genes, marked
@@ -68,50 +68,73 @@ def eval_locus(features):
     """
     starts = defaultdict(int)
     ends = defaultdict(int)
-    intervals = defaultdict(int)
+    rpstarts = defaultdict(int)
+    rpends = defaultdict(int)
     coverage = defaultdict(int)
 
-    numorfs = len(list(
-        tag.select.features(features, type='CDS', traverse=True)
-    ))
-    selector = tag.select.features(
-        features, type=set(['CDS', 'translated_nucleotide_match']),
-        traverse=True,
-    )
-    for feature in selector:
+    for feature in tag.select.features(features, type='CDS', traverse=True):
         starts[feature.start] += 1
         ends[feature.end] += 1
-        intervals[feature.range] += 1
 
-    aligns = tag.select.features(features, type='translated_nucleotide_match')
-    ranges = [a.range for a in aligns]
-    for block in tag.Range.merge_overlapping(ranges):
-        for feat in tag.select.features(features, type='CDS', traverse=True):
-            bpoverlap = feat.range.overlap_extent(block)
-            coverage[feat] += bpoverlap
+    aligns = list(
+        tag.select.features(features, type='translated_nucleotide_match')
+    )
+    for alignment in aligns:
+        rpstarts[alignment.start] += 1
+        rpends[alignment.end] += 1
+
+    for feat in tag.select.features(features, type='CDS', traverse=True):
+        bestcov = 0.0
+        for alignment in aligns:
+            bpoverlap = feat.range.overlap_extent(alignment.range)
+            if bpoverlap == 0:
+                continue
+            bpmerged = len(feat.range.merge(alignment.range))
+            recip_coverage = bpoverlap / bpmerged
+            if bestcov is None or recip_coverage > bestcov:
+                bestcov = recip_coverage
+        coverage[feat] = bestcov
 
     for feature in tag.select.features(features, type='CDS', traverse=True):
         start_confirmed = starts[feature.start] - 1
-        start_shared = starts[feature.start] / sum(starts.values())
         end_confirmed = ends[feature.end] - 1
-        end_shared = ends[feature.end] / sum(ends.values())
-        interval_confirmed = intervals[feature.range] - 1
-        interval_shared = intervals[feature.range] / sum(intervals.values())
-        prot_coverage = coverage[feature] / len(feature)
+        rpstart_confirmed = rpstarts[feature.start]
+        rpend_confirmed = rpends[feature.end]
+        prot_coverage = coverage[feature]
+
         feature.add_attribute('start_confirmed', start_confirmed)
-        feature.add_attribute('start_shared', start_shared)
         feature.add_attribute('end_confirmed', end_confirmed)
-        feature.add_attribute('end_shared', end_shared)
-        feature.add_attribute('orf_confirmed', interval_confirmed)
-        feature.add_attribute('orf_shared', interval_shared)
-        feature.add_attribute('locus_orfs', numorfs)
-        feature.add_attribute('protein_coverage', prot_coverage)
+        feature.add_attribute('refrprot_start_confirmed', rpstart_confirmed)
+        feature.add_attribute('refrprot_end_confirmed', rpend_confirmed)
+        feature.add_attribute('protein_recip_coverage', prot_coverage)
+
+        def coord_score(support):
+            if support <= 0:
+                return 0.0
+            elif support == 1:
+                return 0.8
+            else:
+                return 1.0
+
+        def coord_score_refrprot(support):
+            if support > 0:
+                return 1.0
+            else:
+                return 0.0
+
+        score_components = (
+            coord_score(start_confirmed), coord_score(end_confirmed),
+            coord_score_refrprot(rpstart_confirmed),
+            coord_score_refrprot(rpend_confirmed), prot_coverage
+        )
+        score = sum([c * w for c, w in zip(score_components, weights)])
+        feature.score = score
 
 
-def eval_stream(locusstream):
+def eval_stream(locusstream, weights=[0.1, 0.5, 0.05, 0.05, 0.3]):
     """Feature stream for bacterial annotation evaluation."""
     for seqid, interval, locus in locusstream:
-        eval_locus(locus)
+        eval_locus(locus, weights=weights)
         for feature in locus:
             yield feature
         yield tag.Directive('###')
