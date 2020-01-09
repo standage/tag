@@ -15,6 +15,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Reorganized test suite code and data (see #70).
 - Refactored the `Feature` and `Score` APIs with more sane default and static constructors (see #74).
 
+### Fixed
+- The `GFF3Writer` class now behaves as expected when `.retainids` is set to `True` (see #79).
+
 
 ## [0.3.3] - 2017-06-21
 ### Fixed

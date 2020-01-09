@@ -26,6 +26,10 @@ def subparser(subparsers):
         help='relax parsing stringency'
     )
     subparser.add_argument(
+        '-i', '--retain-ids', action='store_true',
+        help='retain feature IDs from input'
+    )
+    subparser.add_argument(
         '-s', '--sorted', action='store_true', help='assume the input data is '
         'sorted'
     )
@@ -38,4 +42,5 @@ def main(args):
         checkorder=not args.no_sort
     )
     writer = tag.writer.GFF3Writer(reader, args.out)
+    writer.retainids = args.retain_ids
     writer.write()

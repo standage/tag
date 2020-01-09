@@ -29,6 +29,7 @@ class GFF3Writer():
     >>> # Sort and tidy GFF3 file in 3 lines!
     >>> reader = GFF3Reader(infilename=tag.tests.data_file('grape-cpgat.gff3'))
     >>> writer = GFF3Writer(instream=reader, outfile='/dev/null')
+    >>> writer.retainids = True
     >>> writer.write()
     """
 
@@ -75,6 +76,8 @@ class GFF3Writer():
                 continue
             if isinstance(entry, Feature):
                 for feature in entry:
+                    if self.retainids:
+                        continue
                     if feature.num_children > 0 or feature.is_multi:
                         if feature.is_multi and feature != feature.multi_rep:
                             continue

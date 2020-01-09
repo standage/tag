@@ -24,6 +24,20 @@ def test_write_grape(capsys):
     assert terminal.out.strip() == testout.strip()
 
 
+def test_write_grape_retainids():
+    with NamedTemporaryFile(suffix='.gff3', mode='w+t') as outfile:
+        reader = GFF3Reader(infilename=data_file('grape-cpgat-unsorted.gff3'))
+        writer = GFF3Writer(reader, outfile=outfile)
+        writer.retainids = True
+        writer.write()
+        outfile.seek(0)
+        output = outfile.read().strip()
+    testfile = data_file('grape-cpgat-unsorted-retainids-out.gff3')
+    with open(testfile, 'r') as fh:
+        testout = fh.read().strip()
+    assert output == testout
+
+
 def test_write_stdout(capsys):
     reader = GFF3Reader(infilename=data_file('grape-cpgat.gff3'))
     writer = GFF3Writer(reader)
