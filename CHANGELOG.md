@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [0.4] - 2020-04-09
 ### Added
 - New `tag.select.merge` function to efficiently merge sorted feature streams (see #68).
 - New `tag.locus` module for efficient parsing locus coordinates from multiple annotation streams (see #71).

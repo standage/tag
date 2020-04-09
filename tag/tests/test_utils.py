@@ -14,7 +14,7 @@ from tag.tests import data_file, data_stream
 
 
 def test_tag_open_read():
-    fh = tag.open('tag/__init__.py', 'r')
+    fh = tag.open(data_file('../../__init__.py'), 'r')
     line = next(fh)
     assert line == '#!/usr/bin/env python\n'
 

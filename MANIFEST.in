@@ -1,2 +1,3 @@
 include versioneer.py
 include tag/_version.py
+include tag/tests/data/*
