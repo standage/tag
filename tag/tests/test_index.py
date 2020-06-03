@@ -87,3 +87,28 @@ def test_query():
     assert len(index.query('NW_015379189.1', 5000, 15000)) == 1
     assert len(index.query('NW_015379189.1', 5000, 15000, strict=True)) == 1
     assert len(index.query('NW_015379189.1', 5000, 15000, strict=False)) == 4
+
+
+def test_named_index():
+    index = tag.index.NamedIndex()
+    index.consume_file(data_file('pdom-withseq.gff3'))
+    assert index['mRNA2'].slug == 'mRNA@PdomSCFr1.2-0483[3830, 6206]'
+    with pytest.raises(IndexError):
+        feature = index['mRNA3']
+
+
+def test_named_index_name():
+    index = tag.index.NamedIndex()
+    index.consume_file(data_file('oluc-20kb.gff3'), attribute='Name')
+    assert index['OSTLU_40358'].slug == 'gene@NC_009355.1[18192, 18755]'
+    print(list(index.names))
+    assert list(index.names) == [
+        'OSTLU_23817', 'OSTLU_23818', 'OSTLU_23820', 'OSTLU_23821',
+        'OSTLU_28610', 'OSTLU_28615', 'OSTLU_28616', 'OSTLU_40330',
+        'OSTLU_40358', 'OSTLU_85990', 'XM_001415321.1', 'XM_001415322.1',
+        'XM_001415323.1', 'XM_001415324.1', 'XM_001415325.1', 'XM_001415326.1',
+        'XM_001415671.1', 'XM_001415672.1', 'XM_001415673.1', 'XM_001415674.1',
+        'XP_001415358.1', 'XP_001415359.1', 'XP_001415360.1', 'XP_001415361.1',
+        'XP_001415362.1', 'XP_001415363.1', 'XP_001415708.1', 'XP_001415709.1',
+        'XP_001415710.1', 'XP_001415711.1'
+    ]

@@ -10,6 +10,7 @@
 from collections import defaultdict
 from intervaltree import IntervalTree
 import tag
+import sys
 
 
 class Index(defaultdict):
@@ -140,3 +141,45 @@ class Index(defaultdict):
             regions = self.declared_regions
         sr = regions[seqid]
         return sr.start, sr.end
+
+
+class NamedIndex(object):
+    """
+    In-memory index for retrieving genome features by identifier.
+
+    >>> index = tag.index.NamedIndex()
+    >>> index.consume_file(tag.tests.data_file('pcan-123.gff3.gz'))
+    >>> gene = index['PCAN011a001813']
+    >>> print(gene.slug)
+    gene@scaffold_123[200029, 201298]
+    >>> exon = index['PCAN011a001859T1.exon1']
+    >>> print(exon.slug)
+    exon@scaffold_125[57450, 57680]
+    """
+
+    def __init__(self):
+        self.data = dict()
+
+    def consume_file(self, infile, attribute='ID'):
+        reader = tag.reader.GFF3Reader(infilename=infile)
+        self.consume(reader, attribute=attribute)
+
+    def consume(self, entrystream, attribute='ID'):
+        for feature in tag.select.features(entrystream):
+            for subfeature in feature:
+                name = subfeature.get_attribute(attribute)
+                if name is None:
+                    continue
+                if subfeature.is_multi and subfeature.multi_rep != subfeature:
+                    continue
+                self.data[name] = subfeature
+
+    def __getitem__(self, name):
+        if name not in self.data:
+            raise IndexError(name)
+        return self.data[name]
+
+    @property
+    def names(self):
+        for name in sorted(self.data.keys()):
+            yield name

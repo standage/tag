@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Added
+- New `NamedIndex` class for storing and retrieving features by ID (see #82).
+
+
 ## [0.4] - 2020-04-09
 ### Added
 - New `tag.select.merge` function to efficiently merge sorted feature streams (see #68).
