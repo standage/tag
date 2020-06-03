@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 ### Added
 - New `NamedIndex` class for storing and retrieving features by ID (see #82).
+- New CLI command `tag pep2nuc` for transforming feature coordinates from peptide space to nucleotide space (see #83).
 
 
 ## [0.4] - 2020-04-09

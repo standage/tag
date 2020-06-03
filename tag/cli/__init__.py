@@ -16,6 +16,7 @@ from . import gff3
 from . import locuspocus
 from . import merge
 from . import occ
+from . import pep2nuc
 from . import pmrna
 from . import sum
 
@@ -26,6 +27,7 @@ subparser_funcs = {
     'locuspocus': locuspocus.subparser,
     'merge': merge.subparser,
     'occ': occ.subparser,
+    'pep2nuc': pep2nuc.subparser,
     'pmrna': pmrna.subparser,
     'sum': sum.subparser,
 }
@@ -38,6 +40,7 @@ mains = {
     'merge': merge.main,
     'occ': occ.main,
     'pmrna': pmrna.main,
+    'pep2nuc': pep2nuc.main,
     'sum': sum.main,
 }
 

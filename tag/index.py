@@ -179,6 +179,9 @@ class NamedIndex(object):
             raise IndexError(name)
         return self.data[name]
 
+    def __contains__(self, name):
+        return name in self.data
+
     @property
     def names(self):
         for name in sorted(self.data.keys()):

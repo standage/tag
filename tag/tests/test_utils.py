@@ -14,9 +14,10 @@ from tag.tests import data_file, data_stream
 
 
 def test_tag_open_read():
-    fh = tag.open(data_file('../../__init__.py'), 'r')
+    fh = tag.open(data_file('boring-genes.gff3'), 'r')
     line = next(fh)
-    assert line == '#!/usr/bin/env python\n'
+    expout = 'chr1\tnano\tgene\t6615\t11733\t0.72\t+\t.\tID=gEnE1;Name=Adh\n'
+    assert line == expout
 
     with pytest.raises(IOError):
         fh = tag.open('tag/bogus.py', 'r')

@@ -104,3 +104,39 @@ def test_locuspocus(capsys):
     terminal = capsys.readouterr()
     exp_out = data_stream('Ye.loci.gff3').read()
     assert terminal.out.strip() == exp_out.strip()
+
+
+def test_pep2nuc(capsys):
+    arglist = [
+        'pep2nuc', '-k', 'protein', data_file('Ypes-abinit.gff3.gz'),
+        data_file('Ypes-signalp-prot.gff3.gz')
+    ]
+    args = tag.cli.parser().parse_args(arglist)
+    tag.cli.pep2nuc.main(args)
+    terminal = capsys.readouterr()
+    exp_out = data_stream('Ypes-signalp-nucl.gff3.gz').read()
+    assert terminal.out.strip() == exp_out.strip()
+
+
+def test_pep2nuc_nokeep(capsys):
+    arglist = [
+        'pep2nuc', data_file('Ypes-abinit.gff3.gz'),
+        data_file('Ypes-signalp-prot.gff3.gz')
+    ]
+    args = tag.cli.parser().parse_args(arglist)
+    tag.cli.pep2nuc.main(args)
+    terminal = capsys.readouterr()
+    exp_out = data_stream('Ypes-signalp-nucl-nk.gff3.gz').read()
+    assert terminal.out.strip() == exp_out.strip()
+
+
+def test_pep2nuc_missing_id(capsys):
+    arglist = [
+        'pep2nuc', data_file('Ypes-abinit-minus1.gff3.gz'),
+        data_file('Ypes-signalp-prot.gff3.gz')
+    ]
+    args = tag.cli.parser().parse_args(arglist)
+    tag.cli.pep2nuc.main(args)
+    terminal = capsys.readouterr()
+    msg = '[tag::pep2nuc] WARNING: protein identifier "cds000008" not defined'
+    assert msg in terminal.err
