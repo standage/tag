@@ -441,7 +441,7 @@ class Feature(object):
                 oldid = self.get_attribute('ID')
                 for child in self.children:
                     child.add_attribute('Parent', attrvalue,
-                                        oldvalue=oldid)
+                                        oldvalue=oldid, append=True)
             self._attrs[attrkey] = attrvalue
             if self.is_multi:
                 self.multi_rep._attrs[attrkey] = attrvalue
@@ -451,8 +451,7 @@ class Feature(object):
 
         # Handle all other attribute types
         if oldvalue is not None:
-            if attrkey in self._attrs:
-                assert oldvalue in self._attrs[attrkey]
+            if attrkey in self._attrs and oldvalue in self._attrs[attrkey]:
                 del self._attrs[attrkey][oldvalue]
         if attrkey not in self._attrs or append is False:
             self._attrs[attrkey] = dict()

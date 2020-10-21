@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.5.1] - 2020-10-21
+### Fixed
+- A bug with handling of the "Parent" attribute for features with multiple parents (see #85).
+
+
 ## [0.5] - 2020-06-03
 ### Added
 - New `NamedIndex` class for storing and retrieving features by ID (see #82).
